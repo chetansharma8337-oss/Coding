@@ -10,7 +10,7 @@ export function SkyHero({
   src,
   children,
   className = "",
-  scrim = "linear-gradient(to bottom, rgb(8 22 48 / 0.42), rgb(8 22 48 / 0.12) 60%, rgb(8 22 48 / 0) 100%)",
+  scrim = "linear-gradient(to bottom, rgb(8 22 48 / 0.5), rgb(8 22 48 / 0.24) 62%, rgb(8 22 48 / 0) 100%)",
 }: {
   src: string;
   children: React.ReactNode;

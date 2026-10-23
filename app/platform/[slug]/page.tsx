@@ -27,7 +27,7 @@ export default async function ModulePage({ params }: { params: Promise<{ slug: s
 
   return (
     <>
-      <SkyHero src="/images/sky-module.jpg">
+      <SkyHero src="/images/sky-module-v2.jpg">
         <div className="page-x pt-16 sm:pt-24">
           <nav aria-label="Breadcrumb" className="mb-8 text-[14px] text-bone/85">
             <Link href="/#platform" className="inline-flex min-h-11 items-center underline underline-offset-4">
@@ -79,7 +79,7 @@ export default async function ModulePage({ params }: { params: Promise<{ slug: s
       <section className="border-t border-ash-grey py-20 sm:py-28">
         <div className="page-x">
           <Reveal>
-            <h2 className="heading-lg max-w-[24ch]">What it hands to the rest of ASH-V</h2>
+            <h2 className="heading-lg max-w-[24ch]">What it hands to the rest of <span className="whitespace-nowrap">ASH-V</span></h2>
           </Reveal>
           <ul className="mt-10 grid gap-4 md:grid-cols-2">
             {mod.handsTo.map((h) => {
@@ -109,7 +109,7 @@ export default async function ModulePage({ params }: { params: Promise<{ slug: s
             <h2 className="display max-w-[16ch]">See {mod.short} on your own estate.</h2>
             <p className="mt-4 text-[16px] text-ash-grey">
               Next module:{" "}
-              <Link href={`/platform/${next.slug}`} className="font-semibold text-bone underline underline-offset-4">
+              <Link href={`/platform/${next.slug}`} className="inline-flex min-h-11 items-center font-semibold text-bone underline underline-offset-4">
                 {next.name}
               </Link>
             </p>

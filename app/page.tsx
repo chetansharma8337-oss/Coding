@@ -19,7 +19,7 @@ const callAgenda = [
 export default function Home() {
   return (
     <>
-      <SkyHero src="/images/sky-hero.jpg">
+      <SkyHero src="/images/sky-hero-v2.jpg">
         <div className="page-x pt-20 sm:pt-28 lg:pt-32">
           <HeroIntro lines={["One record of", "everything", "you defend."]}>
             <p className="subheading mt-6 max-w-[52ch] text-bone sm:text-[20px] sm:leading-[1.45]">
@@ -76,7 +76,9 @@ export default function Home() {
         <div className="page-x">
           <div className="mb-14 grid gap-6 lg:mb-20 lg:grid-cols-12 lg:items-end">
             <Reveal className="lg:col-span-7">
-              <h2 className="display">How one finding moves through ASH-V</h2>
+              <h2 className="display">
+                How one finding moves through <span className="whitespace-nowrap">ASH-V</span>
+              </h2>
             </Reveal>
             <p className="text-[16px] leading-[1.6] text-graphite lg:col-span-4 lg:col-start-9">
               Follow CVE-2024-21762, a FortiOS SSL VPN flaw on the CISA KEV list, from the moment it appears on a firewall
@@ -88,9 +90,9 @@ export default function Home() {
       </section>
 
       <SkyHero
-        src="/images/sky-dawn.jpg"
+        src="/images/sky-dawn-v2.jpg"
         className="min-h-[560px] sm:min-h-[680px]"
-        scrim="linear-gradient(to bottom, rgb(10 26 56 / 0.5), rgb(10 26 56 / 0.18) 55%, rgb(10 26 56 / 0) 80%)"
+        scrim="linear-gradient(to bottom, rgb(10 26 56 / 0.58), rgb(10 26 56 / 0.34) 55%, rgb(10 26 56 / 0) 85%)"
       >
         <div className="page-x py-24 sm:py-32">
           <Reveal>

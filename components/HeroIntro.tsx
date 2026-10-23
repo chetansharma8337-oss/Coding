@@ -13,9 +13,9 @@ export function HeroIntro({ lines, children }: { lines: string[]; children?: Rea
           <span key={line} className="block overflow-hidden pb-[0.06em]">
             <motion.span
               className="block"
-              initial={reduce ? false : { y: "105%" }}
+              initial={{ y: "105%" }}
               animate={{ y: "0%" }}
-              transition={{ duration: 0.9, delay: 0.1 + i * 0.12, ease }}
+              transition={reduce ? { duration: 0 } : { duration: 0.9, delay: 0.1 + i * 0.12, ease }}
             >
               {line}
             </motion.span>
@@ -23,9 +23,9 @@ export function HeroIntro({ lines, children }: { lines: string[]; children?: Rea
         ))}
       </h1>
       <motion.div
-        initial={reduce ? false : { opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.45, ease }}
+        transition={reduce ? { duration: 0 } : { duration: 0.7, delay: 0.45, ease }}
       >
         {children}
       </motion.div>
@@ -38,9 +38,9 @@ export function RiseIn({ children, className, delay = 0.6 }: { children: React.R
   return (
     <motion.div
       className={className}
-      initial={reduce ? false : { opacity: 0, y: 80 }}
+      initial={{ opacity: 0, y: 80 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1.1, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={reduce ? { duration: 0 } : { duration: 1.1, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
