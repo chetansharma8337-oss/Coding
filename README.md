@@ -19,7 +19,7 @@ npm run build && npm start
 
 ## Before launch
 
-- **Logo:** add the mark at `public/brand/ash-v-logo.png` (or `.svg` / `.webp`). The header and footer pick it up on the next build; until then they show the ASH-V wordmark.
+- **Logo:** the header and footer use `public/brand/ash-v-mark.webp`, a cropped 240px export of the uploaded `ash-v-logo.png`; `app/icon.png` is the favicon made from it. Re-export both if the logo changes.
 - **Form delivery:** `app/api/walkthrough/route.ts` only logs requests. Connect it to the sales inbox or CRM (see the `TODO`).
 - **Copy review:** module descriptions in `lib/modules.ts` describe each module's scope. Product should confirm every item matches what ships.
 - **Product UI:** the interface panels in `components/previews/Previews.tsx` are coded stand-ins with sample hostnames, teams and vendors, labelled "Illustrative interface, sample data" on the page. The CVE IDs are real entries in the CISA KEV catalog. Swap in real screenshots when available.
