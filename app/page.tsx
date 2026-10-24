@@ -1,14 +1,17 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { FindingFlow } from "@/components/FindingFlow";
-import { HeroIntro, RiseIn } from "@/components/HeroIntro";
+import { FindingRail } from "@/components/FindingRail";
+import { HeroIntro } from "@/components/HeroIntro";
 import { InkParagraph } from "@/components/InkParagraph";
-import { PlatformExplorer } from "@/components/PlatformExplorer";
+import { PinnedHero } from "@/components/PinnedHero";
+import { PlatformTour } from "@/components/PlatformTour";
 import { ProductFrame } from "@/components/ProductFrame";
 import { ExposurePreview } from "@/components/previews/Previews";
-import { Reveal } from "@/components/Reveal";
-import { SkyHero } from "@/components/SkyHero";
+import { RiseOnView } from "@/components/RiseOnView";
+import { SkyStatement } from "@/components/SkyStatement";
 import { WalkthroughForm } from "@/components/WalkthroughForm";
+import { WordReveal } from "@/components/WordReveal";
 
 const callAgenda = [
   "We map the tools you run today to the ASH-V modules they overlap with.",
@@ -19,8 +22,10 @@ const callAgenda = [
 export default function Home() {
   return (
     <>
-      <SkyHero src="/images/sky-hero-v2.jpg">
-        <div className="page-x pt-20 sm:pt-28 lg:pt-32">
+      <PinnedHero
+        src="/images/sky-hero-v2.jpg"
+        caption="Every exposure, ranked against the asset it sits on and the team that owns it."
+        intro={
           <HeroIntro lines={["One record of", "everything", "you defend."]}>
             <p className="subheading mt-6 max-w-[52ch] text-bone sm:text-[20px] sm:leading-[1.45]">
               ASH-V brings asset intelligence, threat exposure management, vulnerability and patch management, automated
@@ -36,82 +41,68 @@ export default function Home() {
               </Link>
             </div>
           </HeroIntro>
-        </div>
-        <RiseIn className="page-x mt-16 sm:mt-20">
-          <ProductFrame label="Exposure queue" className="mx-auto max-w-[980px]">
-            <ExposurePreview />
+        }
+        frame={
+          <ProductFrame label="Exposure queue" flat>
+            <ExposurePreview compact />
           </ProductFrame>
-        </RiseIn>
-      </SkyHero>
+        }
+      />
 
-      <section id="approach" className="page-x py-24 sm:py-32">
-        <div className="grid gap-10 lg:grid-cols-12">
-          <InkParagraph
-            className="heading-lg lg:col-span-9"
-            text="Most security programs keep six versions of the same estate. The scanner, the CMDB, the pentest report, the vendor register and the audit spreadsheet each count assets differently, and each one names a different owner."
-          />
-          <div className="lg:col-span-6 lg:col-start-7">
-            <p className="heading-sm">ASH-V keeps one.</p>
-            <p className="mt-4 text-[16px] leading-[1.6] text-graphite">
+      <section id="approach" className="page-x py-28 sm:py-40">
+        <InkParagraph
+          className="display max-w-[22ch]"
+          text="Most security programs keep six versions of the same estate. The scanner, the CMDB, the pentest report, the vendor register and the audit spreadsheet each count assets differently."
+        />
+        <div className="mt-16 grid gap-10 sm:mt-24 lg:grid-cols-12">
+          <WordReveal parts="ASH-V keeps one." className="display-xl lg:col-span-6" />
+          <RiseOnView className="self-end lg:col-span-5 lg:col-start-8">
+            <p className="text-[18px] leading-[1.6] text-graphite">
               Every module reads from and writes to the same asset record. When an exposure is ranked, tested, patched or
               shown to an auditor, it is the same object with the same history, so nobody reconciles spreadsheets before a
               board meeting.
             </p>
+          </RiseOnView>
+        </div>
+      </section>
+
+      <section id="platform" className="border-t border-ash-grey pt-24 sm:pt-32">
+        <div className="page-x">
+          <WordReveal
+            parts={[
+              { text: "Six modules.", className: "text-slate" },
+              { text: "Use the ones you need, and they share one inventory." },
+            ]}
+            className="display max-w-[20ch]"
+          />
+          <div className="mt-10 lg:mt-0">
+            <PlatformTour />
           </div>
         </div>
       </section>
 
-      <section id="platform" className="bg-bone pb-24 sm:pb-32">
-        <div className="page-x">
-          <Reveal className="mb-10 max-w-[800px] sm:mb-14">
-            <h2 className="heading-lg text-slate">
-              Six modules. <span className="text-ink">Use the ones you need, and they share one inventory.</span>
-            </h2>
-          </Reveal>
-          <PlatformExplorer />
-        </div>
-      </section>
-
-      <section id="flow" className="border-t border-ash-grey bg-bone py-24 sm:py-32">
-        <div className="page-x">
-          <div className="mb-14 grid gap-6 lg:mb-20 lg:grid-cols-12 lg:items-end">
-            <Reveal className="lg:col-span-7">
-              <h2 className="display">
-                How one finding moves through <span className="whitespace-nowrap">ASH-V</span>
-              </h2>
-            </Reveal>
-            <p className="text-[16px] leading-[1.6] text-graphite lg:col-span-4 lg:col-start-9">
-              Follow CVE-2024-21762, a FortiOS SSL VPN flaw on the CISA KEV list, from the moment it appears on a firewall
-              to the moment an auditor sees it closed.
-            </p>
-          </div>
+      <div id="flow" className="border-t border-ash-grey">
+        <FindingRail />
+        <section className="page-x py-24 sm:py-32 lg:hidden">
+          <WordReveal parts="How one finding moves through ASH-V" className="display" />
+          <p className="mb-14 mt-6 text-[16px] leading-[1.6] text-graphite">
+            Follow CVE-2024-21762, a FortiOS SSL VPN flaw on the CISA KEV list, from the moment it appears on a firewall to
+            the moment an auditor sees it closed.
+          </p>
           <FindingFlow />
-        </div>
-      </section>
+        </section>
+      </div>
 
-      <SkyHero
+      <SkyStatement
         src="/images/sky-dawn-v2.jpg"
-        className="min-h-[560px] sm:min-h-[680px]"
-        scrim="linear-gradient(to bottom, rgb(10 26 56 / 0.58), rgb(10 26 56 / 0.34) 55%, rgb(10 26 56 / 0) 85%)"
-      >
-        <div className="page-x py-24 sm:py-32">
-          <Reveal>
-            <p className="display max-w-[18ch]">
-              The CISO asks what is exposed. The auditor asks what is proven.
-            </p>
-            <p className="subheading mt-6 max-w-[40ch] text-bone sm:text-[22px]">
-              ASH-V answers both from the same data.
-            </p>
-          </Reveal>
-        </div>
-      </SkyHero>
+        line="The CISO asks what is exposed. The auditor asks what is proven."
+        sub="ASH-V answers both from the same data."
+      />
 
-      <section id="walkthrough" className="on-dark bg-ink py-24 text-bone sm:py-32">
+      <section id="walkthrough" className="on-dark bg-ink py-24 text-bone sm:py-36">
         <div className="page-x grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
-            <Reveal>
-              <h2 className="display">Book a 30-minute walkthrough</h2>
-            </Reveal>
+            <WordReveal parts="Book a 30-minute walkthrough" className="display" />
             <p className="mt-6 max-w-[44ch] text-[17px] leading-[1.6] text-ash-grey">
               A working session with our team, built around your environment rather than a slide deck.
             </p>
@@ -126,11 +117,11 @@ export default function Home() {
               ))}
             </ol>
           </div>
-          <div className="on-light rounded-[22.5px] bg-bone p-6 text-ink sm:p-10 lg:col-span-7">
+          <RiseOnView className="on-light rounded-[22.5px] bg-bone p-6 text-ink sm:p-10 lg:col-span-7">
             <Suspense fallback={<p className="text-[15px] text-graphite">Loading the request form…</p>}>
               <WalkthroughForm />
             </Suspense>
-          </div>
+          </RiseOnView>
         </div>
       </section>
     </>

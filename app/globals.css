@@ -185,3 +185,62 @@ body {
   outline-color: var(--color-ink);
   box-shadow: 0 0 0 5px var(--color-bone);
 }
+
+/* Pinned scroll sections. Under reduced motion they unpin and lay out as ordinary stacked content;
+   the hero (.pin-hero) also unpins on phones, where a pinned screen would clip its product frame. */
+@media (max-width: 639px) {
+  .pin-hero.pin-tall {
+    height: auto !important;
+  }
+  .pin-hero .pin-sticky {
+    position: relative !important;
+    top: 0 !important;
+    height: auto !important;
+    padding-bottom: 0;
+  }
+  .pin-hero .pin-frame {
+    position: relative !important;
+    top: 0 !important;
+    margin-top: 48px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pin-tall {
+    height: auto !important;
+  }
+  .pin-sticky {
+    position: relative !important;
+    top: 0 !important;
+    height: auto !important;
+    padding-bottom: 48px;
+    overflow-x: auto !important;
+  }
+  .pin-frame {
+    position: relative !important;
+    top: 0 !important;
+    margin-top: 48px;
+  }
+}
+
+/* Lenis smooth scrolling */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Pill press feedback: a small give under the finger or cursor. */
+.pill:active {
+  transform: scale(0.97);
+}
+.pill {
+  transition-property: background-color, color, opacity, border-color, transform;
+}

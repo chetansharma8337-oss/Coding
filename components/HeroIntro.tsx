@@ -3,12 +3,20 @@
 import { motion, useReducedMotion } from "motion/react";
 
 // The hero is the page's focal moment, so it is the one place lines are choreographed on load.
-export function HeroIntro({ lines, children }: { lines: string[]; children?: React.ReactNode }) {
+export function HeroIntro({
+  lines,
+  children,
+  className = "display-xl max-w-[11ch]",
+}: {
+  lines: string[];
+  children?: React.ReactNode;
+  className?: string;
+}) {
   const reduce = useReducedMotion();
   const ease = [0.22, 1, 0.36, 1] as const;
   return (
     <>
-      <h1 className="display-xl max-w-[11ch]">
+      <h1 className={className}>
         {lines.map((line, i) => (
           <span key={line} className="block overflow-hidden pb-[0.06em]">
             <motion.span
@@ -30,19 +38,5 @@ export function HeroIntro({ lines, children }: { lines: string[]; children?: Rea
         {children}
       </motion.div>
     </>
-  );
-}
-
-export function RiseIn({ children, className, delay = 0.6 }: { children: React.ReactNode; className?: string; delay?: number }) {
-  const reduce = useReducedMotion();
-  return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 80 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={reduce ? { duration: 0 } : { duration: 1.1, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
   );
 }

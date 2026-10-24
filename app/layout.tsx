@@ -6,6 +6,7 @@ import { Logo } from "@/components/Logo";
 import { PromoBar } from "@/components/PromoBar";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SmoothScroll } from "@/components/SmoothScroll";
 
 export const metadata: Metadata = {
   title: { default: "ASH-V | Enterprise IT security on one record", template: "%s | ASH-V" },
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
+        <SmoothScroll />
         <a href="#main" className="skip-link pill pill-light">
           Skip to content
         </a>

@@ -26,7 +26,7 @@ function Head({ cols, className }: { cols: string[]; className: string }) {
   );
 }
 
-export function ExposurePreview() {
+export function ExposurePreview({ compact = false }: { compact?: boolean }) {
   const rows = [
     { cve: "CVE-2024-3400", product: "PAN-OS GlobalProtect", asset: "vpn-gw-01", reach: "Internet", owner: "Network" },
     { cve: "CVE-2024-21762", product: "FortiOS SSL VPN", asset: "edge-fw-02", reach: "Internet", owner: "Network" },
@@ -42,7 +42,9 @@ export function ExposurePreview() {
         {rows.map((r, i) => (
           <li
             key={r.cve}
-            className={`grid grid-cols-[28px_1fr] items-center gap-y-1 border-b border-ash-grey/70 py-3 last:border-0 ${grid}`}
+            className={`grid grid-cols-[28px_1fr] items-center gap-y-1 border-b border-ash-grey/70 py-3 last:border-0 ${grid} ${
+              compact && i >= 3 ? "max-sm:hidden" : ""
+            }`}
           >
             <span className="text-[13px] font-semibold text-slate">{i + 1}</span>
             <span className="min-w-0">
@@ -234,7 +236,7 @@ export function GrcPreview() {
   );
 }
 
-export const previewFor: Record<ModuleSlug, { label: string; Component: () => React.JSX.Element }> = {
+export const previewFor: Record<ModuleSlug, { label: string; Component: (props: { compact?: boolean }) => React.JSX.Element }> = {
   "asset-intelligence": { label: "Asset inventory", Component: AssetPreview },
   "threat-exposure-management": { label: "Exposure queue", Component: ExposurePreview },
   "vulnerability-patch-management": { label: "Patch rollout", Component: PatchPreview },
