@@ -271,21 +271,50 @@ html.lenis body {
   }
 }
 
-/* Materials. Chrome floats as a translucent layer over the page instead of an opaque strip; the heavy
-   dark material marks structure (the header), the light one marks something to act on (the platform menu).
-   Opacity is set so text holds AA even with plain white behind the blur. */
-/* The dark material sits on a ::before layer: a backdrop-filter on the element itself would make it a
-   backdrop root, and a light popover inside it could then only blur the header, not the page below. */
-@utility material-dark {
+/* Materials. Chrome floats as glass over the page instead of an opaque strip.
+   - .nav-glass: the header. Its tone follows what is underneath (see SiteHeader): clear glass with white ink
+     over dark imagery and dark bands, bright glass with dark ink over the white page. Both crossfade.
+     The glass sits on a ::before layer: a backdrop-filter on the header itself would make it a backdrop root,
+     and the platform menu inside it could then only blur the header, not the page below.
+   - .material-light: the platform menu, something to act on.
+   - .material-sheet: the full-height mobile menu, frosted enough to read as its own surface.
+   Opacity is set so text holds AA even where the content behind is the worst case for that tone. */
+.nav-glass {
   isolation: isolate;
+  color: var(--color-ink);
+  transition: color 400ms var(--ease-settle);
   &::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: rgb(31 31 31 / 0.8);
+    background: rgb(255 255 255 / 0.72);
+    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.08);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     backdrop-filter: blur(20px) saturate(180%);
+    transition:
+      background-color 400ms var(--ease-settle),
+      box-shadow 400ms var(--ease-settle);
+  }
+  &[data-tone="dark"] {
+    color: var(--color-bone);
+  }
+  &[data-tone="dark"]::before {
+    background: rgb(255 255 255 / 0.07);
+    box-shadow: inset 0 -1px 0 rgb(255 255 255 / 0.14);
+  }
+}
+.nav-link {
+  opacity: 0.78;
+  transition: opacity 200ms var(--ease-settle);
+  @media (hover: hover) {
+    &:hover {
+      opacity: 1;
+    }
+  }
+  &:active {
+    opacity: 0.5;
+    transition-duration: 0ms;
   }
 }
 @utility material-light {
@@ -298,37 +327,53 @@ html.lenis body {
     0 24px 48px -24px rgb(0 0 0 / 0.35),
     0 2px 8px rgb(0 0 0 / 0.06);
 }
+@utility material-sheet {
+  background: rgb(250 250 252 / 0.9);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  backdrop-filter: blur(30px) saturate(180%);
+  box-shadow: inset 0 1px 0 rgb(0 0 0 / 0.06);
+}
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .material-dark::before {
-    background: var(--color-ink);
-  }
-  .material-light {
+  .nav-glass::before,
+  .material-light,
+  .material-sheet {
     background: var(--color-bone);
+  }
+  .nav-glass[data-tone="dark"]::before {
+    background: var(--color-ink);
   }
 }
 @media (prefers-reduced-transparency: reduce) {
-  .material-dark::before {
-    background: var(--color-ink);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-  .material-light {
+  .nav-glass::before,
+  .material-light,
+  .material-sheet {
     background: var(--color-bone);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
+  }
+  .nav-glass[data-tone="dark"]::before {
+    background: var(--color-ink);
   }
 }
 @media (prefers-contrast: more) {
-  .material-dark::before {
-    background: var(--color-pure-black);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    border-bottom: 1px solid var(--color-bone);
-  }
-  .material-light {
+  .nav-glass::before,
+  .material-light,
+  .material-sheet {
     background: var(--color-bone);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
+  }
+  .nav-glass::before {
+    box-shadow: inset 0 -1px 0 var(--color-ink);
+  }
+  .nav-glass[data-tone="dark"]::before {
+    background: var(--color-pure-black);
+    box-shadow: inset 0 -1px 0 var(--color-bone);
+  }
+  .nav-link {
+    opacity: 1;
+  }
+  .material-light {
     border-color: var(--color-ink);
   }
 }

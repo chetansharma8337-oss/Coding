@@ -17,7 +17,7 @@ export function ModuleView({ mod }: { mod: PlatformModule }) {
   return (
     <>
       <PinnedHero
-        src="/images/sky-module-v2.jpg"
+        src="/images/digital-grid.jpg"
         intro={
           <>
             <nav aria-label="Breadcrumb" className="mb-6 text-[0.875rem] text-bone/85">
@@ -44,7 +44,7 @@ export function ModuleView({ mod }: { mod: PlatformModule }) {
           </>
         }
         frame={
-          <ProductFrame label={label} flat>
+          <ProductFrame label={label} flat elevated>
             <Component />
           </ProductFrame>
         }
@@ -89,7 +89,7 @@ export function ModuleView({ mod }: { mod: PlatformModule }) {
         </div>
       </section>
 
-      <section className="on-dark bg-ink py-24 text-bone sm:py-32">
+      <section data-nav-tone="dark" className="on-dark bg-ink py-24 text-bone sm:py-32">
         <div className="page-x flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
           <div>
             <WordReveal parts={`See ${mod.short} on your own estate.`} className="display-xl max-w-[14ch]" />

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { FindingFlow } from "@/components/FindingFlow";
 import { FindingRail } from "@/components/FindingRail";
+import { FlowCarousel } from "@/components/FlowCarousel";
 import { HeroIntro } from "@/components/HeroIntro";
 import { InkParagraph } from "@/components/InkParagraph";
 import { PinnedHero } from "@/components/PinnedHero";
@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <>
       <PinnedHero
-        src="/images/sky-hero-v2.jpg"
+        src="/images/digital-globe.jpg"
         caption="Every exposure, ranked against the asset it sits on and the team that owns it."
         intro={
           <HeroIntro lines={["One record of", "everything", "you defend."]}>
@@ -43,7 +43,7 @@ export default function Home() {
           </HeroIntro>
         }
         frame={
-          <ProductFrame label="Exposure queue" flat>
+          <ProductFrame label="Exposure queue" flat elevated>
             <ExposurePreview compact />
           </ProductFrame>
         }
@@ -85,21 +85,21 @@ export default function Home() {
         <FindingRail />
         <section className="page-x py-24 sm:py-32 lg:hidden">
           <WordReveal parts="How one finding moves through ASH-V" className="display" />
-          <p className="mb-14 mt-6 text-[1rem] leading-[1.6] text-graphite">
+          <p className="mb-10 mt-6 text-[1rem] leading-[1.6] text-graphite">
             Follow CVE-2024-21762, a FortiOS SSL VPN flaw on the CISA KEV list, from the moment it appears on a firewall to
-            the moment an auditor sees it closed.
+            the moment an auditor sees it closed. Swipe through the steps.
           </p>
-          <FindingFlow />
+          <FlowCarousel />
         </section>
       </div>
 
       <SkyStatement
-        src="/images/sky-dawn-v2.jpg"
+        src="/images/digital-streams.jpg"
         line="The CISO asks what is exposed. The auditor asks what is proven."
         sub="ASH-V answers both from the same data."
       />
 
-      <section id="walkthrough" className="on-dark bg-ink py-24 text-bone sm:py-36">
+      <section id="walkthrough" data-nav-tone="dark" className="on-dark bg-ink py-24 text-bone sm:py-36">
         <div className="page-x grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
             <WordReveal parts="Book a 30-minute walkthrough" className="display" />
@@ -117,7 +117,7 @@ export default function Home() {
               ))}
             </ol>
           </div>
-          <RiseOnView className="on-light rounded-[22.5px] bg-bone p-6 text-ink sm:p-10 lg:col-span-7">
+          <RiseOnView navTone="light" className="on-light rounded-[22.5px] bg-bone p-6 text-ink sm:p-10 lg:col-span-7">
             <Suspense fallback={<p className="text-[0.9375rem] text-graphite">Loading the request form…</p>}>
               <WalkthroughForm />
             </Suspense>

@@ -5,7 +5,7 @@ import { Logo } from "./Logo";
 // Two link groups because the site has two kinds of destination: the modules, and the pages about ASH-V itself.
 export function SiteFooter() {
   return (
-    <footer className="on-dark bg-ink text-bone">
+    <footer data-nav-tone="dark" className="on-dark bg-ink text-bone">
       <div className="page-x border-t border-bone/15 py-14 sm:py-16">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_0.8fr]">
           <div>

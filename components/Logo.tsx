@@ -7,11 +7,12 @@ import Link from "next/link";
 const candidates = ["ash-v-mark.svg", "ash-v-mark.webp", "ash-v-logo.svg", "ash-v-logo.png", "ash-v-logo.webp"];
 const markFile = candidates.find((f) => fs.existsSync(path.join(process.cwd(), "public", "brand", f)));
 
-export function Logo({ tone = "light" }: { tone?: "light" | "dark" }) {
+// Takes its colour from the surrounding text, so it follows the header's glass tone and the footer's ink.
+export function Logo() {
   return (
     <Link
       href="/"
-      className={`inline-flex min-h-11 items-center gap-2.5 rounded-[12px] ${tone === "light" ? "text-bone" : "text-ink"}`}
+      className="inline-flex min-h-11 items-center gap-2.5 rounded-[12px]"
       aria-label="ASH-V home"
     >
       {markFile ? (

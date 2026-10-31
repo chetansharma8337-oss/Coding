@@ -13,18 +13,75 @@ const sections = [
   { href: "/#flow", label: "How it works" },
 ];
 
+type Tone = "dark" | "light";
+
+// The header is glass, so its ink follows whatever is underneath it. Dark surfaces mark themselves with
+// data-nav-tone="dark" (and light surfaces inside them with "light"); anything unmarked counts as light.
+// Clip paths count too, so when the hero image folds into a card and leaves white page under the header,
+// the header turns light with it.
+function toneAt(x: number, y: number): Tone {
+  for (const el of document.elementsFromPoint(x, y)) {
+    const tone = el.closest("[data-nav-tone]")?.getAttribute("data-nav-tone");
+    if (tone === "dark" || tone === "light") return tone;
+  }
+  return "light";
+}
+
+// Clear glass with white ink only reads when everything behind the bar is dark; the light glass reads over
+// anything. So the bar samples across its width, at its middle and just above its bottom edge, and goes dark
+// only when every sample is dark: a light surface sliding up under the bar turns it light straight away.
+function toneUnder(rect: DOMRect): Tone {
+  const w = window.innerWidth;
+  const ys = [rect.top + rect.height / 2, rect.bottom - 2];
+  return ys.every((y) => [0.12, 0.5, 0.88].every((f) => toneAt(w * f, y) === "dark")) ? "dark" : "light";
+}
+
+// Pages that open on a dark hero start dark, so the first paint already matches.
+const opensDark = (path: string) => path === "/" || path.startsWith("/platform/");
+
+const menuList = {
+  open: { transition: { staggerChildren: 0.03, delayChildren: 0.04 } },
+  closed: {},
+};
+const menuItem = {
+  open: { opacity: 1, y: 0 },
+  closed: { opacity: 0, y: -8 },
+};
+
 export function SiteHeader({ logo }: { logo: React.ReactNode }) {
   const [platformOpen, setPlatformOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const [tone, setTone] = useState<Tone>(opensDark(pathname) ? "dark" : "light");
+  const headerRef = useRef<HTMLElement>(null);
   const platformRef = useRef<HTMLDivElement>(null);
   const platformButton = useRef<HTMLButtonElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
-  const pathname = usePathname();
   const reduce = useReducedMotion();
 
   useEffect(() => {
     setPlatformOpen(false);
     setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const r = headerRef.current?.getBoundingClientRect();
+      if (r) setTone(toneUnder(r));
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
   }, [pathname]);
 
   useEffect(() => {
@@ -64,8 +121,11 @@ export function SiteHeader({ logo }: { logo: React.ReactNode }) {
     setMenuOpen(false);
   };
 
+  // With the mobile sheet open, the header joins the sheet's light glass.
+  const shown: Tone = menuOpen ? "light" : tone;
+
   return (
-    <header className="on-dark material-dark sticky top-0 z-50 text-bone">
+    <header ref={headerRef} data-tone={shown} className={`nav-glass sticky top-0 z-50 ${shown === "dark" ? "on-dark" : ""}`}>
       <div className="page-x flex h-[var(--header-h)] items-center justify-between gap-6">
         {logo}
 
@@ -77,7 +137,7 @@ export function SiteHeader({ logo }: { logo: React.ReactNode }) {
               aria-expanded={platformOpen}
               aria-controls="platform-menu"
               onClick={() => setPlatformOpen((v) => !v)}
-              className="inline-flex min-h-11 items-center gap-1.5 rounded-full px-4 text-[1rem] text-bone/80 transition-colors hover:text-bone aria-expanded:text-bone"
+              className="nav-link inline-flex min-h-11 items-center gap-1.5 rounded-full px-4 text-[1rem] aria-expanded:opacity-100"
             >
               Platform
               <svg
@@ -101,7 +161,7 @@ export function SiteHeader({ logo }: { logo: React.ReactNode }) {
                   exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96, y: -6, filter: "blur(6px)" }}
                   transition={reduce ? fade : spring.ui}
                   style={{ transformOrigin: "50% 0%" }}
-                  className="material-light absolute left-1/2 top-[calc(100%+12px)] w-[640px] -translate-x-1/2 rounded-[22.5px] border border-ash-grey/70 p-3 text-ink"
+                  className="material-light on-light absolute left-1/2 top-[calc(100%+12px)] w-[640px] -translate-x-1/2 rounded-[22.5px] border border-ash-grey/70 p-3 text-ink"
                 >
                   {/* Popover: the one place a shadow is allowed, since it floats above page content. */}
                   <ul className="grid grid-cols-2 gap-1">
@@ -126,18 +186,14 @@ export function SiteHeader({ logo }: { logo: React.ReactNode }) {
             </AnimatePresence>
           </div>
           {sections.map((s) => (
-            <Link
-              key={s.href}
-              href={s.href}
-              className="inline-flex min-h-11 items-center rounded-full px-4 text-[1rem] text-bone/80 transition-colors hover:text-bone"
-            >
+            <Link key={s.href} href={s.href} className="nav-link inline-flex min-h-11 items-center rounded-full px-4 text-[1rem]">
               {s.label}
             </Link>
           ))}
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link href="/#walkthrough" className="pill pill-light hidden !border-bone sm:inline-flex">
+          <Link href="/#walkthrough" className={`pill hidden sm:inline-flex ${shown === "dark" ? "pill-light !border-bone" : "pill-dark"}`}>
             Book a walkthrough
           </Link>
           <button
@@ -146,9 +202,23 @@ export function SiteHeader({ logo }: { logo: React.ReactNode }) {
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             onClick={() => setMenuOpen((v) => !v)}
-            className="pill min-h-11 border border-bone/60 px-4 text-[0.9375rem] md:hidden"
+            className="pill min-h-11 border border-current/40 px-4 text-[0.9375rem] md:hidden"
           >
-            {menuOpen ? "Close" : "Menu"}
+            {/* The label crossfades in place, so the control stays put while its meaning changes. */}
+            <span className="grid">
+              <AnimatePresence initial={false} mode="popLayout">
+                <motion.span
+                  key={menuOpen ? "close" : "menu"}
+                  className="[grid-area:1/1]"
+                  initial={{ opacity: 0, y: reduce ? 0 : menuOpen ? 6 : -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: reduce ? 0 : menuOpen ? -6 : 6 }}
+                  transition={reduce ? fade : spring.ui}
+                >
+                  {menuOpen ? "Close" : "Menu"}
+                </motion.span>
+              </AnimatePresence>
+            </span>
           </button>
         </div>
       </div>
@@ -162,34 +232,46 @@ export function SiteHeader({ logo }: { logo: React.ReactNode }) {
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
             transition={reduce ? fade : spring.ui}
-            className="absolute inset-x-0 top-full h-[calc(100dvh-var(--header-h))] overflow-y-auto overscroll-contain border-t border-bone/15 bg-ink md:hidden"
+            className="material-sheet on-light absolute inset-x-0 top-full h-[calc(100dvh-var(--header-h))] overflow-y-auto overscroll-contain text-ink md:hidden"
             data-lenis-prevent
           >
-            <nav aria-label="Mobile" className="page-x pb-24 pt-4">
-              <p className="micro-label text-ash-grey">Platform</p>
-              <ul className="mt-3 divide-y divide-bone/15 border-y border-bone/15">
+            <motion.nav aria-label="Mobile" className="page-x pb-24 pt-4" variants={menuList} initial="closed" animate="open">
+              <motion.p variants={menuItem} transition={spring.ui} className="micro-label text-slate">
+                Platform
+              </motion.p>
+              <ul className="mt-3 divide-y divide-ink/10 border-y border-ink/10">
                 {modules.map((m) => (
-                  <li key={m.slug}>
-                    <Link href={`/platform/${m.slug}`} onClick={close} className="flex min-h-14 items-center gap-3 py-3 transition-opacity duration-100 active:opacity-60">
-                      <ModuleIcon slug={m.slug} className="size-5 shrink-0 text-ash-grey" />
+                  <motion.li key={m.slug} variants={menuItem} transition={reduce ? fade : spring.ui}>
+                    <Link
+                      href={`/platform/${m.slug}`}
+                      onClick={close}
+                      className="flex min-h-14 items-center gap-3 py-3 transition-opacity duration-100 active:opacity-50"
+                    >
+                      <ModuleIcon slug={m.slug} className="size-5 shrink-0 text-graphite" />
                       <span className="text-[1.0625rem]">{m.name}</span>
                     </Link>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
               <ul className="mt-6 space-y-1">
                 {sections.map((s) => (
-                  <li key={s.href}>
-                    <Link href={s.href} onClick={close} className="flex min-h-12 items-center text-[1.0625rem] transition-opacity duration-100 active:opacity-60">
+                  <motion.li key={s.href} variants={menuItem} transition={reduce ? fade : spring.ui}>
+                    <Link
+                      href={s.href}
+                      onClick={close}
+                      className="flex min-h-12 items-center text-[1.0625rem] transition-opacity duration-100 active:opacity-50"
+                    >
                       {s.label}
                     </Link>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
-              <Link href="/#walkthrough" onClick={close} className="pill pill-light mt-8 w-full !border-bone">
-                Book a walkthrough
-              </Link>
-            </nav>
+              <motion.div variants={menuItem} transition={reduce ? fade : spring.ui}>
+                <Link href="/#walkthrough" onClick={close} className="pill pill-dark mt-8 w-full">
+                  Book a walkthrough
+                </Link>
+              </motion.div>
+            </motion.nav>
           </motion.div>
         ) : null}
       </AnimatePresence>

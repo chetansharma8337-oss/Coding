@@ -15,7 +15,7 @@ export function SkyStatement({ line, sub, src }: { line: string; sub: string; sr
   const y = useTransform(p, [0, 1], reduce ? ["0%", "0%"] : ["-6%", "6%"]);
 
   return (
-    <section ref={ref} className="on-dark relative isolate overflow-hidden text-bone">
+    <section ref={ref} data-nav-tone="dark" className="on-dark relative isolate overflow-hidden bg-ink text-bone">
       <motion.div className="absolute inset-0 -z-10" style={{ scale, y }} aria-hidden="true">
         <Image src={src} alt="" fill sizes="100vw" className="object-cover object-bottom" />
       </motion.div>

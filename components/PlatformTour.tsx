@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { modules, type PlatformModule } from "@/lib/modules";
+import { scrollToElement } from "@/lib/scroll";
 import { fade, spring } from "@/lib/springs";
 import { ModuleIcon } from "./ModuleIcon";
 import { ProductFrame } from "./ProductFrame";
@@ -21,7 +22,7 @@ function Step({ mod, index, active, onActive }: { mod: PlatformModule; index: nu
   const { label, Component } = previewFor[mod.slug];
 
   return (
-    <div ref={ref} className="py-10 lg:flex lg:min-h-[78svh] lg:items-center lg:py-0">
+    <div ref={ref} id={`tour-${mod.slug}`} className="py-10 lg:flex lg:min-h-[78svh] lg:items-center lg:py-0">
       <div className={`transition-colors duration-500 ${active ? "text-ink" : "lg:text-slate"}`}>
         <div className="flex items-center gap-3">
           <ModuleIcon slug={mod.slug} className="size-6" />
@@ -72,20 +73,30 @@ export function PlatformTour() {
         ))}
       </div>
       <div className="hidden lg:col-span-7 lg:block">
-        <div className="sticky top-[var(--header-h)] flex h-[calc(100svh-var(--header-h))] flex-col justify-center gap-6">
-          <ol className="flex gap-1.5" aria-label="Module progress">
+        <div className="sticky top-[var(--header-h)] flex h-[calc(100svh-var(--header-h))] flex-col justify-center gap-3">
+          {/* Progress you can act on: each segment takes you to its module, so the bar is also a way to navigate. */}
+          <ol className="flex gap-1.5" aria-label="Modules">
             {modules.map((m, i) => (
-              <li key={m.slug} className="h-1 flex-1 overflow-hidden rounded-full bg-mist">
-                <motion.span
-                  className="block h-full origin-left rounded-full bg-ink"
-                  initial={false}
-                  animate={{ scaleX: i <= active ? 1 : 0 }}
-                  transition={reduce ? { duration: 0 } : spring.ui}
-                />
-                <span className="sr-only">
-                  {m.name}
-                  {i === active ? " (showing)" : ""}
-                </span>
+              <li key={m.slug} className="flex-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const el = document.getElementById(`tour-${m.slug}`);
+                    if (el) scrollToElement(el, -(window.innerHeight - el.offsetHeight) / 2);
+                  }}
+                  aria-current={i === active ? "step" : undefined}
+                  className="group flex h-11 w-full items-center"
+                >
+                  <span className="block h-1 w-full overflow-hidden rounded-full bg-mist transition-[height] duration-200 ease-[var(--ease-settle)] group-hover:h-1.5">
+                    <motion.span
+                      className="block h-full origin-left rounded-full bg-ink"
+                      initial={false}
+                      animate={{ scaleX: i <= active ? 1 : 0 }}
+                      transition={reduce ? { duration: 0 } : spring.ui}
+                    />
+                  </span>
+                  <span className="sr-only">{m.name}</span>
+                </button>
               </li>
             ))}
           </ol>

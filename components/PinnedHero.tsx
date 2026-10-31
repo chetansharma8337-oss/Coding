@@ -48,7 +48,12 @@ export function PinnedHero({
   return (
     <section ref={ref} className="pin-tall pin-hero relative -mt-[var(--header-h)] h-[250svh]">
       <div className="pin-sticky on-dark sticky top-0 h-[100svh] overflow-hidden text-bone">
-        <motion.div className="pin-bg absolute inset-0 -z-0 overflow-hidden bg-ink" style={{ clipPath: clip }} aria-hidden="true">
+        <motion.div
+          className="pin-bg absolute inset-0 -z-0 overflow-hidden bg-ink"
+          style={{ clipPath: clip }}
+          aria-hidden="true"
+          data-nav-tone="dark"
+        >
           <motion.div className="absolute inset-0" style={{ scale: skyScale }}>
             <Image src={src} alt="" fill priority sizes="100vw" className="object-cover object-bottom" />
           </motion.div>
