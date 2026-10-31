@@ -25,10 +25,10 @@ export function RiseOnView({
     <Tag
       className={className}
       data-nav-tone={navTone}
-      initial={reduce ? { opacity: 0 } : { opacity: 0, y: 32 }}
+      initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
-      transition={reduce ? fade : { ...spring.reveal, delay }}
+      transition={reduce ? { y: { duration: 0 }, opacity: fade } : { ...spring.reveal, delay }}
     >
       {children}
     </Tag>

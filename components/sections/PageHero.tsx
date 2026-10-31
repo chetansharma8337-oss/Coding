@@ -40,9 +40,9 @@ export function PageHero({
       <motion.div className="absolute inset-0 -z-10" style={{ y: photoY }} aria-hidden="true">
         <motion.div
           className="absolute inset-0"
-          initial={reduce ? { opacity: 0 } : { scale: 1.12, opacity: 0.4 }}
+          initial={{ scale: 1.12, opacity: 0.4 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.4, ease: spring.reveal.ease }}
+          transition={reduce ? { scale: { duration: 0 }, opacity: { duration: 0.3 } } : { duration: 1.4, ease: spring.reveal.ease }}
         >
           <Image src={src} alt="" fill priority sizes="100vw" className="object-cover" style={{ objectPosition: position }} />
         </motion.div>

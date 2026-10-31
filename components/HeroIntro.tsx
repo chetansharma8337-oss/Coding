@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { spring } from "@/lib/springs";
+import { fade, spring } from "@/lib/springs";
 
 // The hero is the page's focal moment, so it is the one place lines are choreographed on load.
 // B5: heading and subheading capped at 680px; the heading carries the left to right text gradient.
@@ -25,9 +25,11 @@ export function HeroIntro({
           <span key={line} className="block overflow-hidden pb-[0.08em]">
             <motion.span
               className={`block ${tone === "dark" ? "text-sheen-dark" : "text-sheen-light"}`}
-              initial={reduce ? { opacity: 0 } : { y: "105%" }}
-              animate={reduce ? { opacity: 1 } : { y: "0%" }}
-              transition={{ ...spring.reveal, delay: 0.1 + i * 0.08 }}
+              initial={{ y: "105%", opacity: 0 }}
+              animate={{ y: "0%", opacity: 1 }}
+              transition={
+                reduce ? { y: { duration: 0 }, opacity: { ...fade, delay: 0.1 } } : { ...spring.reveal, delay: 0.1 + i * 0.08 }
+              }
             >
               {line}
             </motion.span>
@@ -36,9 +38,9 @@ export function HeroIntro({
       </h1>
       <motion.div
         className="max-w-[680px]"
-        initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ ...spring.reveal, delay: 0.35 }}
+        transition={reduce ? { y: { duration: 0 }, opacity: { ...fade, delay: 0.2 } } : { ...spring.reveal, delay: 0.35 }}
       >
         {children}
       </motion.div>

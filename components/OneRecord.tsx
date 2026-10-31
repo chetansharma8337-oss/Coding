@@ -35,10 +35,10 @@ export function OneRecord() {
     const m = modules.find((x) => x.slug === slug)!;
     return (
       <motion.li
-        initial={reduce ? { opacity: 0 } : { opacity: 0, x: side * 32 }}
+        initial={{ opacity: 0, x: side * 32 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, amount: 0.4 }}
-        transition={reduce ? fade : { ...spring.reveal, delay: 0.3 + i * 0.08 }}
+        transition={reduce ? { x: { duration: 0 }, opacity: fade } : { ...spring.reveal, delay: 0.3 + i * 0.08 }}
         className="rounded-2xl border border-ash-grey bg-bone p-4"
       >
         <div className="flex items-center gap-3">
@@ -63,10 +63,10 @@ export function OneRecord() {
         ))}
       </ul>
       <motion.div
-        initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.94 }}
+        initial={{ opacity: 0, scale: 0.94 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.4 }}
-        transition={reduce ? fade : spring.reveal}
+        transition={reduce ? { scale: { duration: 0 }, opacity: fade } : spring.reveal}
         data-nav-tone="dark"
         className="on-dark order-1 rounded-3xl bg-ink p-6 text-bone lg:order-2 lg:p-8"
       >

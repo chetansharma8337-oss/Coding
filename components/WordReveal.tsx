@@ -43,11 +43,12 @@ export function WordReveal({
             <span className={`-mb-[0.1em] inline-block overflow-hidden pb-[0.1em] align-top ${c ?? ""}`}>
               <motion.span
                 className="inline-block whitespace-nowrap"
-                variants={
-                  reduce
-                    ? { hidden: { opacity: 0 }, show: { opacity: 1, transition: fade } }
-                    : { hidden: { y: "110%" }, show: { y: "0%", transition: spring.reveal } }
-                }
+                // One set of variants for both modes, so the server render and the hydrated page agree;
+                // under reduced motion the position snaps and only the opacity eases.
+                variants={{
+                  hidden: { y: "110%", opacity: 0 },
+                  show: { y: "0%", opacity: 1, transition: reduce ? { y: { duration: 0 }, opacity: fade } : spring.reveal },
+                }}
               >
                 {w}
               </motion.span>
