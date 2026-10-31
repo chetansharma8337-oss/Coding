@@ -26,7 +26,7 @@ export function SkyStatement({ line, sub, src }: { line: string; sub: string; sr
       />
       <div className="page-x flex min-h-[620px] flex-col pb-56 pt-24 sm:min-h-[760px] sm:pt-32">
         <WordReveal as="p" parts={line} className="display-xl max-w-[16ch]" />
-        <WordReveal as="p" parts={sub} className="subheading mt-8 max-w-[40ch] sm:text-[24px]" delay={0.35} />
+        <WordReveal as="p" parts={sub} className="subheading mt-8 max-w-[40ch] sm:text-[1.5rem]" delay={0.35} />
       </div>
     </section>
   );

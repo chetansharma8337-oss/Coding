@@ -18,7 +18,7 @@ export function Logo({ tone = "light" }: { tone?: "light" | "dark" }) {
         // eslint-disable-next-line @next/next/no-img-element
         <img src={`/brand/${markFile}`} alt="" width={29} height={40} className="h-10 w-auto object-contain" />
       ) : null}
-      <span className="font-display text-[22px] font-medium leading-none tracking-[-0.02em]">ASH-V</span>
+      <span className="font-display text-[1.375rem] font-medium leading-none tracking-[-0.02em]">ASH-V</span>
     </Link>
   );
 }

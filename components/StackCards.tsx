@@ -30,7 +30,7 @@ function Card({
           </span>
           <h3 className="heading mt-4">{item.title}</h3>
         </div>
-        <p className="self-end text-[18px] leading-[1.6] text-graphite">{item.body}</p>
+        <p className="self-end text-[1.125rem] leading-[1.6] text-graphite">{item.body}</p>
       </motion.article>
     </div>
   );

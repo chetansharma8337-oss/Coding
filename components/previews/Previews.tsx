@@ -7,7 +7,7 @@ import type { ModuleSlug } from "@/lib/modules";
 function Tag({ children, strong = false }: { children: React.ReactNode; strong?: boolean }) {
   return (
     <span
-      className={`inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-[12px] font-semibold ${
+      className={`inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-[0.75rem] font-semibold ${
         strong ? "bg-ink text-bone" : "border border-slate text-graphite"
       }`}
     >
@@ -46,18 +46,18 @@ export function ExposurePreview({ compact = false }: { compact?: boolean }) {
               compact && i >= 3 ? "max-sm:hidden" : ""
             }`}
           >
-            <span className="text-[13px] font-semibold text-slate">{i + 1}</span>
+            <span className="text-[0.8125rem] font-semibold text-slate">{i + 1}</span>
             <span className="min-w-0">
-              <span className="block text-[14px] font-semibold">{r.cve}</span>
-              <span className="block truncate text-[13px] text-graphite">
-                {r.product} <span className="ml-1 text-[12px] font-semibold text-ink">KEV</span>
+              <span className="block text-[0.875rem] font-semibold">{r.cve}</span>
+              <span className="block truncate text-[0.8125rem] text-graphite">
+                {r.product} <span className="ml-1 text-[0.75rem] font-semibold text-ink">KEV</span>
               </span>
             </span>
-            <span className="col-start-2 font-mono text-[13px] text-graphite sm:col-start-auto">{r.asset}</span>
+            <span className="col-start-2 font-mono text-[0.8125rem] text-graphite sm:col-start-auto">{r.asset}</span>
             <span className="col-start-2 sm:col-start-auto">
               <Tag strong={r.reach === "Internet"}>{r.reach}</Tag>
             </span>
-            <span className="col-start-2 text-[13px] text-graphite sm:col-start-auto">{r.owner}</span>
+            <span className="col-start-2 text-[0.8125rem] text-graphite sm:col-start-auto">{r.owner}</span>
           </li>
         ))}
       </ol>
@@ -80,14 +80,14 @@ export function AssetPreview() {
       <ul>
         {rows.map((r) => (
           <li key={r.host} className={`grid items-center gap-y-1.5 border-b border-ash-grey/70 py-3 last:border-0 ${grid}`}>
-            <span className="font-mono text-[13px] font-semibold">{r.host}</span>
-            <span className="text-[13px] text-graphite">{r.kind}</span>
+            <span className="font-mono text-[0.8125rem] font-semibold">{r.host}</span>
+            <span className="text-[0.8125rem] text-graphite">{r.kind}</span>
             <span className="flex flex-wrap gap-1">
               {r.sources.map((s) => (
                 <Tag key={s}>{s}</Tag>
               ))}
             </span>
-            <span className={`text-[13px] ${r.owner === "No owner" ? "font-semibold text-ink" : "text-graphite"}`}>
+            <span className={`text-[0.8125rem] ${r.owner === "No owner" ? "font-semibold text-ink" : "text-graphite"}`}>
               {r.owner === "No owner" ? "No owner, needs triage" : r.owner}
             </span>
           </li>
@@ -106,20 +106,20 @@ export function PatchPreview() {
   ];
   return (
     <div>
-      <p className="text-[14px] text-graphite">
+      <p className="text-[0.875rem] text-graphite">
         Patch bundle for <span className="font-semibold text-ink">CVE-2021-44228</span>, owner Payments
       </p>
       <ol className="mt-4 space-y-3">
         {rings.map((r) => (
           <li key={r.name} className="rounded-[12px] border border-ash-grey p-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-[14px] font-semibold">{r.name}</span>
+              <span className="text-[0.875rem] font-semibold">{r.name}</span>
               <Tag strong={r.state === "Rolling out"}>{r.state}</Tag>
             </div>
             <div className="mt-2.5 h-1.5 rounded-full bg-mist" aria-hidden="true">
               <div className="h-full rounded-full bg-ink" style={{ width: `${r.done * 100}%` }} />
             </div>
-            <p className="mt-2 text-[13px] text-graphite">{r.detail}</p>
+            <p className="mt-2 text-[0.8125rem] text-graphite">{r.detail}</p>
           </li>
         ))}
       </ol>
@@ -137,7 +137,7 @@ export function PentestPreview() {
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-[14px] font-semibold">Validated path to fin-db-02</p>
+        <p className="text-[0.875rem] font-semibold">Validated path to fin-db-02</p>
         <Tag strong>Path works</Tag>
       </div>
       <ol className="relative mt-4 space-y-0">
@@ -145,7 +145,7 @@ export function PentestPreview() {
           <li key={s.where} className="relative flex gap-4 pb-4 last:pb-0">
             <span className="flex flex-col items-center" aria-hidden="true">
               <span
-                className={`flex size-7 items-center justify-center rounded-full text-[12px] font-semibold ${
+                className={`flex size-7 items-center justify-center rounded-full text-[0.75rem] font-semibold ${
                   i === steps.length - 1 ? "bg-ink text-bone" : "border-2 border-ink bg-bone"
                 }`}
               >
@@ -154,13 +154,13 @@ export function PentestPreview() {
               {i < steps.length - 1 ? <span className="mt-1 w-px flex-1 bg-ash-grey" /> : null}
             </span>
             <span className="pt-0.5">
-              <span className="block font-mono text-[13px] font-semibold">{s.where}</span>
-              <span className="block text-[13px] text-graphite">{s.how}</span>
+              <span className="block font-mono text-[0.8125rem] font-semibold">{s.where}</span>
+              <span className="block text-[0.8125rem] text-graphite">{s.how}</span>
             </span>
           </li>
         ))}
       </ol>
-      <p className="mt-4 border-t border-ash-grey pt-3 text-[13px] text-graphite">
+      <p className="mt-4 border-t border-ash-grey pt-3 text-[0.8125rem] text-graphite">
         Step 2 sent to the exposure queue as rank 2. Retest scheduled after the fix.
       </p>
     </div>
@@ -181,13 +181,13 @@ export function VendorPreview() {
       <ul>
         {rows.map((r) => (
           <li key={r.vendor} className={`grid items-center gap-y-1 border-b border-ash-grey/70 py-3 last:border-0 ${grid}`}>
-            <span className="text-[14px] font-semibold">{r.vendor}</span>
-            <span className="text-[13px] text-graphite">{r.access}</span>
+            <span className="text-[0.875rem] font-semibold">{r.vendor}</span>
+            <span className="text-[0.8125rem] text-graphite">{r.access}</span>
             <span>
               <Tag strong={r.tier === "Tier 1"}>{r.tier}</Tag>
             </span>
             <span
-              className={`text-[13px] ${r.status === "Assessment current" ? "text-graphite" : "font-semibold text-ink"}`}
+              className={`text-[0.8125rem] ${r.status === "Assessment current" ? "text-graphite" : "font-semibold text-ink"}`}
             >
               {r.status}
             </span>
@@ -212,13 +212,13 @@ export function GrcPreview() {
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-[14px] font-semibold">Control VM-01: Remediate known exploited vulnerabilities</p>
+        <p className="text-[0.875rem] font-semibold">Control VM-01: Remediate known exploited vulnerabilities</p>
         <Tag>Owner: Security Ops</Tag>
       </div>
       <p className="micro-label mt-4 text-slate">Mapped to</p>
       <ul className="mt-2 space-y-1.5">
         {maps.map((m) => (
-          <li key={m.fw} className="text-[13px] text-graphite">
+          <li key={m.fw} className="text-[0.8125rem] text-graphite">
             <span className="font-semibold text-ink">{m.fw}</span> {m.ref}
           </li>
         ))}
@@ -227,8 +227,8 @@ export function GrcPreview() {
       <ul className="mt-2 divide-y divide-ash-grey/70 rounded-[12px] bg-mist px-3">
         {evidence.map((e) => (
           <li key={e.item} className="flex flex-col gap-0.5 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-            <span className="text-[13px] font-semibold">{e.item}</span>
-            <span className="text-[12px] text-graphite">from {e.from}</span>
+            <span className="text-[0.8125rem] font-semibold">{e.item}</span>
+            <span className="text-[0.75rem] text-graphite">from {e.from}</span>
           </li>
         ))}
       </ul>

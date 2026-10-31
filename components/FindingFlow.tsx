@@ -79,12 +79,12 @@ export function FindingFlow() {
               Step {String(i + 1).padStart(2, "0")}
             </span>
             <span className="heading-sm mt-2 block">{s.verb}</span>
-            <span className="mt-2 block max-w-[38ch] text-[15px] leading-[1.55] text-graphite">
+            <span className="mt-2 block max-w-[38ch] text-[0.9375rem] leading-[1.55] text-graphite">
               <NoBreak text={s.body} />
             </span>
             <Link
               href={`/platform/${s.slug}`}
-              className="mt-3 inline-flex min-h-11 items-center text-[14px] font-semibold text-ink/80 underline decoration-ash-grey underline-offset-4 transition-colors hover:text-ink hover:decoration-ink"
+              className="mt-3 inline-flex min-h-11 items-center text-[0.875rem] font-semibold text-ink/80 underline decoration-ash-grey underline-offset-4 transition-colors hover:text-ink hover:decoration-ink"
             >
               {s.module}
             </Link>

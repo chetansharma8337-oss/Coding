@@ -27,7 +27,7 @@ export default function Home() {
         caption="Every exposure, ranked against the asset it sits on and the team that owns it."
         intro={
           <HeroIntro lines={["One record of", "everything", "you defend."]}>
-            <p className="subheading mt-6 max-w-[52ch] text-bone sm:text-[20px] sm:leading-[1.45]">
+            <p className="subheading mt-6 max-w-[52ch] text-bone sm:text-[1.25rem] sm:leading-[1.45]">
               ASH-V brings asset intelligence, threat exposure management, vulnerability and patch management, automated
               penetration testing, third-party risk and GRC into one platform. Every finding points back to the same asset,
               the same owner and the same control.
@@ -57,7 +57,7 @@ export default function Home() {
         <div className="mt-16 grid gap-10 sm:mt-24 lg:grid-cols-12">
           <WordReveal parts="ASH-V keeps one." className="display-xl lg:col-span-6" />
           <RiseOnView className="self-end lg:col-span-5 lg:col-start-8">
-            <p className="text-[18px] leading-[1.6] text-graphite">
+            <p className="text-[1.125rem] leading-[1.6] text-graphite">
               Every module reads from and writes to the same asset record. When an exposure is ranked, tested, patched or
               shown to an auditor, it is the same object with the same history, so nobody reconciles spreadsheets before a
               board meeting.
@@ -85,7 +85,7 @@ export default function Home() {
         <FindingRail />
         <section className="page-x py-24 sm:py-32 lg:hidden">
           <WordReveal parts="How one finding moves through ASH-V" className="display" />
-          <p className="mb-14 mt-6 text-[16px] leading-[1.6] text-graphite">
+          <p className="mb-14 mt-6 text-[1rem] leading-[1.6] text-graphite">
             Follow CVE-2024-21762, a FortiOS SSL VPN flaw on the CISA KEV list, from the moment it appears on a firewall to
             the moment an auditor sees it closed.
           </p>
@@ -103,22 +103,22 @@ export default function Home() {
         <div className="page-x grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
             <WordReveal parts="Book a 30-minute walkthrough" className="display" />
-            <p className="mt-6 max-w-[44ch] text-[17px] leading-[1.6] text-ash-grey">
+            <p className="mt-6 max-w-[44ch] text-[1.0625rem] leading-[1.6] text-ash-grey">
               A working session with our team, built around your environment rather than a slide deck.
             </p>
             <ol className="mt-10 space-y-6">
               {callAgenda.map((item, i) => (
                 <li key={item} className="flex gap-4">
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full border border-bone/60 text-[13px] font-semibold">
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full border border-bone/60 text-[0.8125rem] font-semibold">
                     {i + 1}
                   </span>
-                  <span className="pt-1 text-[16px] leading-[1.55]">{item}</span>
+                  <span className="pt-1 text-[1rem] leading-[1.55]">{item}</span>
                 </li>
               ))}
             </ol>
           </div>
           <RiseOnView className="on-light rounded-[22.5px] bg-bone p-6 text-ink sm:p-10 lg:col-span-7">
-            <Suspense fallback={<p className="text-[15px] text-graphite">Loading the request form…</p>}>
+            <Suspense fallback={<p className="text-[0.9375rem] text-graphite">Loading the request form…</p>}>
               <WalkthroughForm />
             </Suspense>
           </RiseOnView>

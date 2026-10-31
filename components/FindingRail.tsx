@@ -47,7 +47,7 @@ export function FindingRail() {
             <h2 id="flow-heading" className="display">
               How one finding moves through <span className="whitespace-nowrap">ASH-V</span>
             </h2>
-            <p className="mt-6 max-w-[40ch] text-[17px] leading-[1.6] text-graphite">
+            <p className="mt-6 max-w-[40ch] text-[1.0625rem] leading-[1.6] text-graphite">
               Follow CVE-2024-21762, a FortiOS SSL VPN flaw on the CISA KEV list, from the moment it appears on a firewall
               to the moment an auditor sees it closed. Keep scrolling.
             </p>
@@ -64,15 +64,15 @@ export function FindingRail() {
                 </span>
                 <span className="micro-label text-slate">Step {String(i + 1).padStart(2, "0")}</span>
               </div>
-              <h3 className="mt-auto pt-10 font-display text-[64px] font-medium leading-none tracking-[-0.024em]">{s.verb}</h3>
-              <p className="mt-5 text-[16px] leading-[1.6] text-graphite">
+              <h3 className="mt-auto pt-10 font-display text-[4rem] font-medium leading-none tracking-[-0.026em]">{s.verb}</h3>
+              <p className="mt-5 text-[1rem] leading-[1.6] text-graphite">
                 <NoBreak text={s.body} />
               </p>
               <div className="mt-6 flex items-center justify-between gap-4 border-t border-ash-grey pt-5">
-                <span className="shrink-0 whitespace-nowrap rounded-full bg-mist px-3 py-1 font-mono text-[12px] font-semibold">{s.evidence}</span>
+                <span className="shrink-0 whitespace-nowrap rounded-full bg-mist px-3 py-1 font-mono text-[0.75rem] font-semibold">{s.evidence}</span>
                 <Link
                   href={`/platform/${s.slug}`}
-                  className="inline-flex min-h-11 items-center text-right text-[14px] font-semibold text-ink/80 underline decoration-ash-grey underline-offset-4 hover:text-ink hover:decoration-ink"
+                  className="inline-flex min-h-11 items-center text-right text-[0.875rem] font-semibold text-ink/80 underline decoration-ash-grey underline-offset-4 hover:text-ink hover:decoration-ink"
                 >
                   {s.module}
                 </Link>

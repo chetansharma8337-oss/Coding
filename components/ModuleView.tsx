@@ -20,7 +20,7 @@ export function ModuleView({ mod }: { mod: PlatformModule }) {
         src="/images/sky-module-v2.jpg"
         intro={
           <>
-            <nav aria-label="Breadcrumb" className="mb-6 text-[14px] text-bone/85">
+            <nav aria-label="Breadcrumb" className="mb-6 text-[0.875rem] text-bone/85">
               <Link href="/#platform" className="inline-flex min-h-11 items-center underline underline-offset-4">
                 Platform
               </Link>
@@ -71,14 +71,14 @@ export function ModuleView({ mod }: { mod: PlatformModule }) {
                   <RiseOnView delay={i * 0.1} className="h-full">
                     <Link
                       href={`/platform/${target.slug}`}
-                      className="group flex h-full items-start gap-5 rounded-[22.5px] border border-ash-grey p-8 transition-colors duration-300 hover:border-ink hover:bg-mist"
+                      className="press group flex h-full items-start gap-5 rounded-[22.5px] border border-ash-grey p-8 hover:border-ink hover:bg-mist"
                     >
                       <span className="flex size-12 shrink-0 items-center justify-center rounded-full border-2 border-ink transition-colors duration-300 group-hover:bg-ink group-hover:text-bone">
                         <ModuleIcon slug={target.slug} className="size-6" />
                       </span>
                       <span>
                         <span className="heading-sm block">{target.name}</span>
-                        <span className="mt-2 block text-[16px] leading-[1.55] text-graphite">Receives {h.what}.</span>
+                        <span className="mt-2 block text-[1rem] leading-[1.55] text-graphite">Receives {h.what}.</span>
                       </span>
                     </Link>
                   </RiseOnView>
@@ -93,7 +93,7 @@ export function ModuleView({ mod }: { mod: PlatformModule }) {
         <div className="page-x flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
           <div>
             <WordReveal parts={`See ${mod.short} on your own estate.`} className="display-xl max-w-[14ch]" />
-            <p className="mt-6 text-[16px] text-ash-grey">
+            <p className="mt-6 text-[1rem] text-ash-grey">
               Next module:{" "}
               <Link href={`/platform/${next.slug}`} className="inline-flex min-h-11 items-center font-semibold text-bone underline underline-offset-4">
                 {next.name}

@@ -8,7 +8,7 @@ import { teamSizes, validateWalkthrough, type FieldErrors } from "@/lib/walkthro
 type Status = { kind: "idle" } | { kind: "sending" } | { kind: "sent"; email: string } | { kind: "failed"; message: string };
 
 const inputClass =
-  "mt-2 block w-full rounded-[12px] border border-slate bg-bone px-4 py-3 text-[16px] text-ink placeholder:text-slate transition-colors hover:border-ink aria-invalid:border-2 aria-invalid:border-ink";
+  "mt-2 block w-full rounded-[12px] border border-slate bg-bone px-4 py-3 text-[1rem] text-ink placeholder:text-slate transition-colors hover:border-ink aria-invalid:border-2 aria-invalid:border-ink";
 
 function Field({
   id,
@@ -25,17 +25,17 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="text-[14px] font-semibold">
+      <label htmlFor={id} className="text-[0.875rem] font-semibold">
         {label}
       </label>
       {children}
       {error ? (
-        <p id={`${id}-error`} className="mt-1.5 text-[14px] font-semibold text-ink">
+        <p id={`${id}-error`} className="mt-1.5 text-[0.875rem] font-semibold text-ink">
           <span aria-hidden="true">! </span>
           {error}
         </p>
       ) : hint ? (
-        <p id={`${id}-hint`} className="mt-1.5 text-[13px] text-slate">
+        <p id={`${id}-hint`} className="mt-1.5 text-[0.8125rem] text-slate">
           {hint}
         </p>
       ) : null}
@@ -112,7 +112,7 @@ export function WalkthroughForm() {
     return (
       <div ref={resultRef} tabIndex={-1} role="status" className="rounded-[20px] bg-mist p-6 sm:p-8">
         <p className="heading-sm">Request received.</p>
-        <p className="mt-3 text-[16px] leading-[1.55] text-graphite">
+        <p className="mt-3 text-[1rem] leading-[1.55] text-graphite">
           We will reply to <span className="font-semibold text-ink">{status.email}</span> to agree a time. Bring a list of
           the tools you run today and we will show where each one fits.
         </p>
@@ -136,8 +136,8 @@ export function WalkthroughForm() {
     <form ref={formRef} noValidate onSubmit={onSubmit} aria-busy={sending} className="space-y-5">
       {status.kind === "failed" ? (
         <div ref={resultRef} tabIndex={-1} role="alert" className="rounded-[12px] border-2 border-ink p-4">
-          <p className="text-[15px] font-semibold">Your request was not sent.</p>
-          <p className="mt-1 text-[14px] text-graphite">
+          <p className="text-[0.9375rem] font-semibold">Your request was not sent.</p>
+          <p className="mt-1 text-[0.875rem] text-graphite">
             {status.message} Your answers are still here, so you can send it again.
           </p>
         </div>
@@ -201,8 +201,8 @@ export function WalkthroughForm() {
       </div>
 
       <fieldset aria-describedby={errors.interests ? `${id("interests")}-error` : `${id("interests")}-hint`}>
-        <legend className="text-[14px] font-semibold">What should we focus on?</legend>
-        <p id={`${id("interests")}-hint`} className="mt-1 text-[13px] text-slate">
+        <legend className="text-[0.875rem] font-semibold">What should we focus on?</legend>
+        <p id={`${id("interests")}-hint`} className="mt-1 text-[0.8125rem] text-slate">
           Optional. Pick any that apply.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
@@ -211,7 +211,7 @@ export function WalkthroughForm() {
             return (
               <label
                 key={m.slug}
-                className={`inline-flex min-h-11 cursor-pointer select-none items-center rounded-full border px-4 text-[14px] font-semibold transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ink ${
+                className={`press inline-flex min-h-11 cursor-pointer select-none items-center rounded-full border px-4 text-[0.875rem] font-semibold has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ink ${
                   on ? "border-ink bg-ink text-bone" : "border-slate bg-bone text-ink hover:border-ink"
                 }`}
               >
@@ -230,7 +230,7 @@ export function WalkthroughForm() {
           })}
         </div>
         {errors.interests ? (
-          <p id={`${id("interests")}-error`} className="mt-1.5 text-[14px] font-semibold">
+          <p id={`${id("interests")}-error`} className="mt-1.5 text-[0.875rem] font-semibold">
             {errors.interests}
           </p>
         ) : null}
@@ -249,7 +249,7 @@ export function WalkthroughForm() {
       </Field>
 
       <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-[13px] text-slate">
+        <p className="text-[0.8125rem] text-slate">
           We use these details only to arrange the walkthrough. See the{" "}
           <a href="/privacy" className="font-semibold text-graphite underline underline-offset-2">
             privacy notice

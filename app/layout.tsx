@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource-variable/inter";
-import "@fontsource-variable/dm-sans";
+import "@fontsource-variable/inter/opsz.css";
+import "@fontsource-variable/dm-sans/opsz.css";
 import "./globals.css";
 import { Logo } from "@/components/Logo";
 import { PromoBar } from "@/components/PromoBar";

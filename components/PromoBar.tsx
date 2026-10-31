@@ -4,7 +4,7 @@ import Link from "next/link";
 export function PromoBar() {
   return (
     <div className="on-dark text-bone" style={{ background: "var(--gradient-cobalt-wash)" }}>
-      <p className="page-x flex min-h-10 items-center justify-center py-2 text-center text-[14px] leading-snug sm:text-[16px]">
+      <p className="page-x flex min-h-10 items-center justify-center py-2 text-center text-[0.875rem] leading-snug sm:text-[1rem]">
         <span>
           See ASH-V on your own estate.{" "}
           <Link href="/#walkthrough" className="inline-flex min-h-11 items-center font-semibold underline underline-offset-4">

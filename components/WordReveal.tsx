@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { Fragment } from "react";
+import { spring } from "@/lib/springs";
 
 type Part = { text: string; className?: string };
 
@@ -31,7 +32,7 @@ export function WordReveal({
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.35 }}
-        transition={{ staggerChildren: reduce ? 0 : 0.045, delayChildren: delay }}
+        transition={{ staggerChildren: reduce ? 0 : 0.04, delayChildren: delay }}
       >
         {words.map(({ w, className: c }, i) => (
           <Fragment key={i}>
@@ -40,7 +41,7 @@ export function WordReveal({
                 className="inline-block whitespace-nowrap"
                 variants={{
                   hidden: { y: "110%" },
-                  show: { y: "0%", transition: reduce ? { duration: 0 } : { duration: 0.85, ease: [0.22, 1, 0.36, 1] } },
+                  show: { y: "0%", transition: reduce ? { duration: 0 } : spring.reveal },
                 }}
               >
                 {w}

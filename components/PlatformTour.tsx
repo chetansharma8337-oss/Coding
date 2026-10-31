@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { modules, type PlatformModule } from "@/lib/modules";
+import { fade, spring } from "@/lib/springs";
 import { ModuleIcon } from "./ModuleIcon";
 import { ProductFrame } from "./ProductFrame";
 import { previewFor } from "./previews/Previews";
@@ -29,7 +30,7 @@ function Step({ mod, index, active, onActive }: { mod: PlatformModule; index: nu
           </span>
         </div>
         <h3 className="heading-lg mt-4 max-w-[16ch]">{mod.name}</h3>
-        <p className={`mt-4 max-w-[44ch] text-[17px] leading-[1.6] transition-colors duration-500 ${active ? "text-graphite" : "text-graphite lg:text-slate"}`}>
+        <p className={`mt-4 max-w-[44ch] text-[1.0625rem] leading-[1.6] transition-colors duration-500 ${active ? "text-graphite" : "text-graphite lg:text-slate"}`}>
           {mod.intro}
         </p>
         <Link href={`/platform/${mod.slug}`} className="pill pill-light mt-6">
@@ -45,8 +46,20 @@ function Step({ mod, index, active, onActive }: { mod: PlatformModule; index: nu
   );
 }
 
+// Screens travel with the scroll: moving down the list, the next screen rises from below and the old one
+// leaves upward; scrolling back reverses that path, so a screen returns the way it left.
+const swap = {
+  enter: (dir: number) => ({ opacity: 0, y: dir * 60, scale: 0.97 }),
+  center: { opacity: 1, y: 0, scale: 1 },
+  exit: (dir: number) => ({ opacity: 0, y: dir * -40, scale: 0.98 }),
+};
+
 export function PlatformTour() {
-  const [active, setActive] = useState(0);
+  const [{ active, dir }, setState] = useState({ active: 0, dir: 1 });
+  const setActive = useCallback(
+    (i: number) => setState((cur) => (cur.active === i ? cur : { active: i, dir: i > cur.active ? 1 : -1 })),
+    [],
+  );
   const reduce = useReducedMotion();
   const mod = modules[active];
   const { label, Component } = previewFor[mod.slug];
@@ -67,7 +80,7 @@ export function PlatformTour() {
                   className="block h-full origin-left rounded-full bg-ink"
                   initial={false}
                   animate={{ scaleX: i <= active ? 1 : 0 }}
-                  transition={{ duration: reduce ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  transition={reduce ? { duration: 0 } : spring.ui}
                 />
                 <span className="sr-only">
                   {m.name}
@@ -77,13 +90,15 @@ export function PlatformTour() {
             ))}
           </ol>
           <div className="relative">
-            <AnimatePresence mode="popLayout" initial={false}>
+            <AnimatePresence mode="popLayout" initial={false} custom={dir}>
               <motion.div
                 key={mod.slug}
-                initial={reduce ? false : { opacity: 0, y: 60, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={reduce ? undefined : { opacity: 0, y: -40, scale: 0.98 }}
-                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                custom={dir}
+                variants={reduce ? { enter: { opacity: 0 }, center: { opacity: 1 }, exit: { opacity: 0 } } : swap}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={reduce ? fade : spring.ui}
               >
                 <ProductFrame label={label} flat>
                   <Component />

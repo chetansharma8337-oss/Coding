@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
+import { spring } from "@/lib/springs";
 
 // The hero is the page's focal moment, so it is the one place lines are choreographed on load.
 export function HeroIntro({
@@ -13,7 +14,6 @@ export function HeroIntro({
   className?: string;
 }) {
   const reduce = useReducedMotion();
-  const ease = [0.22, 1, 0.36, 1] as const;
   return (
     <>
       <h1 className={className}>
@@ -23,7 +23,7 @@ export function HeroIntro({
               className="block"
               initial={{ y: "105%" }}
               animate={{ y: "0%" }}
-              transition={reduce ? { duration: 0 } : { duration: 0.9, delay: 0.1 + i * 0.12, ease }}
+              transition={reduce ? { duration: 0 } : { ...spring.reveal, delay: 0.1 + i * 0.1 }}
             >
               {line}
             </motion.span>
@@ -33,7 +33,7 @@ export function HeroIntro({
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={reduce ? { duration: 0 } : { duration: 0.7, delay: 0.45, ease }}
+        transition={reduce ? { duration: 0 } : { ...spring.reveal, delay: 0.4 }}
       >
         {children}
       </motion.div>

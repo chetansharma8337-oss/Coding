@@ -10,7 +10,7 @@ export function SiteFooter() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_0.8fr]">
           <div>
             <Logo />
-            <p className="mt-4 max-w-[36ch] text-[15px] leading-[1.55] text-ash-grey">
+            <p className="mt-4 max-w-[36ch] text-[0.9375rem] leading-[1.55] text-ash-grey">
               Asset intelligence, exposure, patching, testing, vendor risk and compliance on one record.
             </p>
           </div>
@@ -19,7 +19,7 @@ export function SiteFooter() {
             <ul className="mt-3">
               {modules.map((m) => (
                 <li key={m.slug}>
-                  <Link href={`/platform/${m.slug}`} className="inline-flex min-h-11 items-center text-[15px] hover:underline">
+                  <Link href={`/platform/${m.slug}`} className="inline-flex min-h-11 items-center text-[0.9375rem] hover:underline">
                     {m.name}
                   </Link>
                 </li>
@@ -30,24 +30,24 @@ export function SiteFooter() {
             <p className="micro-label text-ash-grey">ASH-V</p>
             <ul className="mt-3">
               <li>
-                <Link href="/#walkthrough" className="inline-flex min-h-11 items-center text-[15px] hover:underline">
+                <Link href="/#walkthrough" className="inline-flex min-h-11 items-center text-[0.9375rem] hover:underline">
                   Book a walkthrough
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="inline-flex min-h-11 items-center text-[15px] hover:underline">
+                <Link href="/privacy" className="inline-flex min-h-11 items-center text-[0.9375rem] hover:underline">
                   Privacy notice
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="inline-flex min-h-11 items-center text-[15px] hover:underline">
+                <Link href="/terms" className="inline-flex min-h-11 items-center text-[0.9375rem] hover:underline">
                   Terms of use
                 </Link>
               </li>
             </ul>
           </nav>
         </div>
-        <p className="mt-12 text-[13px] text-ash-grey">© {new Date().getFullYear()} ASH-V</p>
+        <p className="mt-12 text-[0.8125rem] text-ash-grey">© {new Date().getFullYear()} ASH-V</p>
       </div>
     </footer>
   );

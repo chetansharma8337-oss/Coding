@@ -19,6 +19,8 @@
   --radius-control: 12px;
 
   --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Press feedback: fast out, so the give is felt on pointer-down rather than watched. */
+  --ease-press: cubic-bezier(0.2, 0, 0, 1);
 }
 
 :root {
@@ -29,7 +31,10 @@
 }
 
 html {
+  /* Text sizes are in rem so the page follows the visitor's browser text size, like Dynamic Type. */
+  font-size: 100%;
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
   scroll-padding-top: calc(var(--header-h) + 16px);
   -webkit-text-size-adjust: 100%;
 }
@@ -38,9 +43,10 @@ body {
   background: var(--color-bone);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.5;
-  letter-spacing: -0.005em;
+  letter-spacing: 0;
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -51,54 +57,61 @@ body {
   }
 }
 
-/* Display scale: tracking tightens as size grows, per DESIGN.md. Sizes are fluid so phones get their own step. */
+/* No double-tap zoom wait on controls, so a tap commits as soon as the finger lifts. */
+:where(a, button, label, summary, input, select, textarea) {
+  touch-action: manipulation;
+}
+
+/* Display scale. Tracking is set per size: the larger the type, the tighter it runs, and leading closes up
+   as size grows. DM Sans and Inter load their optical-size axis, so letterforms also adjust to their size. */
 @utility display-xl {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(44px, 7.4vw, 88px);
+  font-size: clamp(2.75rem, 7.4vw, 5.5rem);
   line-height: 1;
-  letter-spacing: -0.024em;
+  letter-spacing: -0.026em;
 }
 @utility display {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(34px, 4.6vw, 52px);
-  line-height: 1.04;
-  letter-spacing: -0.012em;
+  font-size: clamp(2.125rem, 4.6vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.018em;
 }
 @utility heading-lg {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(28px, 3.4vw, 40px);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
 }
 @utility heading {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(24px, 2.6vw, 32px);
-  line-height: 1.19;
-  letter-spacing: -0.01em;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.012em;
 }
 @utility heading-sm {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: 24px;
-  line-height: 1.17;
+  font-size: 1.5rem;
+  line-height: 1.2;
   letter-spacing: -0.01em;
 }
 @utility subheading {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: 18px;
-  line-height: 1.33;
+  font-size: 1.125rem;
+  line-height: 1.4;
+  letter-spacing: -0.003em;
 }
 @utility micro-label {
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   line-height: 1.5;
-  letter-spacing: 0.015em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -126,7 +139,7 @@ body {
   padding: 10px 24px;
   border-radius: 9999px;
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1.2;
   white-space: nowrap;
@@ -134,30 +147,40 @@ body {
     background-color 160ms var(--ease-settle),
     color 160ms var(--ease-settle),
     opacity 160ms var(--ease-settle),
-    border-color 160ms var(--ease-settle);
+    border-color 160ms var(--ease-settle),
+    transform 100ms var(--ease-press);
+  &:active {
+    transform: scale(0.97);
+  }
 }
 @utility pill-light {
   background: var(--color-bone);
   color: var(--color-ink);
   border: 2px solid var(--color-ink);
-  &:hover {
-    background: var(--color-mist);
+  @media (hover: hover) {
+    &:hover {
+      background: var(--color-mist);
+    }
   }
 }
 @utility pill-dark {
   background: var(--color-ink);
   color: var(--color-bone);
   border: 2px solid var(--color-ink);
-  &:hover {
-    background: var(--color-pure-black);
+  @media (hover: hover) {
+    &:hover {
+      background: var(--color-pure-black);
+    }
   }
 }
 @utility pill-ghost {
   background: rgb(255 255 255 / 0.1);
   color: var(--color-bone);
   border: 1px solid var(--color-bone);
-  &:hover {
-    background: rgb(255 255 255 / 0.2);
+  @media (hover: hover) {
+    &:hover {
+      background: rgb(255 255 255 / 0.2);
+    }
   }
 }
 
@@ -237,10 +260,84 @@ html.lenis body {
   overflow: hidden;
 }
 
-/* Pill press feedback: a small give under the finger or cursor. */
-.pill:active {
-  transform: scale(0.97);
+/* Press feedback for surfaces that are links (cards, menu rows): a slight give the moment the pointer
+   goes down, and a quick release. Pills carry the same rule inside their utility. */
+@utility press {
+  transition-property: background-color, border-color, color, transform;
+  transition-duration: 300ms, 300ms, 300ms, 100ms;
+  transition-timing-function: var(--ease-settle), var(--ease-settle), var(--ease-settle), var(--ease-press);
+  &:active {
+    transform: scale(0.985);
+  }
 }
-.pill {
-  transition-property: background-color, color, opacity, border-color, transform;
+
+/* Materials. Chrome floats as a translucent layer over the page instead of an opaque strip; the heavy
+   dark material marks structure (the header), the light one marks something to act on (the platform menu).
+   Opacity is set so text holds AA even with plain white behind the blur. */
+/* The dark material sits on a ::before layer: a backdrop-filter on the element itself would make it a
+   backdrop root, and a light popover inside it could then only blur the header, not the page below. */
+@utility material-dark {
+  isolation: isolate;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgb(31 31 31 / 0.8);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+  }
+}
+@utility material-light {
+  background: rgb(255 255 255 / 0.86);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  backdrop-filter: blur(30px) saturate(180%);
+  /* A bright inner top edge reads as light catching the material. */
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 24px 48px -24px rgb(0 0 0 / 0.35),
+    0 2px 8px rgb(0 0 0 / 0.06);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .material-dark::before {
+    background: var(--color-ink);
+  }
+  .material-light {
+    background: var(--color-bone);
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .material-dark::before {
+    background: var(--color-ink);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .material-light {
+    background: var(--color-bone);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+@media (prefers-contrast: more) {
+  .material-dark::before {
+    background: var(--color-pure-black);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-bottom: 1px solid var(--color-bone);
+  }
+  .material-light {
+    background: var(--color-bone);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-color: var(--color-ink);
+  }
+}
+
+/* Reduced motion keeps the feedback but drops the movement: a press dims instead of shrinking. */
+@media (prefers-reduced-motion: reduce) {
+  .pill:active,
+  .press:active {
+    transform: none;
+    opacity: 0.8;
+  }
 }
