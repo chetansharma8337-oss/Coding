@@ -2,22 +2,25 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { Fragment } from "react";
-import { spring } from "@/lib/springs";
+import { fade, spring } from "@/lib/springs";
 
 type Part = { text: string; className?: string };
 
-// Headlines rise word by word from behind a mask as they enter the viewport: the signature move of the
-// reference style, used on section headlines only so body copy stays still and readable.
+// Headlines rise word by word from behind a mask as they enter the viewport, once, on the base curve.
+// Used on section headlines only, so body copy stays still and readable. The words are hidden from assistive
+// technology and the sentence is given once as screen reader text.
 export function WordReveal({
   parts,
   as: Tag = "h2",
   className = "",
   delay = 0,
+  id,
 }: {
   parts: string | Part[];
   as?: "h1" | "h2" | "h3" | "p";
   className?: string;
   delay?: number;
+  id?: string;
 }) {
   const reduce = useReducedMotion();
   const list: Part[] = typeof parts === "string" ? [{ text: parts }] : parts;
@@ -25,7 +28,8 @@ export function WordReveal({
   const label = list.map((p) => p.text).join(" ");
 
   return (
-    <Tag className={className} aria-label={label}>
+    <Tag id={id} className={className}>
+      <span className="sr-only">{label}</span>
       <motion.span
         className="block"
         aria-hidden="true"
@@ -39,10 +43,11 @@ export function WordReveal({
             <span className={`-mb-[0.1em] inline-block overflow-hidden pb-[0.1em] align-top ${c ?? ""}`}>
               <motion.span
                 className="inline-block whitespace-nowrap"
-                variants={{
-                  hidden: { y: "110%" },
-                  show: { y: "0%", transition: reduce ? { duration: 0 } : spring.reveal },
-                }}
+                variants={
+                  reduce
+                    ? { hidden: { opacity: 0 }, show: { opacity: 1, transition: fade } }
+                    : { hidden: { y: "110%" }, show: { y: "0%", transition: spring.reveal } }
+                }
               >
                 {w}
               </motion.span>

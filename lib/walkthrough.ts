@@ -42,3 +42,9 @@ export function validateWalkthrough(input: Partial<Record<keyof WalkthroughReque
   if (data.notes.length > 2000) errors.notes = "Keep notes under 2,000 characters.";
   return Object.keys(errors).length ? { errors } : { data, errors };
 }
+
+export const callAgenda = [
+  "We map the tools you run today to the ASH-V modules they overlap with.",
+  "We walk one real exposure type from your environment through the queue, the fix and the evidence.",
+  "You leave with a written summary of what a pilot would cover.",
+];

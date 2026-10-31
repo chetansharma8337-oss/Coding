@@ -22,15 +22,15 @@ function Card({
     <div className="pin-sticky sticky" style={{ top: `calc(var(--header-h) + 32px + ${i * 22}px)` }}>
       <motion.article
         style={{ scale }}
-        className="origin-top grid min-h-[300px] gap-6 rounded-[22.5px] border border-ash-grey bg-mist p-8 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:gap-10 sm:p-12"
+        className="origin-top grid min-h-[300px] gap-6 rounded-3xl border border-ash-grey bg-mist p-8 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:gap-10 sm:p-12"
       >
         <div>
-          <span className="micro-label text-slate">
+          <span className="caption-3 text-slate">
             {String(i + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
           </span>
-          <h3 className="heading mt-4">{item.title}</h3>
+          <h3 className="heading-5 sm:heading-4 mt-4">{item.title}</h3>
         </div>
-        <p className="self-end text-[1.125rem] leading-[1.6] text-graphite">{item.body}</p>
+        <p className="self-end body-7 text-graphite">{item.body}</p>
       </motion.article>
     </div>
   );

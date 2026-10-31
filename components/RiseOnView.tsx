@@ -3,30 +3,34 @@
 import { motion, useReducedMotion } from "motion/react";
 import { fade, spring } from "@/lib/springs";
 
-// For a block that should arrive rather than appear: it rises into place once, as it enters the viewport.
+// B7 scroll reveal: rises 32px and fades in over 700ms on the base curve, once. Whileinview uses
+// IntersectionObserver under the hood, so nothing runs on every scroll frame.
 export function RiseOnView({
   children,
   className,
   delay = 0,
   navTone,
+  as = "div",
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
   /** Marks a light or dark surface for the glass header (see SiteHeader). */
   navTone?: "light" | "dark";
+  as?: "div" | "li" | "section" | "article";
 }) {
   const reduce = useReducedMotion();
+  const Tag = motion[as];
   return (
-    <motion.div
+    <Tag
       className={className}
       data-nav-tone={navTone}
-      initial={reduce ? { opacity: 0 } : { opacity: 0.3, y: 80 }}
+      initial={reduce ? { opacity: 0 } : { opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
       transition={reduce ? fade : { ...spring.reveal, delay }}
     >
       {children}
-    </motion.div>
+    </Tag>
   );
 }

@@ -1,43 +1,44 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "motion/react";
-import { useRef } from "react";
+import { useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
+import { useRef, useState } from "react";
 
-// The muted slate section header from DESIGN.md, read at the reader's pace: words darken to ink as the
-// paragraph scrolls through the viewport. Both ends of the transition pass AA (slate 4.87:1, ink 16.5:1).
-function Word({
-  word,
-  progress,
-  range,
-  still,
+// B11 tagline reveal. Words start at 30% of the text colour and light up one at a time, in reading order,
+// as they cross a trigger line in the viewport. Each word eases in on the base curve; once lit, a word stays
+// lit. Scroll progress comes from Motion's useScroll, which batches reads to one per animation frame.
+export function InkParagraph({
+  text,
+  className = "",
+  as: Tag = "p",
 }: {
-  word: string;
-  progress: MotionValue<number>;
-  range: [number, number];
-  still: boolean;
+  text: string;
+  className?: string;
+  as?: "p" | "h2";
 }) {
-  const color = useTransform(progress, range, ["#717173", "#1f1f1f"]);
-  return <motion.span style={{ color: still ? "#1f1f1f" : color }}>{word} </motion.span>;
-}
-
-export function InkParagraph({ text, className }: { text: string; className?: string }) {
   const ref = useRef<HTMLParagraphElement>(null);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 85%", "end 45%"] });
   const words = text.split(" ");
+  const [lit, setLit] = useState(0);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 80%", "end 50%"] });
 
-  // Same markup either way so server and client render identically; reduced motion just pins the colour.
+  useMotionValueEvent(scrollYProgress, "change", (p) => {
+    const next = Math.min(words.length, Math.floor(p * (words.length + 1)));
+    setLit((cur) => (next > cur ? next : cur));
+  });
+
   return (
-    <p ref={ref} className={className}>
+    <Tag ref={ref} className={`max-w-[680px] ${className}`}>
+      <span className="sr-only">{text}</span>
       {words.map((w, i) => (
-        <Word
+        <span
           key={i}
-          word={w}
-          progress={scrollYProgress}
-          range={[i / words.length, (i + 1) / words.length]}
-          still={!!reduce}
-        />
+          aria-hidden="true"
+          className="transition-opacity duration-500 ease-[var(--ease-settle)]"
+          style={{ opacity: reduce || i < lit ? 1 : 0.3 }}
+        >
+          {w}{" "}
+        </span>
       ))}
-    </p>
+    </Tag>
   );
 }

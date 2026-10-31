@@ -1,37 +1,35 @@
 @import "tailwindcss";
 
-/* Tokens from DESIGN.md. Aeonik Pro is commercial, so DM Sans (the substitute DESIGN.md names)
-   carries display at weight 500; Inter carries UI at 16px and below. */
+/* Visual system: .claude/skills/landing-page-design (Part B).
+   One typeface (Geist), with Geist Mono only for identifiers people copy: hostnames, CVE IDs, control IDs.
+   Every font size resolves to a Tailwind scale step through the named text styles below; spacing uses the
+   skill's token steps (Tailwind 0.5, 1, 2, 3, 4, 6, 8, 10, 12, 16, 20, 24); radii use Tailwind's own values. */
 @theme {
   --color-ink: #1f1f1f;
+  --color-night: #181818;
+  --color-raised: #272727;
   --color-pure-black: #000000;
   --color-bone: #ffffff;
   --color-ash-grey: #c9c9cd;
   --color-mist: #f7f7f7;
   --color-slate: #717173;
   --color-graphite: #4c4c4c;
+  --color-cobalt: #1227fd;
 
-  --font-display: "DM Sans Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
 
-  --radius-card: 22.5px;
-  --radius-list: 20px;
-  --radius-control: 12px;
-
+  /* B7 base curve. Layout and position: 500ms. Hover colour and opacity: 300ms. */
   --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
-  /* Press feedback: fast out, so the give is felt on pointer-down rather than watched. */
-  --ease-press: cubic-bezier(0.2, 0, 0, 1);
 }
 
 :root {
-  /* Light stop deepened from #6fa0ff to #3a63e8 so white promo text holds 5.08:1 across the bar. */
-  --gradient-cobalt-wash: linear-gradient(to right, #1227fd, #3a63e8);
-  --header-h: 64px;
+  /* The header floats 12px below the top edge as a 56px bar, with 12px of air beneath it. */
+  --header-h: 80px;
   color-scheme: light;
 }
 
 html {
-  /* Text sizes are in rem so the page follows the visitor's browser text size, like Dynamic Type. */
   font-size: 100%;
   scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
@@ -43,12 +41,18 @@ body {
   background: var(--color-bone);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-size: 1rem;
-  line-height: 1.5;
-  letter-spacing: 0;
-  font-optical-sizing: auto;
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* B1: no orphaned words. */
+:where(h1, h2, h3, h4, h5, h6, blockquote, figcaption) {
+  text-wrap: balance;
+}
+:where(p, li, dd, dt, label, td) {
+  text-wrap: pretty;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -57,62 +61,194 @@ body {
   }
 }
 
-/* No double-tap zoom wait on controls, so a tap commits as soon as the finger lifts. */
 :where(a, button, label, summary, input, select, textarea) {
   touch-action: manipulation;
 }
 
-/* Display scale. Tracking is set per size: the larger the type, the tighter it runs, and leading closes up
-   as size grows. DM Sans and Inter load their optical-size axis, so letterforms also adjust to their size. */
-@utility display-xl {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(2.75rem, 7.4vw, 5.5rem);
-  line-height: 1;
+/* ---------- B1 text styles. Use these names, never a loose size and weight. ---------- */
+@utility heading-1 {
+  font-size: var(--text-6xl);
+  line-height: var(--text-6xl--line-height);
+  font-weight: 600;
+  letter-spacing: -0.032em;
+}
+@utility heading-2 {
+  font-size: var(--text-5xl);
+  line-height: var(--text-5xl--line-height);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+@utility heading-3 {
+  font-size: var(--text-4xl);
+  line-height: var(--text-4xl--line-height);
+  font-weight: 600;
   letter-spacing: -0.026em;
 }
-@utility display {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(2.125rem, 4.6vw, 3.25rem);
-  line-height: 1.05;
+@utility heading-4 {
+  font-size: var(--text-3xl);
+  line-height: var(--text-3xl--line-height);
+  font-weight: 600;
+  letter-spacing: -0.022em;
+}
+@utility heading-5 {
+  font-size: var(--text-2xl);
+  line-height: var(--text-2xl--line-height);
+  font-weight: 600;
   letter-spacing: -0.018em;
 }
-@utility heading-lg {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(1.75rem, 3.4vw, 2.5rem);
-  line-height: 1.1;
-  letter-spacing: -0.015em;
-}
-@utility heading {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(1.5rem, 2.6vw, 2rem);
-  line-height: 1.15;
+@utility heading-6 {
+  font-size: var(--text-xl);
+  line-height: var(--text-xl--line-height);
+  font-weight: 600;
   letter-spacing: -0.012em;
 }
-@utility heading-sm {
-  font-family: var(--font-display);
+@utility title-1 {
+  font-size: var(--text-xl);
+  line-height: var(--text-xl--line-height);
   font-weight: 500;
-  font-size: 1.5rem;
-  line-height: 1.2;
   letter-spacing: -0.01em;
 }
-@utility subheading {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 1.125rem;
-  line-height: 1.4;
-  letter-spacing: -0.003em;
+@utility title-2 {
+  font-size: var(--text-lg);
+  line-height: var(--text-lg--line-height);
+  font-weight: 500;
+  letter-spacing: -0.006em;
 }
-@utility micro-label {
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
+@utility title-3 {
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  font-weight: 500;
+}
+@utility title-4 {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: 500;
+}
+@utility title-5 {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  font-weight: 500;
+}
+@utility body-1 {
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
   font-weight: 600;
-  line-height: 1.5;
-  letter-spacing: 0.04em;
+}
+@utility body-2 {
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  font-weight: 500;
+}
+@utility body-3 {
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  font-weight: 400;
+}
+@utility body-4 {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: 600;
+}
+@utility body-5 {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: 500;
+}
+@utility body-6 {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: 400;
+}
+/* Body 7: the lead paragraph under a section heading. Built from the text-lg step, regular weight. */
+@utility body-7 {
+  font-size: var(--text-lg);
+  line-height: var(--text-lg--line-height);
+  font-weight: 400;
+}
+/* Body 8: the hero subheading. Built from the text-xl step, regular weight. */
+@utility body-8 {
+  font-size: var(--text-xl);
+  line-height: var(--text-xl--line-height);
+  font-weight: 400;
+}
+@utility button-lg {
+  font-size: var(--text-lg);
+  line-height: var(--text-lg--line-height);
+  font-weight: 600;
+}
+@utility button-md {
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  font-weight: 600;
+}
+@utility button-sm {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: 600;
+}
+@utility button-xsm {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  font-weight: 600;
+}
+@utility caption-1 {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: 500;
+}
+@utility caption-2 {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: 400;
+}
+@utility caption-3 {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+@utility caption-4 {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  font-weight: 500;
+}
+@utility caption-5 {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  font-weight: 400;
+}
+
+/* Caption 6: small labels and tags. Built from the text-xs step, semibold, no transform. */
+@utility caption-6 {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  font-weight: 600;
+}
+
+/* B5: hero heading colour. The only gradients on the site, and only ever on text. Each hero line is a
+   block the full width of the heading, so every line shares one left to right sweep. */
+@utility text-sheen-dark {
+  background-image: linear-gradient(to right, #ffffff, #9b9b9b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@utility text-sheen-light {
+  background-image: linear-gradient(to right, #000000, #666666);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@media (prefers-contrast: more) {
+  .text-sheen-dark {
+    background: none;
+    color: var(--color-bone);
+  }
+  .text-sheen-light {
+    background: none;
+    color: var(--color-pure-black);
+  }
 }
 
 @utility page-x {
@@ -128,71 +264,117 @@ body {
   }
 }
 
-/* Pill buttons: the four variants DESIGN.md defines. Pills are reserved for controls and tags;
-   cards stay at 22.5px and lists at 20px so radius still separates "control" from "surface". */
-@utility pill {
+/* ---------- Buttons. B2: 8px vertical and 12px horizontal padding; 44px tall for touch. ---------- */
+@utility btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   min-height: 44px;
-  padding: 10px 24px;
-  border-radius: 9999px;
-  font-family: var(--font-sans);
-  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: var(--radius-xl);
+  border: 1px solid transparent;
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
   font-weight: 600;
-  line-height: 1.2;
   white-space: nowrap;
   transition:
-    background-color 160ms var(--ease-settle),
-    color 160ms var(--ease-settle),
-    opacity 160ms var(--ease-settle),
-    border-color 160ms var(--ease-settle),
-    transform 100ms var(--ease-press);
-  &:active {
-    transform: scale(0.97);
-  }
-}
-@utility pill-light {
-  background: var(--color-bone);
-  color: var(--color-ink);
-  border: 2px solid var(--color-ink);
+    background-color 300ms var(--ease-settle),
+    color 300ms var(--ease-settle),
+    border-color 300ms var(--ease-settle),
+    opacity 300ms var(--ease-settle),
+    transform 200ms var(--ease-settle);
   @media (hover: hover) {
     &:hover {
-      background: var(--color-mist);
+      transform: translateY(-1px);
     }
   }
+  &:active {
+    transform: scale(0.98);
+  }
 }
-@utility pill-dark {
+@utility btn-sm {
+  min-height: 40px;
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+}
+/* Dark fill: the primary action on light surfaces. */
+@utility btn-dark {
   background: var(--color-ink);
   color: var(--color-bone);
-  border: 2px solid var(--color-ink);
+  border-color: var(--color-ink);
   @media (hover: hover) {
     &:hover {
       background: var(--color-pure-black);
     }
   }
 }
-@utility pill-ghost {
-  background: rgb(255 255 255 / 0.1);
-  color: var(--color-bone);
-  border: 1px solid var(--color-bone);
+/* White fill: the primary action on dark surfaces and photographs. */
+@utility btn-light {
+  background: var(--color-bone);
+  color: var(--color-ink);
+  border-color: var(--color-bone);
   @media (hover: hover) {
     &:hover {
-      background: rgb(255 255 255 / 0.2);
+      background: var(--color-mist);
+    }
+  }
+}
+/* Outline on light surfaces. */
+@utility btn-outline {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-ash-grey);
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--color-ink);
+      background: var(--color-mist);
+    }
+  }
+}
+/* Outline on dark surfaces and photographs. */
+@utility btn-ghost {
+  background: rgb(255 255 255 / 0.08);
+  color: var(--color-bone);
+  border-color: rgb(255 255 255 / 0.5);
+  @media (hover: hover) {
+    &:hover {
+      background: rgb(255 255 255 / 0.16);
+      border-color: var(--color-bone);
     }
   }
 }
 
-/* Focus: a two-ring indicator (ink + white) so it holds 3:1 on white, mist, ink and sky surfaces alike. */
+/* Text link with an arrow that moves on hover. */
+@utility link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-weight: 600;
+  & svg {
+    transition: transform 300ms var(--ease-settle);
+  }
+  @media (hover: hover) {
+    &:hover svg {
+      transform: translateX(4px);
+    }
+  }
+}
+
+/* Focus: two rings (ink and white) so the indicator holds 3:1 on white, mist, ink and photographs alike. */
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
   outline: 2px solid var(--color-ink);
   outline-offset: 2px;
   box-shadow: 0 0 0 5px var(--color-bone);
 }
-.on-dark :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+.on-dark :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
   outline-color: var(--color-bone);
   box-shadow: 0 0 0 5px var(--color-ink);
+}
+.on-dark .on-light :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline-color: var(--color-ink);
+  box-shadow: 0 0 0 5px var(--color-bone);
 }
 
 .skip-link {
@@ -203,10 +385,6 @@ body {
 }
 .skip-link:focus {
   top: 12px;
-}
-.on-dark .on-light :where(a, button, input, select, textarea, [tabindex]):focus-visible {
-  outline-color: var(--color-ink);
-  box-shadow: 0 0 0 5px var(--color-bone);
 }
 
 /* Pinned scroll sections. Under reduced motion they unpin and lay out as ordinary stacked content;
@@ -260,78 +438,94 @@ html.lenis body {
   overflow: hidden;
 }
 
-/* Press feedback for surfaces that are links (cards, menu rows): a slight give the moment the pointer
-   goes down, and a quick release. Pills carry the same rule inside their utility. */
+/* Surfaces that are links (cards, menu rows): hover shifts the surface, a press gives slightly. */
 @utility press {
   transition-property: background-color, border-color, color, transform;
-  transition-duration: 300ms, 300ms, 300ms, 100ms;
-  transition-timing-function: var(--ease-settle), var(--ease-settle), var(--ease-settle), var(--ease-press);
+  transition-duration: 300ms, 300ms, 300ms, 200ms;
+  transition-timing-function: var(--ease-settle);
   &:active {
-    transform: scale(0.985);
+    transform: scale(0.98);
+  }
+}
+@utility lift {
+  transition-property: background-color, border-color, color, transform;
+  transition-duration: 300ms, 300ms, 300ms, 500ms;
+  transition-timing-function: var(--ease-settle);
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-4px);
+    }
+  }
+  &:active {
+    transform: scale(0.98);
   }
 }
 
-/* Materials. Chrome floats as glass over the page instead of an opaque strip.
-   - .nav-glass: the header. Its tone follows what is underneath (see SiteHeader): clear glass with white ink
-     over dark imagery and dark bands, bright glass with dark ink over the white page. Both crossfade.
-     The glass sits on a ::before layer: a backdrop-filter on the header itself would make it a backdrop root,
-     and the platform menu inside it could then only blur the header, not the page below.
-   - .material-light: the platform menu, something to act on.
-   - .material-sheet: the full-height mobile menu, frosted enough to read as its own surface.
-   Opacity is set so text holds AA even where the content behind is the worst case for that tone. */
+/* ---------- Materials ----------
+   .nav-glass: the floating header bar. Its tone follows what is underneath (see SiteHeader): clear glass with
+   white ink over photographs and dark bands, bright glass with dark ink over the white page.
+   .material-light: the dropdown menus. .material-sheet: the full height mobile menu. */
 .nav-glass {
   isolation: isolate;
   color: var(--color-ink);
-  transition: color 400ms var(--ease-settle);
+  transition: color 300ms var(--ease-settle);
   &::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: rgb(255 255 255 / 0.72);
-    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.08);
+    border-radius: inherit;
+    background: rgb(255 255 255 / 0.78);
+    box-shadow:
+      inset 0 0 0 1px rgb(0 0 0 / 0.08),
+      0 8px 32px -12px rgb(0 0 0 / 0.18);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     backdrop-filter: blur(20px) saturate(180%);
     transition:
-      background-color 400ms var(--ease-settle),
-      box-shadow 400ms var(--ease-settle);
+      background-color 300ms var(--ease-settle),
+      box-shadow 300ms var(--ease-settle);
   }
   &[data-tone="dark"] {
     color: var(--color-bone);
   }
   &[data-tone="dark"]::before {
-    background: rgb(255 255 255 / 0.07);
-    box-shadow: inset 0 -1px 0 rgb(255 255 255 / 0.14);
+    background: rgb(24 24 24 / 0.42);
+    box-shadow:
+      inset 0 0 0 1px rgb(255 255 255 / 0.16),
+      0 8px 32px -12px rgb(0 0 0 / 0.4);
   }
 }
 .nav-link {
-  opacity: 0.78;
-  transition: opacity 200ms var(--ease-settle);
+  opacity: 0.8;
+  transition:
+    opacity 300ms var(--ease-settle),
+    background-color 300ms var(--ease-settle);
   @media (hover: hover) {
     &:hover {
       opacity: 1;
     }
   }
-  &:active {
-    opacity: 0.5;
-    transition-duration: 0ms;
+  &[aria-current="page"] {
+    opacity: 1;
+    background: rgb(0 0 0 / 0.06);
   }
 }
+[data-tone="dark"] .nav-link[aria-current="page"] {
+  background: rgb(255 255 255 / 0.14);
+}
 @utility material-light {
-  background: rgb(255 255 255 / 0.86);
+  background: rgb(255 255 255 / 0.9);
   -webkit-backdrop-filter: blur(30px) saturate(180%);
   backdrop-filter: blur(30px) saturate(180%);
-  /* A bright inner top edge reads as light catching the material. */
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.9),
     0 24px 48px -24px rgb(0 0 0 / 0.35),
     0 2px 8px rgb(0 0 0 / 0.06);
 }
 @utility material-sheet {
-  background: rgb(250 250 252 / 0.9);
-  -webkit-backdrop-filter: blur(30px) saturate(180%);
-  backdrop-filter: blur(30px) saturate(180%);
-  box-shadow: inset 0 1px 0 rgb(0 0 0 / 0.06);
+  background: rgb(255 255 255 / 0.94);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px) saturate(180%);
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .nav-glass::before,
@@ -343,46 +537,120 @@ html.lenis body {
     background: var(--color-ink);
   }
 }
-@media (prefers-reduced-transparency: reduce) {
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
   .nav-glass::before,
   .material-light,
   .material-sheet {
     background: var(--color-bone);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-  }
-  .nav-glass[data-tone="dark"]::before {
-    background: var(--color-ink);
-  }
-}
-@media (prefers-contrast: more) {
-  .nav-glass::before,
-  .material-light,
-  .material-sheet {
-    background: var(--color-bone);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-  .nav-glass::before {
-    box-shadow: inset 0 -1px 0 var(--color-ink);
   }
   .nav-glass[data-tone="dark"]::before {
     background: var(--color-pure-black);
-    box-shadow: inset 0 -1px 0 var(--color-bone);
   }
   .nav-link {
     opacity: 1;
   }
-  .material-light {
-    border-color: var(--color-ink);
+}
+
+/* B7 reduced motion: movement becomes a plain opacity change. */
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover,
+  .btn:active,
+  .press:active,
+  .lift:hover,
+  .lift:active {
+    transform: none;
+  }
+  .btn:active,
+  .press:active,
+  .lift:active {
+    opacity: 0.8;
   }
 }
 
-/* Reduced motion keeps the feedback but drops the movement: a press dims instead of shrinking. */
+/* Long-form article body (resources). */
+.prose-ash {
+  color: var(--color-graphite);
+  & > * + * {
+    margin-top: 24px;
+  }
+  & h2 {
+    color: var(--color-ink);
+    margin-top: 48px;
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl--line-height);
+    font-weight: 600;
+    letter-spacing: -0.018em;
+  }
+  & h3 {
+    color: var(--color-ink);
+    margin-top: 32px;
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+    font-weight: 600;
+  }
+  & p,
+  & li {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+  }
+  & ul,
+  & ol {
+    padding-left: 24px;
+  }
+  & ul {
+    list-style: disc;
+  }
+  & ol {
+    list-style: decimal;
+  }
+  & li + li {
+    margin-top: 8px;
+  }
+  & strong {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  & a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--color-ash-grey);
+    transition: text-decoration-color 300ms var(--ease-settle);
+  }
+  & a:hover {
+    text-decoration-color: var(--color-ink);
+  }
+  & code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+}
+
+/* FAQ answers rise and fade in when their <details> opens. */
+.faq[open] .faq-answer {
+  animation: faq-in 500ms var(--ease-settle);
+}
+@keyframes faq-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
-  .pill:active,
-  .press:active {
-    transform: none;
-    opacity: 0.8;
+  .faq[open] .faq-answer {
+    animation: faq-fade 300ms var(--ease-settle);
+  }
+}
+@keyframes faq-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (hover: hover) {
+  .group:hover .link-arrow svg {
+    transform: translateX(4px);
   }
 }

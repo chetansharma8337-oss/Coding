@@ -33,7 +33,7 @@ export const modules: PlatformModule[] = [
     covers: [
       {
         title: "Discovery across sources",
-        body: "Cloud accounts, on-premises networks, endpoints, identities and SaaS applications feed the same inventory.",
+        body: "Cloud accounts, on premises networks, endpoints, identities and SaaS applications feed the same inventory.",
       },
       {
         title: "One record per asset",
@@ -68,19 +68,19 @@ export const modules: PlatformModule[] = [
       },
       {
         title: "Reachability",
-        body: "Separates internet-facing and internally reachable exposures from ones that sit behind compensating controls.",
+        body: "Separates internet facing and internally reachable exposures from ones that sit behind compensating controls.",
       },
       {
-        title: "Business-weighted ranking",
+        title: "Ranking weighted by the business",
         body: "Uses asset criticality from Asset Intelligence so a finding on a payment system outranks the same finding on a test box.",
       },
       {
         title: "Misconfigurations and identity exposure",
-        body: "Tracks exposures that are not CVEs, such as open management ports or over-privileged accounts, in the same queue.",
+        body: "Tracks exposures that are not CVEs, such as open management ports or accounts with too much privilege, in the same queue.",
       },
     ],
     handsTo: [
-      { slug: "automated-penetration-testing", what: "high-ranked exposures to validate" },
+      { slug: "automated-penetration-testing", what: "the highest ranked exposures to validate" },
       { slug: "vulnerability-patch-management", what: "a ranked queue to remediate" },
     ],
   },
@@ -98,7 +98,7 @@ export const modules: PlatformModule[] = [
         body: "Findings go to the owning team from Asset Intelligence, with due dates set by your remediation policy.",
       },
       {
-        title: "Ring-based rollouts",
+        title: "Rollouts in rings",
         body: "Deploy patches to a pilot group first, then widen in stages, pausing a ring when something breaks.",
       },
       {
@@ -199,7 +199,7 @@ export const modules: PlatformModule[] = [
         body: "Record risks, link them to the assets and controls involved, and track treatment decisions.",
       },
       {
-        title: "Audit-ready views",
+        title: "Views ready for the auditor",
         body: "Show an auditor each control, its owner, its evidence and when it was last tested.",
       },
     ],

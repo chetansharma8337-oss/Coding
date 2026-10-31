@@ -26,15 +26,15 @@ function Step({ mod, index, active, onActive }: { mod: PlatformModule; index: nu
       <div className={`transition-colors duration-500 ${active ? "text-ink" : "lg:text-slate"}`}>
         <div className="flex items-center gap-3">
           <ModuleIcon slug={mod.slug} className="size-6" />
-          <span className="micro-label">
+          <span className="caption-3">
             {String(index + 1).padStart(2, "0")} / {String(modules.length).padStart(2, "0")}
           </span>
         </div>
-        <h3 className="heading-lg mt-4 max-w-[16ch]">{mod.name}</h3>
-        <p className={`mt-4 max-w-[44ch] text-[1.0625rem] leading-[1.6] transition-colors duration-500 ${active ? "text-graphite" : "text-graphite lg:text-slate"}`}>
+        <h3 className="heading-4 lg:heading-3 mt-4 max-w-[16ch]">{mod.name}</h3>
+        <p className={`mt-4 max-w-[44ch] body-3 transition-colors duration-500 ${active ? "text-graphite" : "text-graphite lg:text-slate"}`}>
           {mod.intro}
         </p>
-        <Link href={`/platform/${mod.slug}`} className="pill pill-light mt-6">
+        <Link href={`/platform/${mod.slug}`} className="btn btn-outline mt-6">
           Read about {mod.short}
         </Link>
       </div>
@@ -75,7 +75,7 @@ export function PlatformTour() {
       <div className="hidden lg:col-span-7 lg:block">
         <div className="sticky top-[var(--header-h)] flex h-[calc(100svh-var(--header-h))] flex-col justify-center gap-3">
           {/* Progress you can act on: each segment takes you to its module, so the bar is also a way to navigate. */}
-          <ol className="flex gap-1.5" aria-label="Modules">
+          <ol className="flex gap-2" aria-label="Modules">
             {modules.map((m, i) => (
               <li key={m.slug} className="flex-1">
                 <button

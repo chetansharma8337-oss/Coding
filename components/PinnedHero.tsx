@@ -18,10 +18,9 @@ export function PinnedHero({
   frame,
   caption,
   position = "50% 100%",
-  // Weighted to the top and left, where the headline and copy sit. A pure white pixel needs about 56% of this
-  // navy over it for white type to hold 4.5:1, so the text band never drops below that; the lower part of the
-  // photo, where the product screen rises, stays brighter.
-  scrim = "linear-gradient(to right, rgb(6 10 24 / 0.4), rgb(6 10 24 / 0) 75%), linear-gradient(to bottom, rgb(6 10 24 / 0.62), rgb(6 10 24 / 0.58) 70%, rgb(6 10 24 / 0.3) 100%)",
+  // A flat black layer (B4: no background gradients). At 70%, even a pure white pixel behind the heading leaves
+  // the grey end of the heading gradient (#9b9b9b) at 3:1 or better, and white body copy above 7:1.
+  scrim = "rgb(0 0 0 / 0.7)",
 }: {
   src: string;
   /** CSS object-position for the photo. */
@@ -77,9 +76,9 @@ export function PinnedHero({
           <div className="page-x">
             <div className="mx-auto max-w-[1000px]">{frame}</div>
             {caption ? (
-              <motion.div className="mt-5 hidden justify-center sm:flex" style={{ opacity: captionOpacity, y: captionY }}>
+              <motion.div className="mt-6 hidden justify-center sm:flex" style={{ opacity: captionOpacity, y: captionY }}>
                 {/* Dark glass chip: keeps the caption at AA wherever it lands on the sky, cloud included. */}
-                <p className="rounded-full bg-ink/80 px-5 py-2.5 text-center text-[1rem] font-medium text-bone backdrop-blur-md">
+                <p className="rounded-full bg-ink/80 px-6 py-2 text-center body-2 text-bone backdrop-blur-md">
                   {caption}
                 </p>
               </motion.div>

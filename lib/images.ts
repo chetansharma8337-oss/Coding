@@ -19,3 +19,15 @@ export const moduleHero: Record<ModuleSlug, { src: string; position: string }> =
   "third-party-risk-management": { src: "/images/module-third-party.jpg", position: "50% 70%" }, // Unsplash photo-1486406146926-c627a92ad1ab, office towers
   grc: { src: "/images/module-grc.jpg", position: "50% 50%" }, // Unsplash photo-1450101499163-c8848c66ca85, signing documents
 };
+
+// Added for the solution, frameworks, resources, company and walkthrough pages (Pexels and Unsplash licences).
+export const pagePhotos = {
+  frameworks: { src: "/images/frameworks.jpg", position: "60% 70%" }, // Unsplash photo-1460574283810-2aab119d8511, stepped facade
+  resources: { src: "/images/resources.jpg", position: "60% 45%" }, // Pexels 8085264, studying in a library
+  company: { src: "/images/company.jpg", position: "40% 50%" }, // Pexels 7652180, team meeting
+  walkthrough: { src: "/images/walkthrough.jpg", position: "45% 40%" }, // Pexels 6775115, three people at a laptop
+  ogBase: "/images/og-base.jpg", // Pexels 17194838, fibre optic strands
+} as const;
+// Solution page photos, referenced from lib/solutions.ts:
+// solution-ciso.jpg Pexels 8730850 · solution-secops.jpg Pexels 7534101 · solution-itops.jpg Pexels 19226354 ·
+// solution-compliance.jpg Pexels 8297474

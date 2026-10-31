@@ -16,18 +16,18 @@ export function ProductFrame({
   elevated?: boolean;
 }) {
   return (
-    <figure
+    <figure data-nav-tone="light"
       className={`overflow-hidden bg-bone text-ink ${
-        flat ? "rounded-[22.5px] border border-ash-grey" : "rounded-t-[22.5px]"
+        flat ? "rounded-3xl border border-ash-grey" : "rounded-t-[22.5px]"
       } ${elevated ? "shadow-[0_60px_120px_-40px_rgb(0_0_0/0.7),0_24px_48px_-24px_rgb(0_0_0/0.45)]" : ""} ${className}`}
     >
       <div className="flex items-center justify-between gap-4 border-b border-ash-grey px-4 py-3 sm:px-6">
-        <span className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full bg-mist px-3 py-1 text-[0.8125rem] font-semibold">{label}</span>
-        <figcaption className="text-right text-[0.75rem] leading-tight text-slate">
+        <span className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full bg-mist px-3 py-1 caption-6">{label}</span>
+        <figcaption className="text-right caption-5  text-slate">
           Illustrative<span className="hidden sm:inline"> interface</span>, sample data
         </figcaption>
       </div>
-      <div className="px-4 py-4 sm:px-6 sm:py-5">{children}</div>
+      <div className="px-4 py-4 sm:px-6 sm:py-6">{children}</div>
     </figure>
   );
 }

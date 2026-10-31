@@ -1,6 +1,8 @@
 # ASH-V website
 
-Marketing site for ASH-V, built with Next.js 15 (App Router), Tailwind CSS 4 and Motion. The visual system follows the supplied `DESIGN.md`: monochrome surfaces, pill controls, technology photography and a single cobalt gradient reserved for the top promo bar.
+Marketing site for ASH-V, built with Next.js 15 (App Router), Tailwind CSS 4 and Motion. The visual system follows the
+landing-page-design skill in `.claude/skills/landing-page-design` (from elayadesign/ai-design-skills, MIT), with the
+Apple design skill (`.claude/skills/apple-design`) informing materials and gestures.
 
 ## Run it
 
@@ -10,37 +12,81 @@ npm run dev     # http://localhost:3000
 npm run build && npm start
 ```
 
+Set `NEXT_PUBLIC_SITE_URL` to the production origin before deploying, so canonical URLs, the sitemap and social previews
+use the real domain.
+
 ## Pages
 
-- `/`: hero, approach, module explorer, how a finding moves through the platform, walkthrough request form
-- `/platform/<module>`: one page per module (asset intelligence, threat exposure management, vulnerability and patch management, automated penetration testing, third-party risk management, GRC)
-- `/privacy`, `/terms`: **draft placeholders**, clearly marked on the page, to be replaced with legal-approved text
-- `/api/walkthrough`: validates form submissions server side
+| Route | What it is |
+| --- | --- |
+| `/` | Hero with proof line, problem and solution, benefits, module tour, how one finding moves, tagline reveal, teams, FAQ, walkthrough form |
+| `/platform` | Overview: the one record diagram, the six modules, and what each module hands to the next |
+| `/platform/<module>` | One page per module (six) |
+| `/solutions` | The four teams |
+| `/solutions/<team>` | CISOs, security operations, IT operations, GRC: problems, outcomes, questions answered, modules used |
+| `/frameworks` | ISO/IEC 27001:2022, NIST CSF 2.0, CIS Controls v8.1 and the CISA KEV catalog, with an example control mapping |
+| `/resources` | Guides hub |
+| `/resources/<guide>` | Three researched guides: the KEV catalog, CTEM, and mapping one control across frameworks |
+| `/company` | Beliefs, how ASH-V works with customers, how the site writes about the product |
+| `/walkthrough` | The primary conversion page: terms, agenda, form, FAQ |
+| `/privacy`, `/terms` | **Draft placeholders**, marked on the page |
+| `/api/walkthrough` | Validates form submissions server side |
+| `/sitemap.xml`, `/robots.txt`, `/opengraph-image` | Generated |
 
 ## Before launch
 
-- **Logo:** the header and footer use `public/brand/ash-v-mark.webp`, a cropped 240px export of the uploaded `ash-v-logo.png`; `app/icon.png` is the favicon made from it. Re-export both if the logo changes.
 - **Form delivery:** `app/api/walkthrough/route.ts` only logs requests. Connect it to the sales inbox or CRM (see the `TODO`).
-- **Copy review:** module descriptions in `lib/modules.ts` describe each module's scope. Product should confirm every item matches what ships.
-- **Product UI:** the interface panels in `components/previews/Previews.tsx` are coded stand-ins with sample hostnames, teams and vendors, labelled "Illustrative interface, sample data" on the page. The CVE IDs are real entries in the CISA KEV catalog. Swap in real screenshots when available.
-- **Photography:** eleven photos from Unsplash and Pexels, whose licences allow free commercial use without attribution. Each file and its source ID are listed in `lib/images.ts`. The home page uses a night view of Earth (hero), an engineer in a server room (photo band), a server rack (statement) and a team at a screen (walkthrough). Each module page has its own photo, and the "One finding" cards use a circuit board. To swap a photo, replace the file and keep its subject away from the top-left, where the headline sits.
-- **Legal pages:** replace the placeholder text in `app/privacy` and `app/terms`.
+- **Copy to confirm:** module scope in `lib/modules.ts`, team pages in `lib/solutions.ts`, and FAQ answers in `lib/faq.ts`
+  restate that scope. Two statements are new and need sign off: "the walkthrough costs nothing, with no commitment"
+  (`lib/faq.ts`, walkthrough page, final call to action) and the walkthrough, pilot, rollout sequence on `/company`.
+- **Proof:** the skill asks for testimonials, customer logos or numbers near the top. None were supplied and none were
+  invented. The hero proof line states what the product does (KEV ranking, framework mapping). Add real customer proof
+  when it is approved.
+- **Product UI:** the interface panels in `components/previews/Previews.tsx` are coded stand-ins with sample hostnames,
+  teams and vendors, labelled "Illustrative interface, sample data". The CVE IDs are real KEV entries.
+- **Legal pages:** replace the placeholder text in `app/privacy` and `app/terms`. If analytics or marketing cookies are
+  added later, add a consent banner where the jurisdiction requires one; the site sets no cookies today.
+- **Guides and frameworks facts:** checked against the publishers' pages in October 2026 and listed under each guide
+  (`lib/articles.tsx`) and framework (`lib/frameworks.ts`). Note that CISA revoked BOD 22-01 in June 2026 and replaced
+  it with BOD 26-04; the copy reflects that. Review the guides at least yearly.
+- **Logo:** header and footer use `public/brand/ash-v-mark.webp`; `ash-v-mark.png` is the same mark for the social preview
+  (the image renderer cannot read WebP); `app/icon.png` is the favicon.
 
-## Design decisions
+## Photography
 
-| Decision | Reason |
+All photos are from Pexels and Unsplash, whose licences allow free commercial use without attribution. Sources are
+listed in `lib/images.ts`. Photos sit under a flat black layer (70% on heroes) so white type holds contrast over the
+brightest pixel; to swap one, replace the file and keep the subject away from the left, where the headline sits.
+
+| File | Used on | Source |
+| --- | --- | --- |
+| `hero-earth.jpg` | Home hero | Unsplash photo-1451187580459-43490279c0fa |
+| `ops-server-room.jpg`, `statement-servers.jpg`, `team-screen.jpg`, `flow-circuit.jpg` | Home, platform, solutions index | See `lib/images.ts` |
+| `module-*.jpg` | Module pages, guide covers | See `lib/images.ts` |
+| `solution-ciso.jpg` | CISO page | Pexels 8730850 |
+| `solution-secops.jpg` | Security operations page | Pexels 7534101 |
+| `solution-itops.jpg` | IT operations page | Pexels 19226354 |
+| `solution-compliance.jpg` | GRC page | Pexels 8297474 |
+| `frameworks.jpg` | Frameworks page, guide cover | Unsplash photo-1460574283810-2aab119d8511 |
+| `resources.jpg` | Resources hub | Pexels 8085264 |
+| `company.jpg` | Company page | Pexels 7652180 |
+| `walkthrough.jpg` | Walkthrough page | Pexels 6775115 |
+| `og-base.jpg` | Social preview | Pexels 17194838 |
+
+## Design system
+
+| Rule (landing-page-design skill) | How it is applied |
 | --- | --- |
-| DM Sans 500 for display, Inter for UI | DESIGN.md names Aeonik Pro (commercial) and lists DM Sans as a substitute; Inter is specified for UI. |
-| Promo gradient ends at `#3a63e8`, not `#6fa0ff` | White text on `#6fa0ff` is 2.6:1; the deeper stop gives 5.08:1. Approved by the brand owner. |
-| Scrim over photos | A navy overlay weighted to the top and left keeps white type at 4.5:1 or better. Measured against the brightest 1% of pixels behind the text at 1440 and 390px: 5.6:1 or better on every hero, 5.9:1 on the statement and 7.2:1 on the photo band. |
-| Module explorer as tabs, not a card grid | The six modules are peers; showing each one's working surface says more than six identical icon cards. |
-| Hostnames in monospace | They are identifiers people copy and compare, not decoration. |
-| Custom 1.5px icons with square caps | DESIGN.md asks for monochrome line icons; drawing them keeps the set specific to ASH-V instead of a library default. |
-| State shown by text and border weight | DESIGN.md rules out color for state; it also keeps status readable for color-blind users. |
-| Light theme only | DESIGN.md defines a light system with dark bands for nav, conversion and footer; there is no dark-mode spec to honour. |
-| Motion | Follows the scroll-driven style of the DESIGN.md reference. The hero pins: the headline lifts away, the product screen rises to centre and the photo folds into a card. The platform tour pins a product screen that swaps as each module scrolls past. "How one finding moves" scrolls sideways on desktop. Headlines rise word by word, the approach paragraph darkens as you read, the statement photo settles from a zoom, a full-width photo band opens from an inset rounded card as it reaches the middle of the screen, and module pages stack their "covers" cards. Lenis adds inertial scrolling. Entrances, menus and screen swaps use critically damped springs (`lib/springs.ts`) rather than fixed-duration curves, so they can be interrupted and never overshoot. The platform tour swaps screens in the direction you scroll and reverses on the way back. With `prefers-reduced-motion` everything unpins and holds still; on phones the hero unpins so its product screen is never clipped. |
-| Glass header | Following the Apple design skill (`.claude/skills/apple-design`), the header is glass that adapts to what is behind it: clear frosted glass with white text over the photos and dark bands, bright frosted glass (72% white) with dark text over the white page, crossfading as you scroll. Dark surfaces carry `data-nav-tone="dark"`. The header samples across its width and only goes dark when everything behind it is dark, because clear glass only reads over dark while the bright glass reads over anything. The platform menu and the phone menu are light glass too; the phone menu's rows settle in one after another. All of it turns solid under `prefers-reduced-transparency` and `prefers-contrast: more`. |
-| Gestures | On phones and tablets, "How one finding moves" is a swipeable card stack (`components/FlowCarousel.tsx`) built on the gesture physics in `lib/gesture.ts`. Cards track the finger 1:1 from where it grabbed. A 10px threshold decides between swiping and page scroll. Past either end the cards resist progressively (rubber-band). On release, the flick's speed projects where it would have come to rest, the nearest card is chosen, and the spring starts at the finger's speed. Cards can be grabbed mid-flight. Dots, arrows and arrow keys move one card at a time. |
-| Inline feedback | The walkthrough form checks a field when you leave it, and while you type an error can only clear, never appear. Errors ease in, the topic chips' checkmarks grow in, and sending swaps the form for the confirmation with a spring. The platform tour's progress bar is also navigation: each segment glides to its module. Product screens over photos carry a deep soft shadow so the large surface reads as lifted. |
-| Press feedback | Pills, menu rows, cards and form chips respond on pointer-down (a 3% or 1.5% give over 100ms) rather than on release; under reduced motion the press dims instead. Hover styles apply only on devices that can hover. |
-| Type in rem, tracking per size | Text sizes are in rem so the page scales with the visitor's browser text size. Tracking tightens as size grows (-0.026em at display size, 0 for body, +0.04em for micro labels) and both fonts load their optical-size axis. DM Sans and Inter are kept over the system font because they are the brand faces in DESIGN.md. |
+| One typeface, no Inter, no italics | Geist via the `geist` package. Geist Mono only for hostnames, CVE and control IDs. No italics anywhere. |
+| Tailwind type scale and named text styles | `heading-1` to `heading-6`, `title-1` to `title-5`, `body-1` to `body-8`, `button-*`, `caption-1` to `caption-6` in `app/globals.css`. Body 7, Body 8 and Caption 6 extend their groups from scale steps, as the skill allows. |
+| Spacing and radius scales | Spacing uses the skill's steps only (2 to 96px). Radii are Tailwind's (`rounded-xl`, `2xl`, `3xl`, `full`). |
+| No background gradients | Promo strip is flat cobalt; photo overlays are flat black. The only gradients are the hero heading text (white to `#9b9b9b` on dark, black to `#666` on light). |
+| Hero heading and subheading at 680px | `HeroIntro` caps both; lines are passed pre-broken where the thought breaks. |
+| Icons | Phosphor, light weight, through `ModuleIcon` and `SolutionIcon`. |
+| Motion | Base curve `cubic-bezier(0.22, 1, 0.36, 1)`: 500ms for position, 300ms for colour, 700ms for reveals (`lib/springs.ts`). Sections rise 32px and fade in once, triggered by IntersectionObserver. Only transform and opacity animate. The swipe carousel keeps a spring, because it has to carry the finger's speed. |
+| Navigation | A compact glass bar floating 12px below the top, centred and sized to its content. Its ink follows what is underneath (light glass over white, clear glass over photos). The phone menu is a full height frosted panel; the toggle's two lines turn into a cross; links rise 24px one after another, capped at 400ms. Current page is marked in every menu. |
+| Tagline reveal | `InkParagraph`: words start at 30% and light up one at a time in reading order as they cross a trigger line, each easing in on the base curve. On the home, solution, frameworks and company pages. |
+| No hyphens in copy | Rewritten throughout. Kept only in proper names and identifiers: ASH-V, Third-Party Risk Management (a module name), CVE, BOD and control IDs, which never break across lines (`NoBreak`). |
+| States | Hover lift, press scale 0.98, two ring focus indicator, skeleton while the form loads, inline field errors, specific failure messages. |
+| Ship list | Skip link, branded 404, privacy and terms in the footer, favicon, titles, descriptions, canonical URLs, og:image, sitemap, robots, FAQ and Article structured data, checked at 390px with no horizontal overflow. |
+| Reduced motion and transparency | Movement becomes opacity; pinned sections unpin; glass turns solid under `prefers-reduced-transparency` and `prefers-contrast: more`. |

@@ -21,15 +21,12 @@ export function SkyStatement({ line, sub, src }: { line: string; sub: string; sr
       </motion.div>
       <div
         className="absolute inset-0 -z-10"
-        style={{
-          background:
-            "linear-gradient(to right, rgb(6 10 24 / 0.6), rgb(6 10 24 / 0.15) 60%, rgb(6 10 24 / 0) 85%), linear-gradient(to bottom, rgb(6 10 24 / 0.65), rgb(6 10 24 / 0.5) 62%, rgb(6 10 24 / 0.25) 100%)",
-        }}
+        style={{ background: "rgb(0 0 0 / 0.6)" }}
         aria-hidden="true"
       />
-      <div className="page-x flex min-h-[620px] flex-col pb-56 pt-24 sm:min-h-[760px] sm:pt-32">
-        <WordReveal as="p" parts={line} className="display-xl max-w-[16ch]" />
-        <WordReveal as="p" parts={sub} className="subheading mt-8 max-w-[40ch] sm:text-[1.5rem]" delay={0.35} />
+      <div className="page-x flex min-h-[620px] flex-col justify-center py-24 sm:min-h-[760px]">
+        <WordReveal as="p" parts={line} className="heading-3 sm:heading-2 lg:heading-1 max-w-[16ch]" />
+        <WordReveal as="p" parts={sub} className="body-7 sm:body-8 mt-8 max-w-[40ch]" delay={0.35} />
       </div>
     </section>
   );

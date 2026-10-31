@@ -45,10 +45,10 @@ export function FindingRail() {
       <div className="pin-sticky sticky top-[var(--header-h)] flex h-[calc(100svh-var(--header-h))] flex-col justify-center overflow-hidden">
         <motion.div ref={track} className="flex w-max items-stretch gap-6 pl-[max(24px,calc((100vw-1200px)/2))] pr-[10vw]" style={{ x }}>
           <div className="flex w-[440px] shrink-0 flex-col justify-center pr-6">
-            <h2 id="flow-heading" className="display">
+            <h2 id="flow-heading" className="heading-4 sm:heading-3 lg:heading-2">
               How one finding moves through <span className="whitespace-nowrap">ASH-V</span>
             </h2>
-            <p className="mt-6 max-w-[40ch] text-[1.0625rem] leading-[1.6] text-graphite">
+            <p className="mt-6 max-w-[40ch] body-3 text-graphite">
               Follow CVE-2024-21762, a FortiOS SSL VPN flaw on the CISA KEV list, from the moment it appears on a firewall
               to the moment an auditor sees it closed. Keep scrolling.
             </p>
@@ -57,23 +57,23 @@ export function FindingRail() {
           {flowSteps.map((s, i) => (
             <article
               key={s.verb}
-              className="flex h-[min(560px,68svh)] w-[420px] shrink-0 flex-col rounded-[22.5px] border border-ash-grey bg-bone p-8"
+              className="flex h-[min(560px,68svh)] w-[420px] shrink-0 flex-col rounded-3xl border border-ash-grey bg-bone p-8"
             >
               <div className="flex items-center justify-between">
                 <span className="flex size-12 items-center justify-center rounded-full border-2 border-ink">
                   <ModuleIcon slug={s.slug} className="size-6" />
                 </span>
-                <span className="micro-label text-slate">Step {String(i + 1).padStart(2, "0")}</span>
+                <span className="caption-3 text-slate">Step {String(i + 1).padStart(2, "0")}</span>
               </div>
-              <h3 className="mt-auto pt-10 font-display text-[4rem] font-medium leading-none tracking-[-0.026em]">{s.verb}</h3>
-              <p className="mt-5 text-[1rem] leading-[1.6] text-graphite">
+              <h3 className="mt-auto pt-10 heading-1">{s.verb}</h3>
+              <p className="mt-6 body-3 text-graphite">
                 <NoBreak text={s.body} />
               </p>
-              <div className="mt-6 flex items-center justify-between gap-4 border-t border-ash-grey pt-5">
-                <span className="shrink-0 whitespace-nowrap rounded-full bg-mist px-3 py-1 font-mono text-[0.75rem] font-semibold">{s.evidence}</span>
+              <div className="mt-6 flex items-center justify-between gap-4 border-t border-ash-grey pt-6">
+                <span className="shrink-0 whitespace-nowrap rounded-full bg-mist px-3 py-1 font-mono caption-6">{s.evidence}</span>
                 <Link
                   href={`/platform/${s.slug}`}
-                  className="inline-flex min-h-11 items-center text-right text-[0.875rem] font-semibold text-ink/80 underline decoration-ash-grey underline-offset-4 hover:text-ink hover:decoration-ink"
+                  className="inline-flex min-h-11 items-center text-right body-4 text-ink/80 underline decoration-ash-grey underline-offset-4 hover:text-ink hover:decoration-ink"
                 >
                   {s.module}
                 </Link>
@@ -81,12 +81,12 @@ export function FindingRail() {
             </article>
           ))}
 
-          <article className="on-dark relative flex h-[min(560px,68svh)] w-[440px] shrink-0 flex-col justify-end overflow-hidden rounded-[22.5px] bg-ink p-8 text-bone">
+          <article className="on-dark relative flex h-[min(560px,68svh)] w-[440px] shrink-0 flex-col justify-end overflow-hidden rounded-3xl bg-ink p-8 text-bone">
             <Image src={photos.flowCircuit} alt="" fill sizes="440px" className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/10" aria-hidden="true" />
+            <div className="absolute inset-0 bg-pure-black/70" aria-hidden="true" />
             <div className="relative">
-              <p className="heading-lg">One finding. Five modules. One record.</p>
-              <Link href="/#walkthrough" className="pill pill-light mt-6 !border-bone">
+              <p className="heading-4 lg:heading-3">One finding. Five modules. One record.</p>
+              <Link href="/walkthrough" className="btn btn-light mt-6">
                 Walk through it with us
               </Link>
             </div>

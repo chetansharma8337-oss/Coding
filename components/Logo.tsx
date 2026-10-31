@@ -12,14 +12,14 @@ export function Logo() {
   return (
     <Link
       href="/"
-      className="inline-flex min-h-11 items-center gap-2.5 rounded-[12px]"
+      className="inline-flex min-h-11 items-center gap-2 rounded-xl"
       aria-label="ASH-V home"
     >
       {markFile ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={`/brand/${markFile}`} alt="" width={29} height={40} className="h-10 w-auto object-contain" />
+        <img src={`/brand/${markFile}`} alt="" width={23} height={32} className="h-8 w-auto object-contain" />
       ) : null}
-      <span className="font-display text-[1.375rem] font-medium leading-none tracking-[-0.02em]">ASH-V</span>
+      <span className="heading-6">ASH-V</span>
     </Link>
   );
 }

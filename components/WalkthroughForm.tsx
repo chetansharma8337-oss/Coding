@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useSearchParams } from "next/navigation";
+import { Check } from "@phosphor-icons/react/dist/ssr";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { modules } from "@/lib/modules";
 import { fade, spring } from "@/lib/springs";
@@ -10,7 +11,7 @@ import { teamSizes, validateWalkthrough, type FieldErrors } from "@/lib/walkthro
 type Status = { kind: "idle" } | { kind: "sending" } | { kind: "sent"; email: string } | { kind: "failed"; message: string };
 
 const inputClass =
-  "mt-2 block w-full rounded-[12px] border border-slate bg-bone px-4 py-3 text-[1rem] text-ink placeholder:text-slate transition-colors hover:border-ink aria-invalid:border-2 aria-invalid:border-ink";
+  "mt-2 block w-full rounded-xl border border-slate bg-bone px-3 py-3 body-3 text-ink placeholder:text-slate transition-colors hover:border-ink aria-invalid:border-2 aria-invalid:border-ink";
 
 function Field({
   id,
@@ -28,7 +29,7 @@ function Field({
   const reduce = useReducedMotion();
   return (
     <div>
-      <label htmlFor={id} className="text-[0.875rem] font-semibold">
+      <label htmlFor={id} className="body-4">
         {label}
       </label>
       {children}
@@ -39,13 +40,13 @@ function Field({
           initial={{ opacity: 0, y: reduce ? 0 : -4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={reduce ? fade : spring.ui}
-          className="mt-1.5 text-[0.875rem] font-semibold text-ink"
+          className="mt-2 body-4 text-ink"
         >
           <span aria-hidden="true">! </span>
           {error}
         </motion.p>
       ) : hint ? (
-        <p id={`${id}-hint`} className="mt-1.5 text-[0.8125rem] text-slate">
+        <p id={`${id}-hint`} className="mt-2 caption-5 text-slate">
           {hint}
         </p>
       ) : null}
@@ -159,9 +160,9 @@ export function WalkthroughForm() {
   return (
     <AnimatePresence mode="wait" initial={false}>
       {status.kind === "sent" ? (
-        <motion.div key="sent" {...swap} ref={focusOnMount} tabIndex={-1} role="status" className="rounded-[20px] bg-mist p-6 sm:p-8">
-          <p className="heading-sm">Request received.</p>
-          <p className="mt-3 text-[1rem] leading-[1.55] text-graphite">
+        <motion.div key="sent" {...swap} ref={focusOnMount} tabIndex={-1} role="status" className="rounded-2xl bg-mist p-6 sm:p-8">
+          <p className="heading-5">Request received.</p>
+          <p className="mt-3 body-3 text-graphite">
             We will reply to <span className="font-semibold text-ink">{status.email}</span> to agree a time. Bring a list of
             the tools you run today and we will show where each one fits.
           </p>
@@ -173,7 +174,7 @@ export function WalkthroughForm() {
               setErrors({});
               touched.current.clear();
             }}
-            className="pill pill-light mt-6"
+            className="btn btn-outline mt-6"
           >
             Send another request
           </button>
@@ -201,18 +202,18 @@ export function WalkthroughForm() {
             } else if (touched.current.has(name)) recheck(name, "type");
           }}
           aria-busy={sending}
-          className="space-y-5"
+          className="space-y-6"
         >
           {status.kind === "failed" ? (
-            <div ref={resultRef} tabIndex={-1} role="alert" className="rounded-[12px] border-2 border-ink p-4">
-              <p className="text-[0.9375rem] font-semibold">Your request was not sent.</p>
-              <p className="mt-1 text-[0.875rem] text-graphite">
+            <div ref={resultRef} tabIndex={-1} role="alert" className="rounded-xl border-2 border-ink p-4">
+              <p className="body-4">Your request was not sent.</p>
+              <p className="mt-1 body-6 text-graphite">
                 {status.message} Your answers are still here, so you can send it again.
               </p>
             </div>
           ) : null}
     
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-6 sm:grid-cols-2">
             <Field id={id("name")} label="Name" error={errors.name}>
               <input
                 id={id("name")}
@@ -270,8 +271,8 @@ export function WalkthroughForm() {
           </div>
     
           <fieldset aria-describedby={errors.interests ? `${id("interests")}-error` : `${id("interests")}-hint`}>
-            <legend className="text-[0.875rem] font-semibold">What should we focus on?</legend>
-            <p id={`${id("interests")}-hint`} className="mt-1 text-[0.8125rem] text-slate">
+            <legend className="body-4">What should we focus on?</legend>
+            <p id={`${id("interests")}-hint`} className="mt-1 caption-5 text-slate">
               Optional. Pick any that apply.
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -280,7 +281,7 @@ export function WalkthroughForm() {
                 return (
                   <label
                     key={m.slug}
-                    className={`press inline-flex min-h-11 cursor-pointer select-none items-center rounded-full border px-4 text-[0.875rem] font-semibold has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ink ${
+                    className={`press inline-flex min-h-11 cursor-pointer select-none items-center rounded-full border px-4 body-4 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ink ${
                       on ? "border-ink bg-ink text-bone" : "border-slate bg-bone text-ink hover:border-ink"
                     }`}
                   >
@@ -302,7 +303,7 @@ export function WalkthroughForm() {
                           exit={reduce ? { opacity: 0 } : { width: 0, opacity: 0, scale: 0.4 }}
                           transition={reduce ? fade : spring.ui}
                         >
-                          ✓&nbsp;
+                          <Check weight="bold" className="mr-1 inline size-3.5" />
                         </motion.span>
                       ) : null}
                     </AnimatePresence>
@@ -312,7 +313,7 @@ export function WalkthroughForm() {
               })}
             </div>
             {errors.interests ? (
-              <p id={`${id("interests")}-error`} className="mt-1.5 text-[0.875rem] font-semibold">
+              <p id={`${id("interests")}-error`} className="mt-2 body-4">
                 {errors.interests}
               </p>
             ) : null}
@@ -331,14 +332,14 @@ export function WalkthroughForm() {
           </Field>
     
           <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-[0.8125rem] text-slate">
+            <p className="caption-5 text-slate">
               We use these details only to arrange the walkthrough. See the{" "}
               <a href="/privacy" className="font-semibold text-graphite underline underline-offset-2">
                 privacy notice
               </a>
               .
             </p>
-            <button type="submit" disabled={sending} className="pill pill-dark shrink-0 disabled:opacity-70">
+            <button type="submit" disabled={sending} className="btn btn-dark shrink-0 disabled:opacity-70">
               {sending ? "Sending request…" : "Request a walkthrough"}
             </button>
           </div>

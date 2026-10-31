@@ -10,6 +10,7 @@ import {
   type AnimationPlaybackControls,
   type MotionValue,
 } from "motion/react";
+import { ArrowLeft, ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flowSteps } from "@/lib/flow";
 import { photos } from "@/lib/images";
@@ -78,7 +79,7 @@ export function FlowCarousel() {
         return;
       }
       // A flick earns a touch of bounce; a tap on a dot or arrow settles without one.
-      anim.current = animate(x, to, { ...spring.ui, bounce: Math.abs(velocity) > 400 ? 0.12 : 0, velocity });
+      anim.current = animate(x, to, { ...spring.gesture, bounce: Math.abs(velocity) > 400 ? 0.12 : 0, velocity });
     },
     [reduce, step, x],
   );
@@ -152,7 +153,7 @@ export function FlowCarousel() {
     e.preventDefault();
   }
 
-  const card = "flex h-full min-h-[420px] flex-col rounded-[22.5px] border border-ash-grey bg-bone p-6 sm:p-8";
+  const card = "flex h-full min-h-[420px] flex-col rounded-3xl border border-ash-grey bg-bone p-6 sm:p-8";
 
   return (
     <div role="region" aria-roledescription="carousel" aria-label="How one finding moves" onKeyDown={onKeyDown}>
@@ -180,18 +181,18 @@ export function FlowCarousel() {
                   <span className="flex size-11 items-center justify-center rounded-full border-2 border-ink">
                     <ModuleIcon slug={s.slug} className="size-5" />
                   </span>
-                  <span className="micro-label text-slate">Step {String(i + 1).padStart(2, "0")}</span>
+                  <span className="caption-3 text-slate">Step {String(i + 1).padStart(2, "0")}</span>
                 </div>
-                <h3 className="mt-auto pt-10 font-display text-[3rem] font-medium leading-none tracking-[-0.026em]">{s.verb}</h3>
-                <p className="mt-4 text-[1rem] leading-[1.6] text-graphite">
+                <h3 className="mt-auto pt-10 heading-2">{s.verb}</h3>
+                <p className="mt-4 body-3 text-graphite">
                   <NoBreak text={s.body} />
                 </p>
-                <div className="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-ash-grey pt-4">
-                  <span className="whitespace-nowrap rounded-full bg-mist px-3 py-1 font-mono text-[0.75rem] font-semibold">{s.evidence}</span>
+                <div className="mt-6 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-ash-grey pt-4">
+                  <span className="whitespace-nowrap rounded-full bg-mist px-3 py-1 font-mono caption-6">{s.evidence}</span>
                   <Link
                     href={`/platform/${s.slug}`}
                     tabIndex={i === index ? 0 : -1}
-                    className="inline-flex min-h-11 items-center text-[0.875rem] font-semibold underline decoration-ash-grey underline-offset-4"
+                    className="inline-flex min-h-11 items-center body-4 underline decoration-ash-grey underline-offset-4"
                   >
                     {s.module}
                   </Link>
@@ -201,12 +202,12 @@ export function FlowCarousel() {
           ))}
           <Slide i={n - 1} n={n} x={x} step={step}>
             <article
-              className="on-dark relative flex h-full min-h-[420px] flex-col justify-end overflow-hidden rounded-[22.5px] bg-ink bg-cover bg-center p-6 text-bone sm:p-8"
-              style={{ backgroundImage: `linear-gradient(to top, #1f1f1f 25%, rgb(31 31 31 / 0.4)), url(${photos.flowCircuit})` }}
+              className="on-dark relative flex h-full min-h-[420px] flex-col justify-end overflow-hidden rounded-3xl bg-ink bg-cover bg-center p-6 text-bone sm:p-8"
+              style={{ backgroundImage: `linear-gradient(rgb(0 0 0 / 0.7), rgb(0 0 0 / 0.7)), url(${photos.flowCircuit})` }}
               aria-hidden={index !== n - 1 || undefined}
             >
-              <p className="heading-lg">One finding. Five modules. One record.</p>
-              <Link href="/#walkthrough" tabIndex={index === n - 1 ? 0 : -1} className="pill pill-light mt-6 self-start !border-bone">
+              <p className="heading-4 lg:heading-3">One finding. Five modules. One record.</p>
+              <Link href="/walkthrough" tabIndex={index === n - 1 ? 0 : -1} className="btn btn-light mt-6 self-start ">
                 Walk through it with us
               </Link>
             </article>
@@ -240,22 +241,18 @@ export function FlowCarousel() {
             aria-label="Previous step"
             disabled={index === 0}
             onClick={() => settle(Math.max(0, index - 1))}
-            className="pill pill-light size-11 !p-0 disabled:opacity-30"
+            className="btn btn-outline size-11 !p-0 !rounded-full disabled:opacity-30"
           >
-            <svg viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
-              <path d="M10 3L5 8l5 5" />
-            </svg>
+            <ArrowLeft weight="bold" className="size-4" aria-hidden="true" />
           </button>
           <button
             type="button"
             aria-label="Next step"
             disabled={index === n - 1}
             onClick={() => settle(Math.min(n - 1, index + 1))}
-            className="pill pill-light size-11 !p-0 disabled:opacity-30"
+            className="btn btn-outline size-11 !p-0 !rounded-full disabled:opacity-30"
           >
-            <svg viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
-              <path d="M6 3l5 5-5 5" />
-            </svg>
+            <ArrowRight weight="bold" className="size-4" aria-hidden="true" />
           </button>
         </div>
       </div>

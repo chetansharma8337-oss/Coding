@@ -25,11 +25,11 @@ export function PhotoBand({ src, line }: { src: string; line: string }) {
         </motion.div>
         <div
           className="absolute inset-0"
-          style={{ background: "linear-gradient(to top, rgb(6 10 24 / 0.8), rgb(6 10 24 / 0.35) 45%, rgb(6 10 24 / 0.05) 75%)" }}
+          style={{ background: "rgb(0 0 0 / 0.55)" }}
           aria-hidden="true"
         />
         <div className="absolute inset-x-0 bottom-0 mx-auto max-w-[1200px] px-[calc(8vw+16px)] pb-12 sm:pb-16 xl:px-0">
-          <WordReveal as="p" parts={line} className="display max-w-[18ch]" />
+          <WordReveal as="p" parts={line} className="heading-4 sm:heading-3 lg:heading-2 max-w-[18ch]" />
         </div>
       </motion.div>
     </section>
