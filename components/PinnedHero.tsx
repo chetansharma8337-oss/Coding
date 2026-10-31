@@ -17,9 +17,15 @@ export function PinnedHero({
   intro,
   frame,
   caption,
-  scrim = "linear-gradient(to bottom, rgb(8 22 48 / 0.55), rgb(8 22 48 / 0.28) 60%, rgb(8 22 48 / 0.1) 100%)",
+  position = "50% 100%",
+  // Weighted to the top and left, where the headline and copy sit. A pure white pixel needs about 56% of this
+  // navy over it for white type to hold 4.5:1, so the text band never drops below that; the lower part of the
+  // photo, where the product screen rises, stays brighter.
+  scrim = "linear-gradient(to right, rgb(6 10 24 / 0.4), rgb(6 10 24 / 0) 75%), linear-gradient(to bottom, rgb(6 10 24 / 0.62), rgb(6 10 24 / 0.58) 70%, rgb(6 10 24 / 0.3) 100%)",
 }: {
   src: string;
+  /** CSS object-position for the photo. */
+  position?: string;
   intro: React.ReactNode;
   frame: React.ReactNode;
   caption?: string;
@@ -55,7 +61,7 @@ export function PinnedHero({
           data-nav-tone="dark"
         >
           <motion.div className="absolute inset-0" style={{ scale: skyScale }}>
-            <Image src={src} alt="" fill priority sizes="100vw" className="object-cover object-bottom" />
+            <Image src={src} alt="" fill priority sizes="100vw" className="object-cover" style={{ objectPosition: position }} />
           </motion.div>
           <div className="absolute inset-0" style={{ background: scrim }} />
         </motion.div>

@@ -7,6 +7,7 @@ import { PinnedHero } from "@/components/PinnedHero";
 import { RiseOnView } from "@/components/RiseOnView";
 import { StackCards } from "@/components/StackCards";
 import { WordReveal } from "@/components/WordReveal";
+import { moduleHero } from "@/lib/images";
 import { moduleBySlug, modules, type PlatformModule } from "@/lib/modules";
 
 export function ModuleView({ mod }: { mod: PlatformModule }) {
@@ -17,7 +18,8 @@ export function ModuleView({ mod }: { mod: PlatformModule }) {
   return (
     <>
       <PinnedHero
-        src="/images/digital-grid.jpg"
+        src={moduleHero[mod.slug].src}
+        position={moduleHero[mod.slug].position}
         intro={
           <>
             <nav aria-label="Breadcrumb" className="mb-6 text-[0.875rem] text-bone/85">

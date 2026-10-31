@@ -5,8 +5,8 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { useRef } from "react";
 import { WordReveal } from "./WordReveal";
 
-// Full-bleed statement on a second sky. The photo starts zoomed in and settles to frame as the section
-// crosses the viewport, so the sky seems to open up behind the line.
+// Full-bleed statement over a photograph. The photo starts zoomed in and settles to frame as the section
+// crosses the viewport, so the scene seems to open up behind the line.
 export function SkyStatement({ line, sub, src }: { line: string; sub: string; src: string }) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
@@ -17,11 +17,14 @@ export function SkyStatement({ line, sub, src }: { line: string; sub: string; sr
   return (
     <section ref={ref} data-nav-tone="dark" className="on-dark relative isolate overflow-hidden bg-ink text-bone">
       <motion.div className="absolute inset-0 -z-10" style={{ scale, y }} aria-hidden="true">
-        <Image src={src} alt="" fill sizes="100vw" className="object-cover object-bottom" />
+        <Image src={src} alt="" fill sizes="100vw" className="object-cover" />
       </motion.div>
       <div
         className="absolute inset-0 -z-10"
-        style={{ background: "linear-gradient(to bottom, rgb(10 26 56 / 0.62), rgb(10 26 56 / 0.56) 62%, rgb(10 26 56 / 0) 90%)" }}
+        style={{
+          background:
+            "linear-gradient(to right, rgb(6 10 24 / 0.6), rgb(6 10 24 / 0.15) 60%, rgb(6 10 24 / 0) 85%), linear-gradient(to bottom, rgb(6 10 24 / 0.65), rgb(6 10 24 / 0.5) 62%, rgb(6 10 24 / 0.25) 100%)",
+        }}
         aria-hidden="true"
       />
       <div className="page-x flex min-h-[620px] flex-col pb-56 pt-24 sm:min-h-[760px] sm:pt-32">

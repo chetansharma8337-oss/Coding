@@ -12,6 +12,7 @@ import {
 } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flowSteps } from "@/lib/flow";
+import { photos } from "@/lib/images";
 import { project, rubberband, velocityOf } from "@/lib/gesture";
 import { spring } from "@/lib/springs";
 import { ModuleIcon } from "./ModuleIcon";
@@ -201,7 +202,7 @@ export function FlowCarousel() {
           <Slide i={n - 1} n={n} x={x} step={step}>
             <article
               className="on-dark relative flex h-full min-h-[420px] flex-col justify-end overflow-hidden rounded-[22.5px] bg-ink bg-cover bg-center p-6 text-bone sm:p-8"
-              style={{ backgroundImage: "linear-gradient(to top, #1f1f1f 25%, rgb(31 31 31 / 0.4)), url(/images/digital-grid.jpg)" }}
+              style={{ backgroundImage: `linear-gradient(to top, #1f1f1f 25%, rgb(31 31 31 / 0.4)), url(${photos.flowCircuit})` }}
               aria-hidden={index !== n - 1 || undefined}
             >
               <p className="heading-lg">One finding. Five modules. One record.</p>

@@ -1,9 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { FindingRail } from "@/components/FindingRail";
 import { FlowCarousel } from "@/components/FlowCarousel";
 import { HeroIntro } from "@/components/HeroIntro";
 import { InkParagraph } from "@/components/InkParagraph";
+import { PhotoBand } from "@/components/PhotoBand";
 import { PinnedHero } from "@/components/PinnedHero";
 import { PlatformTour } from "@/components/PlatformTour";
 import { ProductFrame } from "@/components/ProductFrame";
@@ -12,6 +14,7 @@ import { RiseOnView } from "@/components/RiseOnView";
 import { SkyStatement } from "@/components/SkyStatement";
 import { WalkthroughForm } from "@/components/WalkthroughForm";
 import { WordReveal } from "@/components/WordReveal";
+import { photos } from "@/lib/images";
 
 const callAgenda = [
   "We map the tools you run today to the ASH-V modules they overlap with.",
@@ -23,7 +26,7 @@ export default function Home() {
   return (
     <>
       <PinnedHero
-        src="/images/digital-globe.jpg"
+        src={photos.heroEarth}
         caption="Every exposure, ranked against the asset it sits on and the team that owns it."
         intro={
           <HeroIntro lines={["One record of", "everything", "you defend."]}>
@@ -66,6 +69,8 @@ export default function Home() {
         </div>
       </section>
 
+      <PhotoBand src={photos.opsServerRoom} line="Security, IT and audit work from the same record." />
+
       <section id="platform" className="border-t border-ash-grey pt-24 sm:pt-32">
         <div className="page-x">
           <WordReveal
@@ -94,7 +99,7 @@ export default function Home() {
       </div>
 
       <SkyStatement
-        src="/images/digital-streams.jpg"
+        src={photos.statementServers}
         line="The CISO asks what is exposed. The auditor asks what is proven."
         sub="ASH-V answers both from the same data."
       />
@@ -116,6 +121,9 @@ export default function Home() {
                 </li>
               ))}
             </ol>
+            <RiseOnView className="relative mt-12 hidden aspect-[4/3] overflow-hidden rounded-[22.5px] lg:block">
+              <Image src={photos.teamScreen} alt="" fill sizes="40vw" className="object-cover" />
+            </RiseOnView>
           </div>
           <RiseOnView navTone="light" className="on-light rounded-[22.5px] bg-bone p-6 text-ink sm:p-10 lg:col-span-7">
             <Suspense fallback={<p className="text-[0.9375rem] text-graphite">Loading the request form…</p>}>

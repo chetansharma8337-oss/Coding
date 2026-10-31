@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { ModuleIcon } from "./ModuleIcon";
 import { NoBreak } from "./NoBreak";
 import { flowSteps } from "@/lib/flow";
+import { photos } from "@/lib/images";
 
 // Desktop only: scrolling down drives the rail sideways, so the finding visibly travels from module to
 // module. The section's height is the rail's overflow, measured, so the pin lasts exactly as long as the rail.
@@ -81,7 +82,7 @@ export function FindingRail() {
           ))}
 
           <article className="on-dark relative flex h-[min(560px,68svh)] w-[440px] shrink-0 flex-col justify-end overflow-hidden rounded-[22.5px] bg-ink p-8 text-bone">
-            <Image src="/images/digital-grid.jpg" alt="" fill sizes="440px" className="object-cover" />
+            <Image src={photos.flowCircuit} alt="" fill sizes="440px" className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/10" aria-hidden="true" />
             <div className="relative">
               <p className="heading-lg">One finding. Five modules. One record.</p>
