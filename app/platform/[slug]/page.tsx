@@ -5,6 +5,7 @@ import { AssetIntelligencePage } from "@/components/module/pages/AssetIntelligen
 import { ThreatExposurePage } from "@/components/module/pages/ThreatExposurePage";
 import { VulnPatchPage } from "@/components/module/pages/VulnPatchPage";
 import { PentestPage } from "@/components/module/pages/PentestPage";
+import { ThirdPartyPage } from "@/components/module/pages/ThirdPartyPage";
 import { moduleBySlug, modules, type ModuleSlug } from "@/lib/modules";
 
 // Each module has its own page, built from shared blocks but laid out around its own signature visual.
@@ -13,6 +14,7 @@ const pages: Partial<Record<ModuleSlug, () => React.JSX.Element>> = {
   "threat-exposure-management": ThreatExposurePage,
   "vulnerability-patch-management": VulnPatchPage,
   "automated-penetration-testing": PentestPage,
+  "third-party-risk-management": ThirdPartyPage,
 };
 
 export function generateStaticParams() {

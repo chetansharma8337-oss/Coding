@@ -226,6 +226,18 @@ body {
   font-weight: 600;
 }
 
+/* Numeral 1: a single headline figure (a cited statistic). Built from the text-8xl step, text-9xl from sm. */
+@utility numeral-1 {
+  font-size: var(--text-8xl);
+  line-height: var(--text-8xl--line-height);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  @media (width >= 40rem) {
+    font-size: var(--text-9xl);
+    line-height: var(--text-9xl--line-height);
+  }
+}
+
 /* B5: hero heading colour. The only gradients on the site, and only ever on text. Each hero line is a
    block the full width of the heading, so every line shares one left to right sweep. */
 @utility text-sheen-dark {
