@@ -113,7 +113,7 @@ export default function CompanyPage() {
       </section>
 
       <section className="py-20 sm:py-24">
-        <div className="page-x grid gap-12 lg:grid-cols-12">
+        <div className="page-x grid grid-cols-1 gap-12 lg:grid-cols-12">
           <SectionIntro className="lg:col-span-5" heading="How we write about ourselves" />
           <ul className="space-y-4 lg:col-span-7">
             {honesty.map((h, i) => (

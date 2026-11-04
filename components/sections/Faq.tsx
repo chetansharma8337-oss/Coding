@@ -15,7 +15,7 @@ export function Faq({ items, heading = "Questions we hear before a walkthrough",
   };
   return (
     <section id={id} className="border-t border-ash-grey py-20 sm:py-24">
-      <div className="page-x grid gap-12 lg:grid-cols-12">
+      <div className="page-x grid grid-cols-1 gap-12 lg:grid-cols-12">
         <SectionIntro heading={heading} className="lg:col-span-5" />
         <div className="lg:col-span-7">
           <ul className="border-t border-ash-grey">

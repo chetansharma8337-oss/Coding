@@ -43,7 +43,7 @@ export default function WalkthroughPage() {
       </PageHero>
 
       <section id="request" className="bg-mist py-20 sm:py-24">
-        <div className="page-x grid gap-12 lg:grid-cols-12">
+        <div className="page-x grid grid-cols-1 gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <h2 className="heading-4 sm:heading-3">What happens in the session</h2>
             <ol className="mt-10 space-y-6">

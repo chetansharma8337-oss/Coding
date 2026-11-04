@@ -76,7 +76,7 @@ export default function PlatformPage() {
       </section>
 
       <section className="border-t border-ash-grey py-20 sm:py-24">
-        <div className="page-x grid gap-12 lg:grid-cols-12">
+        <div className="page-x grid grid-cols-1 gap-12 lg:grid-cols-12">
           <SectionIntro
             className="lg:col-span-4"
             heading="What each module hands on"
