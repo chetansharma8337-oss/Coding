@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ModuleView } from "@/components/ModuleView";
 import { AssetIntelligencePage } from "@/components/module/pages/AssetIntelligencePage";
+import { ThreatExposurePage } from "@/components/module/pages/ThreatExposurePage";
 import { moduleBySlug, modules, type ModuleSlug } from "@/lib/modules";
 
 // Each module has its own page, built from shared blocks but laid out around its own signature visual.
 const pages: Partial<Record<ModuleSlug, () => React.JSX.Element>> = {
   "asset-intelligence": AssetIntelligencePage,
+  "threat-exposure-management": ThreatExposurePage,
 };
 
 export function generateStaticParams() {
