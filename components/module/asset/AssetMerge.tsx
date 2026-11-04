@@ -1,12 +1,13 @@
 "use client";
 
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { CheckCircle, Circle } from "@phosphor-icons/react/dist/ssr";
 import { ModuleIcon } from "@/components/ModuleIcon";
 import { NoBreak } from "@/components/NoBreak";
 import type { ModuleSlug } from "@/lib/modules";
 import { useCalmMotion } from "@/lib/useCalmMotion";
+import { useWide } from "@/lib/useWide";
 
 // The Asset Intelligence signature: five tools each see part of the same server, with different spellings and
 // one disagreement. As you scroll, the sightings converge and collapse into one record that names the source of
@@ -239,17 +240,4 @@ export function AssetMerge() {
   const calm = useCalmMotion();
   const wide = useWide();
   return calm || !wide ? <Still /> : <Pinned />;
-}
-
-// The pinned scene needs room for the sightings around the record.
-function useWide() {
-  const [wide, setWide] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1100px) and (min-height: 760px)");
-    const on = () => setWide(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, []);
-  return wide;
 }
