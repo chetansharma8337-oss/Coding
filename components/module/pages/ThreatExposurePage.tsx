@@ -21,68 +21,68 @@ const kinds = [
   {
     icon: Bug,
     title: "Vulnerabilities",
-    body: "Known CVEs from your scanners and agents, with the exploitation status of each.",
+    body: "Known CVEs reported by scanners and endpoint agents, with the exploitation status of each.",
     examples: ["CVE-2024-21762 on edge-fw-02", "CVE-2021-44228 on billing-api-04"],
   },
   {
     icon: GearSix,
     title: "Misconfigurations",
-    body: "Exposures that are not CVEs: open management ports, unsigned SMB, services listening where they should not.",
-    examples: ["RDP open to the internet", "SMB signing not required"],
+    body: "Configuration weaknesses without a CVE identifier, such as exposed management ports and unsigned SMB traffic.",
+    examples: ["RDP exposed to the internet", "SMB signing not required"],
   },
   {
     icon: Fingerprint,
-    title: "Identity exposures",
-    body: "Accounts and credentials that make other exposures worse: too much privilege, reused passwords.",
-    examples: ["Local admin password reused", "Service account with domain admin"],
+    title: "Identity Exposures",
+    body: "Accounts and credentials that increase the impact of other findings, such as excessive privileges and reused passwords.",
+    examples: ["Local administrator password reused", "Service account with domain administrator rights"],
   },
 ];
 
 const signalSteps = [
-  { meta: "Signal 1", title: "Asset criticality", body: "Comes from the asset record. A finding on the payment database outranks the same finding on a test box, without anyone retyping criticality into a spreadsheet." },
-  { meta: "Signal 2", title: "Reachability", body: "Is the asset internet facing, reachable from inside, or behind a control that blocks the path? Unreachable findings sink, however high their CVSS." },
-  { meta: "Signal 3", title: "Known exploitation", body: "Entries in the CISA Known Exploited Vulnerabilities catalog, plus any threat intelligence you connect. Exploited somewhere is a strong reason to look here first." },
-  { meta: "Signal 4", title: "Validated attack path", body: "When Automated Penetration Testing proves a finding is part of a working path to something valuable, it moves to the top. Proof outranks severity." },
+  { meta: "Signal 1", title: "Asset Criticality", body: "Asset criticality from the asset record. A finding on a payment system ranks above the same finding on a test system." },
+  { meta: "Signal 2", title: "Reachability", body: "Whether the asset is internet-facing, reachable internally or protected by a compensating control. Unreachable findings are deprioritized regardless of CVSS score." },
+  { meta: "Signal 3", title: "Known Exploitation", body: "Listing in the CISA Known Exploited Vulnerabilities (KEV) catalog or in connected threat intelligence feeds." },
+  { meta: "Signal 4", title: "Validated Attack Path", body: "Findings that Automated Penetration Testing confirms as part of a validated attack path move to the top of the Exposure Queue." },
 ];
 
-const raises = ["A test proves it is on a working attack path", "The asset is internet facing", "The CVE is added to the KEV catalog", "The asset's criticality is raised"];
-const lowers = ["A compensating control blocks the path", "The asset is not reachable from where attackers start", "The asset is retired in the inventory", "An approved exception with an expiry date"];
+const raises = ["Included in a validated attack path", "Asset is internet-facing", "CVE added to the CISA KEV catalog", "Asset criticality increased"];
+const lowers = ["Compensating control blocks the attack path", "Asset not reachable from an attacker entry point", "Asset retired in the asset inventory", "Approved risk exception with an expiry date"];
 
 const flow = [
-  { icon: ListNumbers, title: "Ranked", body: "Scored against the asset it sits on." },
-  { icon: UserCircle, title: "Owned", body: "Assigned to the owner from the asset record." },
-  { icon: Wrench, title: "Fixed", body: "Patched in rings by the owning team." },
-  { icon: CheckCircle, title: "Verified", body: "Leaves the queue only when a rescan confirms it." },
+  { icon: ListNumbers, title: "Prioritized", body: "Ranked against the affected asset in the Exposure Queue." },
+  { icon: UserCircle, title: "Assigned", body: "Assigned to the asset owner as a remediation task." },
+  { icon: Wrench, title: "Remediated", body: "Patched in deployment rings by the asset owner." },
+  { icon: CheckCircle, title: "Verified", body: "Removed from the Exposure Queue after a verification scan confirms the fix." },
 ];
 
 const faq = [
   {
-    q: "Can we see why a finding ranks first?",
-    a: "Yes. Every position shows its arithmetic: the severity it started from and the points each signal added or removed. There is no score you have to take on trust.",
+    q: "How is a priority rank explained?",
+    a: "Each finding shows a score breakdown: the base severity and the points added or removed by each prioritization signal.",
   },
   {
-    q: "Will it duplicate the findings our scanners already report?",
-    a: "It reads those findings and attaches each one to a single asset record, so the same CVE reported by two tools on the same server is one item in the queue.",
+    q: "Are findings from multiple scanners duplicated?",
+    a: "No. Findings are attached to a single asset record, so the same CVE reported by two data sources on one asset appears once in the Exposure Queue.",
   },
   {
     q: "Where does asset criticality come from?",
-    a: "From Asset Intelligence, where it is set from your CMDB or by hand. Change it once and every finding on that asset is re-scored.",
+    a: "From Asset Intelligence, where it is imported from the CMDB or set manually. A change to asset criticality recalculates the priority rank of every finding on that asset.",
   },
   {
-    q: "Does it only cover CVEs?",
-    a: "No. Misconfigurations such as open management ports, and identity exposures such as accounts with too much privilege, sit in the same queue on the same scale.",
+    q: "Which finding types are prioritized?",
+    a: "Vulnerabilities, misconfigurations such as exposed management ports, and identity exposures such as excessive privileges, all on the same scale.",
   },
   {
-    q: "What if we cannot patch something?",
-    a: "Record the compensating control that blocks the path, or raise an exception with a named approver and an end date. The finding's rank reflects it, and the exception comes back for review when it expires.",
+    q: "How are findings that cannot be patched handled?",
+    a: "A compensating control that blocks the attack path, or a risk exception with a named approver and an expiry date, is recorded on the finding and reflected in its priority rank.",
   },
   {
-    q: "How does the queue reach the teams who fix things?",
-    a: "Findings route to the owner on the asset record, with due dates from your remediation policy, through Vulnerability & Patch Management. A finding leaves the queue only when a rescan confirms the fix.",
+    q: "How are prioritized findings assigned for remediation?",
+    a: "Vulnerability & Patch Management assigns each finding to the asset owner as a remediation task, with a due date from the remediation policy. A finding is removed from the Exposure Queue after verified closure.",
   },
   {
-    q: "Which threat intelligence does it use?",
-    a: "The CISA KEV catalog, plus any threat intelligence feeds you connect.",
+    q: "Which threat intelligence sources are used?",
+    a: "The CISA Known Exploited Vulnerabilities (KEV) catalog and any connected threat intelligence feeds.",
   },
 ];
 
@@ -92,28 +92,27 @@ export function ThreatExposurePage() {
       <ModuleHero
         mod={mod}
         layout="stacked"
-        lines={["Fix the exposures", "that can actually hurt you."]}
-        intro="Severity scores call almost everything critical. Threat Exposure Management ranks each exposure against the asset it sits on, whether it can be reached, whether it is exploited, and whether a test has proven it, and shows its reasons."
+        lines={["Risk-Based Exposure", "Prioritization"]}
+        intro="Threat Exposure Management ranks each finding by asset criticality, reachability, known exploitation and validated attack paths, and records the basis for every priority rank."
         visual={<ExposureFunnel />}
-        secondary={{ href: "#rerank", label: "Watch a queue re-rank" }}
+        secondary={{ href: "#rerank", label: "View Prioritization Model" }}
       />
 
       <StatBand
-        heading="Attackers are getting in through the exposures teams have not reached yet."
+        heading="Vulnerability Exploitation as an Initial Access Vector"
         stats={[
-          { value: 20, suffix: "%", label: "of breaches began with the exploitation of a vulnerability.", source: dbir },
-          { value: 22, suffix: "%", label: "of exploitation targeted edge devices and VPNs, up from 3% a year earlier.", source: dbir },
-          { value: 54, suffix: "%", label: "of those edge device vulnerabilities were fully remediated, with a median of 32 days.", source: dbir },
+          { value: 20, suffix: "%", label: "of breaches involved vulnerability exploitation as the initial access vector.", source: dbir },
+          { value: 22, suffix: "%", label: "of vulnerability exploitation targeted edge devices and VPNs, up from 3% the previous year.", source: dbir },
+          { value: 54, suffix: "%", label: "of edge device and VPN vulnerabilities were fully remediated, with a median remediation time of 32 days.", source: dbir },
         ]}
       />
 
       <section id="rerank" data-nav-tone="dark" className="on-dark bg-ink py-20 text-bone sm:py-24">
         <div className="page-x">
-          <WordReveal parts={[{ text: "The re-rank.", className: "text-ash-grey" }, { text: "Same findings, real order." }]} className="heading-4 sm:heading-3 lg:heading-2 max-w-[22ch]" />
+          <WordReveal parts="Exposure Queue Prioritization" className="heading-4 sm:heading-3 lg:heading-2 max-w-[22ch]" />
           <p className="body-7 mt-6 max-w-[60ch] text-ash-grey">
-            Eight findings arrive sorted by CVSS. Switch on each signal and watch them reorder. The 9.8 on a lab machine no
-            one can reach sinks to the bottom; a medium misconfiguration on a proven path climbs. Select any finding to see
-            its arithmetic.
+            Eight findings are initially sorted by CVSS score. Each prioritization signal recalculates the priority rank;
+            select a finding to view its score breakdown.
           </p>
           <div className="mt-12">
             <ReRank />
@@ -123,7 +122,7 @@ export function ThreatExposurePage() {
 
       <section className="py-20 sm:py-24">
         <div className="page-x">
-          <SectionIntro muted="One scale." heading="Every kind of exposure in one queue" lead="Attackers do not care whether a weakness has a CVE number. The queue does not either." />
+          <SectionIntro eyebrow="Finding Types" heading="Vulnerabilities, Misconfigurations and Identity Exposures" lead="All finding types are scored on the same scale and prioritized in a single Exposure Queue." />
           <ul className="mt-12 grid gap-4 md:grid-cols-3">
             {kinds.map((k, i) => (
               <RiseOnView as="li" key={k.title} delay={i * 0.08} className="lift group flex flex-col rounded-3xl border border-ash-grey p-6 hover:border-ink sm:p-8">
@@ -148,9 +147,9 @@ export function ThreatExposurePage() {
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-[calc(var(--header-h)+48px)]">
               <SectionIntro
-                muted="No mystery score."
-                heading="Four signals, each one you can check"
-                lead="The inputs are your own asset record, a public catalog, your threat intelligence and your own test results. Nothing proprietary to take on faith."
+                eyebrow="Prioritization Model"
+                heading="Prioritization Signals"
+                lead="Each priority rank is calculated from verifiable inputs: the asset record, the CISA KEV catalog, connected threat intelligence and penetration test results."
               />
             </div>
           </div>
@@ -162,14 +161,14 @@ export function ThreatExposurePage() {
 
       <section className="border-t border-ash-grey bg-mist py-20 sm:py-24">
         <div className="page-x">
-          <SectionIntro heading="What moves a finding" lead="A rank changes when the facts behind it change, and the finding records why." />
+          <SectionIntro eyebrow="Rank Adjustments" heading="Priority Rank Adjustments" lead="A priority rank is recalculated when the underlying data changes, and each change is recorded on the finding." />
           <div className="mt-12 grid gap-4 md:grid-cols-2">
             <RiseOnView navTone="dark" className="on-dark rounded-3xl bg-ink p-6 text-bone sm:p-8">
               <p className="heading-6 flex items-center gap-3">
                 <span className="flex size-10 items-center justify-center rounded-xl bg-bone text-ink">
                   <ArrowUp weight="bold" className="size-5" aria-hidden="true" />
                 </span>
-                Raises a rank
+                Increases Priority
               </p>
               <ul className="mt-6 space-y-3">
                 {raises.map((r) => (
@@ -184,7 +183,7 @@ export function ThreatExposurePage() {
                 <span className="flex size-10 items-center justify-center rounded-xl border border-ink">
                   <ArrowDown weight="bold" className="size-5" aria-hidden="true" />
                 </span>
-                Lowers a rank
+                Decreases Priority
               </p>
               <ul className="mt-6 space-y-3">
                 {lowers.map((r) => (
@@ -200,7 +199,7 @@ export function ThreatExposurePage() {
 
       <section className="py-20 sm:py-24">
         <div className="page-x">
-          <SectionIntro muted="Mobilize." heading="From the top of the queue to closed" />
+          <SectionIntro eyebrow="Remediation Workflow" heading="From Prioritization to Verified Closure" />
           <ol className="mt-12 grid gap-4 md:grid-cols-4">
             {flow.map((f, i) => (
               <RiseOnView as="li" key={f.title} delay={i * 0.1} className="relative rounded-3xl border border-ash-grey p-6">
@@ -216,18 +215,18 @@ export function ThreatExposurePage() {
           </ol>
           <p className="body-6 mt-6 flex items-center gap-2 text-graphite">
             <ModuleIcon slug="vulnerability-patch-management" className="size-5" />
-            Steps 2 to 4 run in Vulnerability &amp; Patch Management, on the same record.
+            Steps 2 to 4 are performed in Vulnerability &amp; Patch Management on the same asset record.
           </p>
         </div>
       </section>
 
-      <section aria-label="The principle" className="page-x border-t border-ash-grey py-24">
-        <InkParagraph as="h2" className="heading-3 sm:heading-2 lg:heading-1" text="A queue you can explain beats a score you have to trust." />
+      <section aria-label="Module summary" className="page-x border-t border-ash-grey py-24">
+        <InkParagraph as="h2" className="heading-3 sm:heading-2 lg:heading-1" text="Every priority rank is traceable to its inputs: asset criticality, reachability, known exploitation and validated attack paths." />
       </section>
 
       <ModuleRelations mod={mod} />
-      <Faq items={faq} heading="Questions about Threat Exposure Management" />
-      <CtaBand heading="See your own top ten." href="/walkthrough?interest=threat-exposure-management" secondary={{ href: "/platform/vulnerability-patch-management", label: "Next: Vulnerability & Patch" }} />
+      <Faq items={faq} />
+      <CtaBand href="/walkthrough?interest=threat-exposure-management" secondary={{ href: "/platform/vulnerability-patch-management", label: "View Vulnerability & Patch Management" }} />
     </>
   );
 }

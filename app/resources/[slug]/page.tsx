@@ -50,14 +50,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <header className="page-x pb-12 pt-12 sm:pt-16">
           <Link href="/resources" className="link-arrow body-5 text-graphite hover:text-ink">
             <ArrowLeft weight="bold" className="size-4" aria-hidden="true" />
-            All resources
+            All Resources
           </Link>
           <p className="caption-3 mt-8 text-slate">{a.topic}</p>
           <div className="mt-3">
             <HeroIntro tone="light" lines={[a.title]} className="heading-4 sm:heading-3 lg:heading-2">
               <p className="body-7 mt-6 text-graphite"><NoBreak text={a.description} /></p>
               <p className="caption-2 mt-6 text-slate">
-                Reviewed {formatDate(a.date)} · {a.minutes} minute read · ASH-V team
+                Reviewed {formatDate(a.date)} · {a.minutes}-minute read · ASH-V
               </p>
             </HeroIntro>
           </div>
@@ -97,7 +97,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
       <section className="border-t border-ash-grey py-20 sm:py-24">
         <div className="page-x">
-          <h2 className="heading-4 sm:heading-3">Keep reading</h2>
+          <h2 className="heading-4 sm:heading-3">Related Articles</h2>
           <ul className="mt-10 grid gap-4 md:grid-cols-2">
             {others.map((o) => (
               <li key={o.slug}>

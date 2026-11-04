@@ -7,9 +7,9 @@ export function PromoBar() {
     <div data-nav-tone="dark" className="on-dark bg-cobalt text-bone">
       <p className="page-x body-6 flex min-h-10 items-center justify-center py-1 text-center">
         <span>
-          See ASH-V on your own estate.{" "}
+          Platform walkthroughs are available for security and compliance teams.{" "}
           <Link href="/walkthrough" className="body-4 inline-flex min-h-10 items-center underline underline-offset-4">
-            Book a 30 minute walkthrough
+            Request a Walkthrough
           </Link>
         </span>
       </p>

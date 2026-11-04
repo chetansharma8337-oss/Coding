@@ -191,7 +191,7 @@ export function SiteHeader({ logo }: { logo: React.ReactNode }) {
               aria-current={pathname === "/walkthrough" ? "page" : undefined}
               className={`btn btn-sm hidden sm:inline-flex ${shown === "dark" ? "btn-light" : "btn-dark"}`}
             >
-              Book a walkthrough
+              Request a Walkthrough
             </Link>
             <button
               ref={sheetButton}
@@ -254,8 +254,8 @@ export function SiteHeader({ logo }: { logo: React.ReactNode }) {
                 onClick={close}
                 className="press mt-1 flex items-center justify-between rounded-2xl bg-mist p-3 hover:bg-ink/5"
               >
-                <span className="title-4">Platform overview</span>
-                <span className="caption-5 text-graphite">How the six modules share one record</span>
+                <span className="title-4">Platform Overview</span>
+                <span className="caption-5 text-graphite">Six modules on a single asset record</span>
               </Link>
             </motion.div>
           ) : null}
@@ -346,7 +346,7 @@ export function SiteHeader({ logo }: { logo: React.ReactNode }) {
                 ))}
               </ul>
               <ul className="mt-8">
-                {[{ href: "/platform", label: "Platform overview" }, ...pages].map((p) => (
+                {[{ href: "/platform", label: "Platform Overview" }, ...pages].map((p) => (
                   <motion.li key={p.href} variants={item}>
                     <Link
                       href={p.href}
@@ -361,7 +361,7 @@ export function SiteHeader({ logo }: { logo: React.ReactNode }) {
               </ul>
               <motion.div variants={item}>
                 <Link href="/walkthrough" onClick={close} className="btn btn-dark mt-8 w-full">
-                  Book a walkthrough
+                  Request a Walkthrough
                 </Link>
               </motion.div>
             </motion.nav>

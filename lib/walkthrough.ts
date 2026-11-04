@@ -1,6 +1,6 @@
 import { modules } from "./modules";
 
-export const teamSizes = ["Under 5", "5 to 20", "21 to 100", "Over 100"] as const;
+export const teamSizes = ["Fewer than 5", "5 to 20", "21 to 100", "More than 100"] as const;
 
 export type WalkthroughRequest = {
   name: string;
@@ -31,20 +31,20 @@ export function validateWalkthrough(input: Partial<Record<keyof WalkthroughReque
     notes: str(input.notes),
   };
   const errors: FieldErrors = {};
-  if (!data.name) errors.name = "Enter your name.";
-  else if (data.name.length > 120) errors.name = "Keep your name under 120 characters.";
-  if (!data.email) errors.email = "Enter your work email.";
-  else if (!EMAIL.test(data.email)) errors.email = "Enter an email address like name@company.com.";
-  if (!data.company) errors.company = "Enter your company name.";
-  else if (data.company.length > 160) errors.company = "Keep the company name under 160 characters.";
-  if (!teamSizes.includes(data.teamSize as (typeof teamSizes)[number])) errors.teamSize = "Choose your security team size.";
-  if (data.interests.some((i) => !moduleSlugs.has(i))) errors.interests = "Choose modules from the list.";
-  if (data.notes.length > 2000) errors.notes = "Keep notes under 2,000 characters.";
+  if (!data.name) errors.name = "Enter your full name.";
+  else if (data.name.length > 120) errors.name = "Full name must be 120 characters or fewer.";
+  if (!data.email) errors.email = "Enter a work email address.";
+  else if (!EMAIL.test(data.email)) errors.email = "Enter a valid email address, for example name@company.com.";
+  if (!data.company) errors.company = "Enter an organization name.";
+  else if (data.company.length > 160) errors.company = "Organization name must be 160 characters or fewer.";
+  if (!teamSizes.includes(data.teamSize as (typeof teamSizes)[number])) errors.teamSize = "Select a security team size.";
+  if (data.interests.some((i) => !moduleSlugs.has(i))) errors.interests = "Select modules from the list.";
+  if (data.notes.length > 2000) errors.notes = "Additional context must be 2,000 characters or fewer.";
   return Object.keys(errors).length ? { errors } : { data, errors };
 }
 
 export const callAgenda = [
-  "We map the tools you run today to the ASH-V modules they overlap with.",
-  "We walk one real exposure type from your environment through the queue, the fix and the evidence.",
-  "You leave with a written summary of what a pilot would cover.",
+  "Current security tools are mapped to the ASH-V modules they overlap with.",
+  "One exposure type from your environment is followed through prioritization, remediation and evidence.",
+  "A written pilot scope is provided after the session.",
 ];

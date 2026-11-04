@@ -57,7 +57,7 @@ export const frameworks: Framework[] = [
     publisher: "CISA",
     facts: [
       "A list of CVEs with reliable evidence of active exploitation and clear remediation guidance. It held more than 1,700 entries in October 2026.",
-      "Created under Binding Operational Directive 22-01 in November 2021. BOD 26-04, issued in June 2026, replaced it with risk based timelines and kept the catalog.",
+      "Created under Binding Operational Directive 22-01 in November 2021. BOD 26-04, issued in June 2026, replaced it with risk-based timelines and retained the catalog.",
     ],
     sources: [
       { label: "KEV catalog", href: "https://www.cisa.gov/known-exploited-vulnerabilities-catalog" },
@@ -70,21 +70,21 @@ export const frameworks: Framework[] = [
 // names and the evidence column are illustrative.
 export const mappingExample = [
   {
-    control: "Keep an inventory of every asset, with an owner",
+    control: "AM-02 Asset Inventory and Ownership",
     iso: "A.5.9",
     csf: "ID.AM-01",
     cis: "1.1",
     evidence: "Asset Intelligence",
   },
   {
-    control: "Remediate known exploited vulnerabilities on time",
+    control: "VM-01 Remediate Known Exploited Vulnerabilities",
     iso: "A.8.8",
     csf: "ID.RA-01",
     cis: "7.7",
     evidence: "Vulnerability & Patch Management, Automated Penetration Testing",
   },
   {
-    control: "Assess suppliers by the access they hold",
+    control: "SR-04 Vendor Review by Access Level",
     iso: "A.5.19",
     csf: "GV.SC",
     cis: "15",

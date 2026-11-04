@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/LegalPage";
 
-export const metadata: Metadata = { title: "Privacy notice", alternates: { canonical: "/privacy" } };
+export const metadata: Metadata = { title: "Privacy Notice", alternates: { canonical: "/privacy" } };
 
 export default function Privacy() {
   return (
-    <LegalPage title="Privacy notice">
+    <LegalPage title="Privacy Notice">
       <p>
-        The walkthrough form asks for your name, work email, company, security team size, the modules you are interested
-        in and any notes you add. ASH-V uses these details to contact you about the walkthrough you requested.
+        The walkthrough request form collects full name, work email address, organization, security team size, modules of
+        interest and any additional context provided. ASH-V uses this information only to schedule the requested
+        walkthrough.
       </p>
-      <p>The final notice will set out retention periods, your rights and how to contact ASH-V about your data.</p>
+      <p>The final notice will define retention periods, data subject rights and the contact for data protection enquiries.</p>
     </LegalPage>
   );
 }

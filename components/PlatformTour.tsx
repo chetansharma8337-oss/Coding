@@ -35,7 +35,7 @@ function Step({ mod, index, active, onActive }: { mod: PlatformModule; index: nu
           {mod.intro}
         </p>
         <Link href={`/platform/${mod.slug}`} className="btn btn-outline mt-6">
-          Read about {mod.short}
+          View Module
         </Link>
       </div>
       <div className="mt-8 lg:hidden">

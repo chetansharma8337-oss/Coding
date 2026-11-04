@@ -3,5 +3,5 @@
 export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   description:
-    "ASH-V brings asset intelligence, threat exposure management, vulnerability and patch management, automated penetration testing, vendor risk and GRC into one platform built on a single asset record.",
+    "ASH-V is an exposure management and GRC platform that unifies asset intelligence, threat exposure management, vulnerability and patch management, automated penetration testing, third-party risk management and governance, risk and compliance on a single asset record.",
 };

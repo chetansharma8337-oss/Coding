@@ -4,8 +4,8 @@ import { WordReveal } from "@/components/WordReveal";
 
 // A2 final call to action: the same action as the top of the page, said again with the risk taken out.
 export function CtaBand({
-  heading = "See your own estate in ASH-V.",
-  body = "A 30 minute working session built around the tools you run today. No cost, no slide deck, and you keep the written summary.",
+  heading = "Request a Platform Walkthrough",
+  body = "A 30-minute session based on your current security tooling and environment. Provided at no cost, with a written pilot scope delivered afterwards.",
   href = "/walkthrough",
   secondary,
 }: {
@@ -23,7 +23,7 @@ export function CtaBand({
         </div>
         <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
           <Link href={href} className="btn btn-light">
-            Book a walkthrough
+            Request a Walkthrough
             <ArrowRight weight="bold" className="size-4" aria-hidden="true" />
           </Link>
           {secondary ? (

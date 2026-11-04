@@ -12,21 +12,21 @@ import { pagePhotos } from "@/lib/images";
 export const metadata: Metadata = {
   title: "Frameworks",
   description:
-    "Map a control once to ISO/IEC 27001, NIST CSF 2.0 and the CIS Controls, and let ASH-V supply the evidence from remediation, testing and vendor reviews.",
+    "Cross-framework control mapping to ISO/IEC 27001, NIST CSF 2.0 and the CIS Controls, with evidence records from remediation, testing and vendor assessments.",
   alternates: { canonical: "/frameworks" },
 };
 
 export default function FrameworksPage() {
   return (
     <>
-      <PageHero src={pagePhotos.frameworks.src} position={pagePhotos.frameworks.position} lines={["Map a control once.", "Report it everywhere."]}>
+      <PageHero src={pagePhotos.frameworks.src} position={pagePhotos.frameworks.position} lines={["Cross-Framework", "Control Mapping"]}>
         <p className="body-7 sm:body-8 mt-6 text-bone/90">
-          Most frameworks ask the same questions in different words. ASH-V maps each control to every framework you report
-          against and attaches evidence from the work your teams already do.
+          ISO/IEC 27001, NIST CSF and the CIS Controls define overlapping requirements in different terms. ASH-V maps each
+          control to every applicable requirement and attaches evidence records from operational activity.
         </p>
         <div className="mt-8">
           <Link href="/walkthrough?interest=grc" className="btn btn-light">
-            Book a walkthrough
+            Request a Walkthrough
             <ArrowRight weight="bold" className="size-4" aria-hidden="true" />
           </Link>
         </div>
@@ -35,9 +35,9 @@ export default function FrameworksPage() {
       <section className="py-20 sm:py-24">
         <div className="page-x">
           <SectionIntro
-            muted="The frameworks."
-            heading="What you report against, and where the data comes from"
-            lead="Three control frameworks and the public catalog ASH-V ranks exposures against. Facts are taken from each publisher's own pages."
+            eyebrow="Supported Frameworks"
+            heading="Frameworks and Reference Catalogs"
+            lead="Three control frameworks and the public vulnerability catalog used for prioritization, as described by each publisher."
           />
           <ul className="mt-12 grid gap-4 md:grid-cols-2">
             {frameworks.map((f, i) => (
@@ -73,20 +73,20 @@ export default function FrameworksPage() {
         </div>
       </section>
 
-      <section aria-label="Why it matters" className="page-x border-t border-ash-grey py-24">
+      <section aria-label="Mapping summary" className="page-x border-t border-ash-grey py-24">
         <InkParagraph
           as="h2"
           className="heading-3 sm:heading-2"
-          text="Patch a server once, and the evidence shows up under every framework that asks about patching."
+          text="A single verified closure provides evidence for every mapped requirement that addresses vulnerability remediation."
         />
       </section>
 
       <section className="border-t border-ash-grey py-20 sm:py-24">
         <div className="page-x">
           <SectionIntro
-            muted="One control, many frameworks."
-            heading="An example mapping"
-            lead="Three common controls, the matching requirement in each framework, and the ASH-V module that supplies the evidence. Your control set will differ; this shows the shape."
+            eyebrow="Control Mapping"
+            heading="Example Control Mapping"
+            lead="Three example controls, the corresponding requirement in each framework and the ASH-V module that provides the evidence records."
           />
           <RiseOnView className="mt-12 overflow-x-auto rounded-3xl border border-ash-grey">
             <table className="w-full min-w-[720px] border-collapse text-left">
@@ -106,7 +106,7 @@ export default function FrameworksPage() {
                     CIS v8.1
                   </th>
                   <th scope="col" className="p-4 font-semibold sm:px-6">
-                    Evidence from
+                    Evidence Source
                   </th>
                 </tr>
               </thead>
@@ -125,18 +125,17 @@ export default function FrameworksPage() {
               </tbody>
             </table>
           </RiseOnView>
-          <p className="caption-2 mt-4 text-slate">Control IDs are the publishers&apos; own. Control names and evidence sources are illustrative.</p>
+          <p className="caption-2 mt-4 text-slate">Requirement identifiers as published. Control names and evidence sources are examples.</p>
           <p className="body-3 mt-8">
-            Read more in{" "}
+            Related article:{" "}
             <Link href="/resources/one-control-many-frameworks" className="font-semibold underline underline-offset-4">
-              One control, many frameworks
+              Cross-Framework Mapping for Vulnerability Management
             </Link>
-            .
           </p>
         </div>
       </section>
 
-      <CtaBand href="/walkthrough?interest=grc" secondary={{ href: "/platform/grc", label: "Explore GRC" }} />
+      <CtaBand href="/walkthrough?interest=grc" secondary={{ href: "/platform/grc", label: "View Governance, Risk & Compliance" }} />
     </>
   );
 }

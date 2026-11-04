@@ -19,42 +19,42 @@ import { useWide } from "@/lib/useWide";
 type Sighting = { source: string; fields: [string, string, boolean?][]; x: number; y: number };
 
 const sightings: Sighting[] = [
-  { source: "Cloud account", fields: [["Instance", "i-07c2e19a4b", true], ["Private IP", "10.40.2.17", true], ["Tag owner", "finance-it"]], x: -400, y: -190 },
-  { source: "Vulnerability scanner", fields: [["Host", "FIN-DB-02", true], ["IP", "10.40.2.17", true], ["OS", "Ubuntu 22.04"]], x: 400, y: -190 },
-  { source: "Endpoint agent", fields: [["Host", "fin-db-02", true], ["OS", "Ubuntu 22.04.4"], ["Check in", "4 min ago"]], x: -420, y: 150 },
-  { source: "CMDB", fields: [["Name", "fin-db-02.corp.local", true], ["Owner", "Finance IT"], ["Criticality", "High"]], x: 420, y: 150 },
-  { source: "Directory", fields: [["Object", "fin-db-02$", true], ["OU", "Servers / Finance"], ["Last logon", "Today"]], x: 0, y: 250 },
+  { source: "Cloud Account", fields: [["Instance ID", "i-07c2e19a4b", true], ["Private IP", "10.40.2.17", true], ["Owner Tag", "finance-it"]], x: -400, y: -190 },
+  { source: "Vulnerability Scanner", fields: [["Hostname", "FIN-DB-02", true], ["IP Address", "10.40.2.17", true], ["Operating System", "Ubuntu 22.04"]], x: 400, y: -190 },
+  { source: "Endpoint Agent", fields: [["Hostname", "fin-db-02", true], ["Operating System", "Ubuntu 22.04.4"], ["Last Check-In", "02:37"]], x: -420, y: 150 },
+  { source: "CMDB", fields: [["CI Name", "fin-db-02.corp.local", true], ["Asset Owner", "Finance IT"], ["Asset Criticality", "High"]], x: 420, y: 150 },
+  { source: "Directory", fields: [["Computer Object", "fin-db-02$", true], ["OU", "Servers / Finance"], ["Last Logon", "4 Nov 2026"]], x: 0, y: 250 },
 ];
 
 const record: { k: string; v: string; from: string; note?: string; mono?: boolean }[] = [
-  { k: "Asset", v: "fin-db-02", from: "4 sources", note: "Three spellings normalized to one name", mono: true },
-  { k: "IP", v: "10.40.2.17", from: "Cloud, Scanner", mono: true },
-  { k: "OS", v: "Ubuntu 22.04.4", from: "Endpoint agent", note: "Agent wins over scanner: it reports the exact build" },
-  { k: "Cloud", v: "i-07c2e19a4b", from: "Cloud account", mono: true },
-  { k: "Owner", v: "Finance IT", from: "CMDB, matches cloud tag" },
-  { k: "Criticality", v: "High", from: "CMDB" },
+  { k: "Asset", v: "fin-db-02", from: "4 data sources", note: "3 hostname variants normalized", mono: true },
+  { k: "IP Address", v: "10.40.2.17", from: "Cloud account, scanner", mono: true },
+  { k: "Operating System", v: "Ubuntu 22.04.4", from: "Endpoint agent", note: "Takes precedence over scanner: reports the exact build" },
+  { k: "Cloud Instance", v: "i-07c2e19a4b", from: "Cloud account", mono: true },
+  { k: "Asset Owner", v: "Finance IT", from: "CMDB", note: "Consistent with cloud owner tag" },
+  { k: "Asset Criticality", v: "High", from: "CMDB" },
 ];
 
 const controls = [
-  { name: "Endpoint agent", ok: true },
-  { name: "Vulnerability scan", ok: true },
+  { name: "Endpoint Agent", ok: true },
+  { name: "Vulnerability Scanning", ok: true },
   { name: "Backup", ok: false },
 ];
 
 const readers: { slug: ModuleSlug; reads: string }[] = [
-  { slug: "threat-exposure-management", reads: "Criticality" },
-  { slug: "vulnerability-patch-management", reads: "Owner" },
-  { slug: "automated-penetration-testing", reads: "Test scope" },
-  { slug: "third-party-risk-management", reads: "Vendor access" },
+  { slug: "threat-exposure-management", reads: "Asset Criticality" },
+  { slug: "vulnerability-patch-management", reads: "Asset Owner" },
+  { slug: "automated-penetration-testing", reads: "Test Scope" },
+  { slug: "third-party-risk-management", reads: "Vendor Access" },
   { slug: "grc", reads: "Controls" },
 ];
 
 const captions = [
-  "Five tools each see part of fin-db-02.",
-  "ASH-V matches them on shared identifiers: instance ID, IP and hostname.",
-  "Conflicts settle by field precedence, and every field keeps its source.",
-  "Owner, criticality and the missing backup are on the record.",
-  "Every module reads the same record.",
+  "Five data sources each report part of fin-db-02.",
+  "Records are matched on shared identifiers: instance ID, IP address and hostname.",
+  "Conflicting values are resolved by field precedence, and each field retains its data source.",
+  "Asset owner, asset criticality and the backup coverage gap are recorded.",
+  "Every module reads the same asset record.",
 ];
 
 function SightingCard({ s, match }: { s: Sighting; match?: MotionValue<number> }) {
@@ -91,8 +91,8 @@ function RecordCard({ rowOpacity, extrasOpacity, extrasY, readersOpacity }: {
   return (
     <div data-nav-tone="dark" className="on-dark w-full max-w-[460px] rounded-3xl bg-ink p-6 text-bone shadow-[0_40px_80px_-40px_rgb(0_0_0/0.6)]">
       <div className="flex items-center justify-between">
-        <p className="caption-3 text-ash-grey">One asset record</p>
-        <p className="caption-5 text-ash-grey">Seen by 5 sources</p>
+        <p className="caption-3 text-ash-grey">Asset Record</p>
+        <p className="caption-5 text-ash-grey">5 Data Sources</p>
       </div>
       <dl className="mt-4 divide-y divide-bone/10">
         {record.map((r, i) => (
@@ -102,7 +102,7 @@ function RecordCard({ rowOpacity, extrasOpacity, extrasY, readersOpacity }: {
               <dd className={`body-5 text-right ${r.mono ? "font-mono" : ""}`}>{r.v}</dd>
             </div>
             <p className="caption-5 mt-0.5 text-right text-bone/60">
-              from {r.from}
+              Source: {r.from}
               {r.note ? ` · ${r.note}` : ""}
             </p>
           </motion.div>
@@ -118,7 +118,7 @@ function RecordCard({ rowOpacity, extrasOpacity, extrasY, readersOpacity }: {
           >
             {c.ok ? <CheckCircle weight="fill" className="size-3.5" aria-hidden="true" /> : <Circle weight="bold" className="size-3.5" aria-hidden="true" />}
             {c.name}
-            {c.ok ? "" : ": missing"}
+            {c.ok ? "" : ": Coverage Gap"}
           </li>
         ))}
       </motion.ul>
@@ -171,7 +171,7 @@ function Pinned() {
               style={{ opacity: ghostOpacity }}
             >
               <span className="caption-6 font-mono text-graphite">fin-db-02</span>
-              <span className="caption-5 mt-1 text-slate">one asset, five views</span>
+              <span className="caption-5 mt-1 text-slate">5 data source records</span>
             </motion.div>
             {sightings.map((s) => (
               <SightingMotion key={s.source} s={s} conv={conv} opacity={cardOpacity} scale={cardScale} match={match} />
@@ -226,7 +226,7 @@ function Still() {
         </li>
         <li>
           <p className="caption-3 text-slate">Steps 2 to 5</p>
-          <p className="heading-5 mt-1">One record, with every field&apos;s source, the conflict settled, the gap visible and the modules that read it.</p>
+          <p className="heading-5 mt-1">The consolidated asset record, with data sources, resolved conflicts, coverage gaps and consuming modules.</p>
           <div className="mt-6">
             <RecordCard />
           </div>

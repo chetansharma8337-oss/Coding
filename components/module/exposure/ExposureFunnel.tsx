@@ -6,11 +6,11 @@ import { fade } from "@/lib/springs";
 // Hero visual: how a raw finding count narrows to the handful worth working today. Each stage keeps only
 // what the next signal says matters. Sample figures.
 const stages = [
-  { n: 8214, label: "Open findings", sub: "Everything the scanners report" },
-  { n: 1906, label: "Reachable", sub: "From the internet or inside" },
-  { n: 211, label: "Known exploited", sub: "On CISA KEV or your intel" },
-  { n: 37, label: "On critical assets", sub: "Weighted by the business" },
-  { n: 4, label: "On a validated path", sub: "Proven by a test" },
+  { n: 8214, label: "Open Findings", sub: "All findings from data sources" },
+  { n: 1906, label: "Reachable", sub: "Internet-facing or internally reachable" },
+  { n: 211, label: "Known Exploited", sub: "CISA KEV catalog or threat intelligence" },
+  { n: 37, label: "High-Criticality Assets", sub: "Asset criticality: High" },
+  { n: 4, label: "Validated Attack Path", sub: "Confirmed by penetration testing" },
 ];
 
 export function ExposureFunnel() {
@@ -18,8 +18,8 @@ export function ExposureFunnel() {
   return (
     <figure data-nav-tone="light" className="on-light mx-auto max-w-[1100px] rounded-3xl bg-bone p-6 text-ink shadow-[0_60px_120px_-40px_rgb(0_0_0/0.7)] sm:p-8">
       <div className="flex items-center justify-between gap-4">
-        <span className="caption-3 text-slate">From findings to the work that matters</span>
-        <figcaption className="caption-5 text-slate">Illustrative, sample data</figcaption>
+        <span className="caption-3 text-slate">Findings by Prioritization Stage</span>
+        <figcaption className="caption-5 text-slate">Sample data</figcaption>
       </div>
       <ol className="mt-6 grid gap-4 sm:grid-cols-5 sm:gap-3">
         {stages.map((s, i) => (
@@ -44,7 +44,7 @@ export function ExposureFunnel() {
           </motion.li>
         ))}
       </ol>
-      <p className="caption-5 mt-4 text-slate">Bar lengths on a log scale.</p>
+      <p className="caption-5 mt-4 text-slate">Bar length: logarithmic scale.</p>
     </figure>
   );
 }

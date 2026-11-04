@@ -11,13 +11,13 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: "ASH-V | Exposure management and compliance on one asset record", template: "%s | ASH-V" },
+  title: { default: "ASH-V | Unified Exposure Management and GRC Platform", template: "%s | ASH-V" },
   description: site.description,
   applicationName: "ASH-V",
   openGraph: {
     type: "website",
     siteName: "ASH-V",
-    title: "ASH-V | Exposure management and compliance on one asset record",
+    title: "ASH-V | Unified Exposure Management and GRC Platform",
     description: site.description,
     locale: "en",
   },

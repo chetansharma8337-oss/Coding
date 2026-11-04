@@ -1,40 +1,40 @@
 import type { ModuleSlug } from "./modules";
 
-// One real finding (CVE-2024-21762, on the CISA KEV list) followed through the five modules it touches.
+// One finding (CVE-2024-21762, listed in the CISA KEV catalog) followed through the five modules it passes through.
 export const flowSteps: { verb: string; slug: ModuleSlug; module: string; body: string; evidence: string }[] = [
   {
-    verb: "Found",
-    evidence: "edge-fw-02 · owner Network",
+    verb: "Discovered",
+    evidence: "edge-fw-02 · Asset Owner: Network",
     slug: "asset-intelligence",
     module: "Asset Intelligence",
-    body: "edge-fw-02 is in the inventory with an owner, Network, and a criticality.",
+    body: "edge-fw-02 is recorded in the asset inventory with an asset owner and asset criticality.",
   },
   {
-    verb: "Ranked",
-    evidence: "CVE-2024-21762 · KEV",
+    verb: "Prioritized",
+    evidence: "CVE-2024-21762 · CISA KEV",
     slug: "threat-exposure-management",
     module: "Threat Exposure Management",
-    body: "CVE-2024-21762 is on the KEV list and the VPN faces the internet, so it goes near the top.",
+    body: "CVE-2024-21762 is listed in the CISA KEV catalog and the VPN is internet-facing, so the finding ranks near the top of the Exposure Queue.",
   },
   {
-    verb: "Proven",
-    evidence: "path to fin-db-02",
+    verb: "Validated",
+    evidence: "Attack Path to fin-db-02",
     slug: "automated-penetration-testing",
     module: "Automated Penetration Testing",
-    body: "A test confirms the VPN leads to fin-db-02, so it moves to rank 1.",
+    body: "A penetration test confirms a validated attack path from the VPN to fin-db-02, and the finding moves to priority rank 1.",
   },
   {
-    verb: "Fixed",
-    evidence: "rescan: closed",
+    verb: "Remediated",
+    evidence: "Verification Scan: Passed",
     slug: "vulnerability-patch-management",
     module: "Vulnerability & Patch Management",
-    body: "Network gets the work, patches in rings, and a rescan closes it.",
+    body: "The Network team receives the remediation task, the patch deploys in rings, and a verification scan confirms closure.",
   },
   {
     verb: "Evidenced",
-    evidence: "control VM-01",
+    evidence: "Control VM-01",
     slug: "grc",
     module: "GRC",
-    body: "The patch record and retest attach to control VM-01 for the next audit.",
+    body: "The verified closure and retest result attach to control VM-01 as evidence records.",
   },
 ];

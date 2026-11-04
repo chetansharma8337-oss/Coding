@@ -9,20 +9,20 @@ import { ModuleIcon } from "./ModuleIcon";
 // what it reads from the record and what it writes back. The record settles first, then the modules arrive
 // from the side they sit on. Transform and opacity only.
 const io: Record<string, { reads: string; writes: string }> = {
-  "asset-intelligence": { reads: "Scanner, cloud, agent and directory sightings", writes: "Owner, criticality, sources" },
-  "threat-exposure-management": { reads: "Criticality, reachability, KEV status", writes: "Rank in the exposure queue" },
-  "vulnerability-patch-management": { reads: "Owner and ranked findings", writes: "Rollout ring, verified closure" },
-  "automated-penetration-testing": { reads: "Ranked exposures in scope", writes: "Validated attack paths" },
-  "third-party-risk-management": { reads: "Vendor access to the asset", writes: "Vendor tier and evidence" },
-  grc: { reads: "Evidence from every module", writes: "Control status for the audit" },
+  "asset-intelligence": { reads: "Data source records from scanners, cloud accounts, agents and the directory", writes: "Asset owner, asset criticality, data sources" },
+  "threat-exposure-management": { reads: "Asset criticality, reachability, CISA KEV status", writes: "Priority rank in the Exposure Queue" },
+  "vulnerability-patch-management": { reads: "Asset owner and prioritized findings", writes: "Deployment ring, verified closure" },
+  "automated-penetration-testing": { reads: "Prioritized findings within the test scope", writes: "Validated attack paths" },
+  "third-party-risk-management": { reads: "Vendor access to the asset", writes: "Vendor tier and vendor evidence" },
+  grc: { reads: "Evidence records from every module", writes: "Control status" },
 };
 
 const record = [
   ["Asset", "fin-db-02"],
-  ["Owner", "Finance IT"],
-  ["Criticality", "High"],
-  ["Seen by", "CMDB, Scanner"],
-  ["Open exposures", "2, rank 1 validated"],
+  ["Asset Owner", "Finance IT"],
+  ["Asset Criticality", "High"],
+  ["Data Sources", "CMDB, Scanner"],
+  ["Open Findings", "2, rank 1 validated"],
   ["Controls", "VM-01, AM-02"],
 ];
 
@@ -70,7 +70,7 @@ export function OneRecord() {
         data-nav-tone="dark"
         className="on-dark order-1 rounded-3xl bg-ink p-6 text-bone lg:order-2 lg:p-8"
       >
-        <p className="caption-3 text-ash-grey">One asset record</p>
+        <p className="caption-3 text-ash-grey">Asset Record</p>
         <dl className="mt-6 divide-y divide-bone/15">
           {record.map(([k, v]) => (
             <div key={k} className="flex items-baseline justify-between gap-4 py-3">
@@ -79,7 +79,7 @@ export function OneRecord() {
             </div>
           ))}
         </dl>
-        <p className="caption-5 mt-6 text-ash-grey">Illustrative record, sample data</p>
+        <p className="caption-5 mt-6 text-ash-grey">Sample data</p>
       </motion.div>
       <ul className="order-3 grid gap-4">
         {right.map((m, i) => (

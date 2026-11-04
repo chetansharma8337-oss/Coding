@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SolutionView } from "@/components/SolutionView";
-import { roleInSentence, solutionBySlug, solutions } from "@/lib/solutions";
+import { solutionBySlug, solutions } from "@/lib/solutions";
 
 export function generateStaticParams() {
   return solutions.map((s) => ({ slug: s.slug }));
@@ -10,7 +10,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const s = solutionBySlug((await params).slug);
   return s
-    ? { title: `ASH-V for ${roleInSentence(s.role)}`, description: s.line, alternates: { canonical: `/solutions/${s.slug}` } }
+    ? { title: `Solutions for ${s.role}`, description: s.line, alternates: { canonical: `/solutions/${s.slug}` } }
     : {};
 }
 

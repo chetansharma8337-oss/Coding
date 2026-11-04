@@ -135,12 +135,12 @@ export function WalkthroughForm() {
         setStatus({ kind: "idle" });
         return;
       }
-      if (!res.ok) throw new Error(json.error ?? "The server did not accept the request.");
+      if (!res.ok) throw new Error(json.error ?? "The request was rejected by the server.");
       setStatus({ kind: "sent", email: data.email });
     } catch (err) {
       setStatus({
         kind: "failed",
-        message: err instanceof Error && err.message !== "Failed to fetch" ? err.message : "We could not reach the server.",
+        message: err instanceof Error && err.message !== "Failed to fetch" ? err.message : "The server could not be reached.",
       });
     }
   }
@@ -161,10 +161,10 @@ export function WalkthroughForm() {
     <AnimatePresence mode="wait" initial={false}>
       {status.kind === "sent" ? (
         <motion.div key="sent" {...swap} ref={focusOnMount} tabIndex={-1} role="status" className="rounded-2xl bg-mist p-6 sm:p-8">
-          <p className="heading-5">Request received.</p>
+          <p className="heading-5">Walkthrough Request Submitted</p>
           <p className="mt-3 body-3 text-graphite">
-            We will reply to <span className="font-semibold text-ink">{status.email}</span> to agree a time. Bring a list of
-            the tools you run today and we will show where each one fits.
+            A member of the ASH-V team will contact <span className="font-semibold text-ink">{status.email}</span> to schedule
+            the session. A list of current security tools will allow each one to be mapped to ASH-V modules.
           </p>
           <button
             type="button"
@@ -176,7 +176,7 @@ export function WalkthroughForm() {
             }}
             className="btn btn-outline mt-6"
           >
-            Send another request
+            Submit Another Request
           </button>
         </motion.div>
       ) : (
@@ -206,26 +206,26 @@ export function WalkthroughForm() {
         >
           {status.kind === "failed" ? (
             <div ref={resultRef} tabIndex={-1} role="alert" className="rounded-xl border-2 border-ink p-4">
-              <p className="body-4">Your request was not sent.</p>
+              <p className="body-4">Request Not Submitted</p>
               <p className="mt-1 body-6 text-graphite">
-                {status.message} Your answers are still here, so you can send it again.
+                {status.message} Your entries have been retained. Submit the request again.
               </p>
             </div>
           ) : null}
     
           <div className="grid gap-6 sm:grid-cols-2">
-            <Field id={id("name")} label="Name" error={errors.name}>
+            <Field id={id("name")} label="Full Name" error={errors.name}>
               <input
                 id={id("name")}
                 name="name"
                 autoComplete="name"
-                placeholder="Your name"
+                placeholder="Full name"
                 aria-invalid={!!errors.name}
                 aria-describedby={describedBy("name")}
                 className={inputClass}
               />
             </Field>
-            <Field id={id("email")} label="Work email" error={errors.email}>
+            <Field id={id("email")} label="Work Email" error={errors.email}>
               <input
                 id={id("email")}
                 name="email"
@@ -238,18 +238,18 @@ export function WalkthroughForm() {
                 className={inputClass}
               />
             </Field>
-            <Field id={id("company")} label="Company" error={errors.company}>
+            <Field id={id("company")} label="Organization" error={errors.company}>
               <input
                 id={id("company")}
                 name="company"
                 autoComplete="organization"
-                placeholder="Company name"
+                placeholder="Organization name"
                 aria-invalid={!!errors.company}
                 aria-describedby={describedBy("company")}
                 className={inputClass}
               />
             </Field>
-            <Field id={id("teamSize")} label="Security team size" error={errors.teamSize}>
+            <Field id={id("teamSize")} label="Security Team Size" error={errors.teamSize}>
               <select
                 id={id("teamSize")}
                 name="teamSize"
@@ -259,7 +259,7 @@ export function WalkthroughForm() {
                 className={`${inputClass} appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 12 12%22><path d=%22M2.5 4.5L6 8l3.5-3.5%22 fill=%22none%22 stroke=%22%231f1f1f%22 stroke-width=%221.5%22/></svg>')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat pr-10`}
               >
                 <option value="" disabled>
-                  Choose one
+                  Select team size
                 </option>
                 {teamSizes.map((s) => (
                   <option key={s} value={s}>
@@ -271,9 +271,9 @@ export function WalkthroughForm() {
           </div>
     
           <fieldset aria-describedby={errors.interests ? `${id("interests")}-error` : `${id("interests")}-hint`}>
-            <legend className="body-4">What should we focus on?</legend>
+            <legend className="body-4">Modules of Interest</legend>
             <p id={`${id("interests")}-hint`} className="mt-1 caption-5 text-slate">
-              Optional. Pick any that apply.
+              Optional. Select all that apply.
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               {modules.map((m) => {
@@ -319,12 +319,12 @@ export function WalkthroughForm() {
             ) : null}
           </fieldset>
     
-          <Field id={id("notes")} label="Anything we should know" error={errors.notes} hint="Optional. Tools you run today, audits coming up, what is not working.">
+          <Field id={id("notes")} label="Additional Context" error={errors.notes} hint="Optional. Current tooling, upcoming audits or specific requirements.">
             <textarea
               id={id("notes")}
               name="notes"
               rows={4}
-              placeholder="Drop your notes here..."
+              placeholder="For example: current vulnerability scanner, ITSM platform and the next ISO/IEC 27001 audit date"
               aria-invalid={!!errors.notes}
               aria-describedby={describedBy("notes", true)}
               className={`${inputClass} resize-y`}
@@ -333,14 +333,14 @@ export function WalkthroughForm() {
     
           <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
             <p className="caption-5 text-slate">
-              We use these details only to arrange the walkthrough. See the{" "}
+              These details are used only to schedule the walkthrough. See the{" "}
               <a href="/privacy" className="font-semibold text-graphite underline underline-offset-2">
-                privacy notice
+                Privacy Notice
               </a>
               .
             </p>
             <button type="submit" disabled={sending} className="btn btn-dark shrink-0 disabled:opacity-70">
-              {sending ? "Sending request…" : "Request a walkthrough"}
+              {sending ? "Submitting…" : "Submit Request"}
             </button>
           </div>
         </motion.form>

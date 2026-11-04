@@ -14,15 +14,15 @@ import { fade, spring } from "@/lib/springs";
 
 const evidence: { slug: ModuleSlug; what: string; when: string }[] = [
   { slug: "vulnerability-patch-management", what: "61 verified closures for CVE-2021-44228", when: "4 Nov 02:41" },
-  { slug: "automated-penetration-testing", what: "Retest passed: path to fin-db-02 closed", when: "4 Nov 03:10" },
-  { slug: "threat-exposure-management", what: "12 of 12 KEV findings closed within policy", when: "4 Nov 06:00" },
-  { slug: "vulnerability-patch-management", what: "Exception EX-0193 approved, expires 31 Jan", when: "4 Nov 09:15" },
+  { slug: "automated-penetration-testing", what: "Retest passed: attack path to fin-db-02 closed", when: "4 Nov 03:10" },
+  { slug: "threat-exposure-management", what: "12 of 12 CISA KEV findings closed within due date", when: "4 Nov 06:00" },
+  { slug: "vulnerability-patch-management", what: "Risk exception EX-0193 approved, expires 31 Jan 2027", when: "4 Nov 09:15" },
 ];
 
 const frameworks = [
   { id: "ISO/IEC 27001:2022", ref: "A.8.8", text: "Management of technical vulnerabilities" },
-  { id: "NIST CSF 2.0", ref: "ID.RA-01", text: "Vulnerabilities in assets are identified, validated and recorded" },
-  { id: "CIS Controls v8.1", ref: "7.7", text: "Remediate detected vulnerabilities" },
+  { id: "NIST CSF 2.0", ref: "ID.RA-01", text: "Vulnerabilities in assets are identified, validated, and recorded" },
+  { id: "CIS Controls v8.1", ref: "7.7", text: "Remediate Detected Vulnerabilities" },
 ];
 
 // A piece of evidence in transit. Defined at module level so it keeps its identity between renders, which lets the
@@ -66,7 +66,7 @@ export function ControlFanout() {
       <LayoutGroup>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.1fr_1fr] lg:items-center lg:gap-8">
           <div>
-            <p className="caption-3 text-ash-grey">Produced by the work</p>
+            <p className="caption-3 text-ash-grey">Evidence Sources</p>
             <ul className="mt-4 space-y-2">
               {evidence.map((e, i) => {
                 const done = i < filed;
@@ -82,7 +82,7 @@ export function ControlFanout() {
                           {done ? (
                             <span className="caption-5 inline-flex items-center gap-1 text-ash-grey">
                               <CheckCircle weight="fill" className="size-3.5" aria-hidden="true" />
-                              Filed to VM-01
+                              Recorded: VM-01
                             </span>
                           ) : (
                             <Token i={i} reduce={!!reduce} />
@@ -101,13 +101,13 @@ export function ControlFanout() {
               <p className="caption-6 font-mono">VM-01</p>
               <p className="caption-6 inline-flex items-center gap-1 rounded-full bg-ink px-3 py-1 text-bone">
                 <CheckCircle weight="fill" className="size-3.5" aria-hidden="true" />
-                Passing
+                Effective
               </p>
             </div>
-            <p className="heading-6 mt-3">Remediate known exploited vulnerabilities on time</p>
+            <p className="heading-6 mt-3">Remediate Known Exploited Vulnerabilities</p>
             <dl className="mt-4 grid grid-cols-2 gap-3">
               <div className="rounded-xl bg-mist p-3">
-                <dt className="caption-5 text-slate">Evidence items</dt>
+                <dt className="caption-5 text-slate">Evidence Records</dt>
                 <dd className="heading-5 tabular-nums">
                   <AnimatePresence mode="popLayout" initial={false}>
                     <motion.span
@@ -124,23 +124,23 @@ export function ControlFanout() {
                 </dd>
               </div>
               <div className="rounded-xl bg-mist p-3">
-                <dt className="caption-5 text-slate">Last tested</dt>
+                <dt className="caption-5 text-slate">Last Tested</dt>
                 <dd className="title-3 tabular-nums">{lastTested}</dd>
               </div>
             </dl>
-            <p className="caption-5 mt-4 text-slate">Owner: Head of Infrastructure</p>
+            <p className="caption-5 mt-4 text-slate">Control Owner: Head of Infrastructure</p>
             <div className="mt-4 flex min-h-16 flex-wrap content-start gap-1.5 rounded-xl border border-dashed border-ash-grey p-2">
               {evidence.slice(0, filed).map((_, i) => (
                 <span key={i} className="[&>span]:bg-ink [&>span]:text-bone">
                   <Token i={i} reduce={!!reduce} />
                 </span>
               ))}
-              {!filed ? <span className="caption-5 p-1 text-slate">New evidence lands here</span> : null}
+              {!filed ? <span className="caption-5 p-1 text-slate">Awaiting evidence records</span> : null}
             </div>
           </div>
 
           <div>
-            <p className="caption-3 text-ash-grey">Mapped once, reused by</p>
+            <p className="caption-3 text-ash-grey">Mapped Requirements</p>
             <ul className="mt-4 space-y-2">
               {frameworks.map((f, i) => (
                 <motion.li
@@ -164,7 +164,7 @@ export function ControlFanout() {
                     </span>
                     <span className={`caption-5 mt-1 flex items-center gap-1 ${focus === i ? "text-graphite" : "text-ash-grey"}`}>
                       <Seal weight="fill" className="size-3.5" aria-hidden="true" />
-                      Reuses all {9 + filed} evidence items
+                      {9 + filed} evidence records applied
                     </span>
                   </button>
                 </motion.li>
@@ -181,7 +181,7 @@ export function ControlFanout() {
                   transition={fade}
                 >
                   {focus === null ? (
-                    "Hover or focus a framework to read its requirement."
+                    "Select a framework to display the requirement text."
                   ) : (
                     <>
                       <span className="font-mono text-bone">{frameworks[focus].ref}</span> {frameworks[focus].text}
@@ -194,10 +194,10 @@ export function ControlFanout() {
         </div>
       </LayoutGroup>
       <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-        <p className="caption-5 text-ash-grey">Control IDs are the publishers&apos; own. Evidence and dates are sample data.</p>
+        <p className="caption-5 text-ash-grey">Sample data. Requirement identifiers as published by ISO, NIST and CIS.</p>
         <button type="button" onClick={() => setRun((r) => r + 1)} className="btn btn-sm btn-ghost">
           <ArrowCounterClockwise weight="bold" className="size-3.5" aria-hidden="true" />
-          Replay
+          Replay Simulation
         </button>
       </div>
     </div>

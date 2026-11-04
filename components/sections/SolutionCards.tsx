@@ -29,7 +29,7 @@ export function SolutionCards() {
             <span className="heading-5 mt-4 block max-w-[20ch]">{s.role}</span>
             <span className="body-6 mt-2 block max-w-[44ch] text-bone/85">{s.line}</span>
             <span className="link-arrow body-4 mt-4">
-              See how it works for this team
+              View Solution
               <ArrowRight weight="bold" className="size-4" aria-hidden="true" />
             </span>
           </Link>

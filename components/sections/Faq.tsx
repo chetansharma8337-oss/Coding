@@ -7,7 +7,7 @@ export type QA = { q: string; a: string };
 // A2 FAQ in plain question and answer form, with FAQPage structured data for answer engines (A7).
 // Native <details>, so it works without JavaScript and with every assistive technology. The answer rises
 // and fades in on open; the plus turns into a cross. Only transform and opacity move (B7).
-export function Faq({ items, heading = "Questions we hear before a walkthrough", id = "faq" }: { items: QA[]; heading?: string; id?: string }) {
+export function Faq({ items, heading = "Frequently Asked Questions", id = "faq" }: { items: QA[]; heading?: string; id?: string }) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",

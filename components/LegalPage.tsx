@@ -14,7 +14,7 @@ export function LegalPage({ title, children }: { title: string; children: React.
       <div className="mt-8">
         <HeroIntro tone="light" lines={[title]} className="heading-3 sm:heading-2">
           <p className="body-4 mt-8 rounded-2xl border border-ink p-4">
-            Draft placeholder. This page will be replaced with text approved by ASH-V&apos;s legal team before launch.
+            Draft: This page will be replaced with text approved by the ASH-V legal team before publication.
           </p>
         </HeroIntro>
       </div>

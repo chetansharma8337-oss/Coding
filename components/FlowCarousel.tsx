@@ -156,7 +156,7 @@ export function FlowCarousel() {
   const card = "flex h-full min-h-[420px] flex-col rounded-3xl border border-ash-grey bg-bone p-6 sm:p-8";
 
   return (
-    <div role="region" aria-roledescription="carousel" aria-label="How one finding moves" onKeyDown={onKeyDown}>
+    <div role="region" aria-roledescription="carousel" aria-label="Finding lifecycle across modules" onKeyDown={onKeyDown}>
       <div
         ref={viewport}
         className="-mx-4 cursor-grab touch-pan-y select-none overflow-hidden px-4 active:cursor-grabbing sm:-mx-6 sm:px-6"
@@ -206,9 +206,9 @@ export function FlowCarousel() {
               style={{ backgroundImage: `linear-gradient(rgb(0 0 0 / 0.7), rgb(0 0 0 / 0.7)), url(${photos.flowCircuit})` }}
               aria-hidden={index !== n - 1 || undefined}
             >
-              <p className="heading-4 lg:heading-3">One finding. Five modules. One record.</p>
+              <p className="heading-4 lg:heading-3">Five Modules, One Asset Record</p>
               <Link href="/walkthrough" tabIndex={index === n - 1 ? 0 : -1} className="btn btn-light mt-6 self-start ">
-                Walk through it with us
+                Request a Walkthrough
               </Link>
             </article>
           </Slide>
@@ -216,7 +216,7 @@ export function FlowCarousel() {
       </div>
 
       <div className="mt-6 flex items-center justify-between gap-4">
-        <div className="flex items-center" role="group" aria-label="Choose a step">
+        <div className="flex items-center" role="group" aria-label="Select a step">
           {Array.from({ length: n }, (_, i) => (
             <button
               key={i}

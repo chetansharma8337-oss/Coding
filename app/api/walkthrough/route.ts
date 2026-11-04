@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "The request could not be read. Refresh the page and try again." }, { status: 400 });
+    return NextResponse.json({ error: "The request could not be read. Refresh the page and submit the request again." }, { status: 400 });
   }
 
   const { data, errors } = validateWalkthrough((body ?? {}) as Record<string, unknown>);

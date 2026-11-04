@@ -6,7 +6,7 @@ import { Logo } from "./Logo";
 const groups = [
   {
     label: "Platform",
-    links: [{ href: "/platform", label: "Overview" }, ...modules.map((m) => ({ href: `/platform/${m.slug}`, label: m.name }))],
+    links: [{ href: "/platform", label: "Platform Overview" }, ...modules.map((m) => ({ href: `/platform/${m.slug}`, label: m.name }))],
   },
   {
     label: "Solutions",
@@ -18,7 +18,7 @@ const groups = [
       { href: "/company", label: "Company" },
       { href: "/frameworks", label: "Frameworks" },
       { href: "/resources", label: "Resources" },
-      { href: "/walkthrough", label: "Book a walkthrough" },
+      { href: "/walkthrough", label: "Request a Walkthrough" },
     ],
   },
 ];
@@ -32,7 +32,7 @@ export function SiteFooter() {
           <div>
             <Logo />
             <p className="body-6 mt-4 max-w-[36ch] text-ash-grey">
-              Asset intelligence, exposure, patching, testing, vendor risk and compliance on one record.
+              Asset intelligence, exposure management, remediation, penetration testing, third-party risk and GRC on a single asset record.
             </p>
           </div>
           {groups.map((g) => (
@@ -59,12 +59,12 @@ export function SiteFooter() {
           <ul className="flex gap-6">
             <li>
               <Link href="/privacy" className="caption-2 inline-flex min-h-10 items-center text-ash-grey hover:text-bone hover:underline">
-                Privacy notice
+                Privacy Notice
               </Link>
             </li>
             <li>
               <Link href="/terms" className="caption-2 inline-flex min-h-10 items-center text-ash-grey hover:text-bone hover:underline">
-                Terms of use
+                Terms of Use
               </Link>
             </li>
           </ul>

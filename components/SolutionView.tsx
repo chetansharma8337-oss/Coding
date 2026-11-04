@@ -8,7 +8,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { SectionIntro } from "@/components/sections/SectionIntro";
 import { SolutionIcon } from "@/components/SolutionIcon";
 import { moduleBySlug } from "@/lib/modules";
-import { roleInSentence, solutions, type Solution } from "@/lib/solutions";
+import { solutions, type Solution } from "@/lib/solutions";
 
 export function SolutionView({ solution: s }: { solution: Solution }) {
   const others = solutions.filter((o) => o.slug !== s.slug);
@@ -23,14 +23,14 @@ export function SolutionView({ solution: s }: { solution: Solution }) {
         eyebrow={
           <span className="title-3 inline-flex items-center gap-2 text-bone">
             <SolutionIcon slug={s.slug} className="size-6" />
-            For {roleInSentence(s.role)}
+            Solutions for {s.role}
           </span>
         }
       >
         <p className="body-7 sm:body-8 mt-6 text-bone/90">{s.intro}</p>
         <div className="mt-8">
           <Link href={`/walkthrough?interest=${interest}`} className="btn btn-light">
-            Book a walkthrough
+            Request a Walkthrough
             <ArrowRight weight="bold" className="size-4" aria-hidden="true" />
           </Link>
         </div>
@@ -39,7 +39,7 @@ export function SolutionView({ solution: s }: { solution: Solution }) {
       <section className="py-20 sm:py-24">
         <div className="page-x grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
-            <SectionIntro muted="Today." heading="Where the time goes" />
+            <SectionIntro eyebrow="Challenge" heading="Current Challenges" />
             <ul className="mt-10 space-y-4">
               {s.problems.map((p, i) => (
                 <RiseOnView as="li" key={p.title} delay={i * 0.08} className="flex gap-4 rounded-3xl border border-ash-grey p-6">
@@ -53,7 +53,7 @@ export function SolutionView({ solution: s }: { solution: Solution }) {
             </ul>
           </div>
           <div>
-            <SectionIntro muted="With ASH-V." heading="What changes" />
+            <SectionIntro eyebrow="Outcomes" heading="Outcomes with ASH-V" />
             <ul className="mt-10 space-y-4">
               {s.outcomes.map((o, i) => (
                 <RiseOnView
@@ -75,13 +75,13 @@ export function SolutionView({ solution: s }: { solution: Solution }) {
         </div>
       </section>
 
-      <section aria-label="In one sentence" className="page-x border-t border-ash-grey py-24">
-        <InkParagraph as="h2" className="heading-3 sm:heading-2" text={`${s.line} Built on the same record as every other team.`} />
+      <section aria-label="Solution summary" className="page-x border-t border-ash-grey py-24">
+        <InkParagraph as="h2" className="heading-3 sm:heading-2" text={s.line} />
       </section>
 
       <section className="border-t border-ash-grey py-20 sm:py-24">
         <div className="page-x grid gap-12 lg:grid-cols-12">
-          <SectionIntro className="lg:col-span-4" heading="Questions you can answer on the spot" />
+          <SectionIntro className="lg:col-span-4" eyebrow="Reporting" heading="Key Questions Answered" />
           <ul className="grid gap-4 lg:col-span-8">
             {s.questions.map((q, i) => (
               <RiseOnView as="li" key={q.q} delay={i * 0.08} className="rounded-3xl bg-mist p-6 sm:p-8">
@@ -98,7 +98,7 @@ export function SolutionView({ solution: s }: { solution: Solution }) {
 
       <section className="border-t border-ash-grey py-20 sm:py-24">
         <div className="page-x">
-          <SectionIntro heading="The modules this team works in" />
+          <SectionIntro eyebrow="Modules" heading="Relevant Modules" />
           <ul className="mt-12 grid gap-4 md:grid-cols-3">
             {s.modules.map((slug, i) => {
               const m = moduleBySlug(slug)!;
@@ -112,7 +112,7 @@ export function SolutionView({ solution: s }: { solution: Solution }) {
                     <span className="heading-6 mt-6 block">{m.name}</span>
                     <span className="body-6 mt-2 block text-graphite">{m.line}</span>
                     <span className="link-arrow body-4 mt-auto pt-4">
-                      Explore {m.short}
+                      View Module
                       <ArrowRight weight="bold" className="size-4" aria-hidden="true" />
                     </span>
                   </Link>
@@ -121,7 +121,7 @@ export function SolutionView({ solution: s }: { solution: Solution }) {
             })}
           </ul>
           <p className="body-6 mt-8 text-graphite">
-            Other teams:{" "}
+            Other solutions:{" "}
             {others.map((o, i) => (
               <span key={o.slug}>
                 <Link href={`/solutions/${o.slug}`} className="font-semibold text-ink underline underline-offset-4">

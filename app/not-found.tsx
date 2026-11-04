@@ -3,9 +3,9 @@ import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { HeroIntro } from "@/components/HeroIntro";
 
 const places = [
-  { href: "/platform", label: "Platform overview", body: "The six modules and how they share one record." },
-  { href: "/solutions", label: "Solutions by team", body: "What changes for leaders, analysts, IT and audit." },
-  { href: "/resources", label: "Resources", body: "Guides on exposure management and audit evidence." },
+  { href: "/platform", label: "Platform Overview", body: "The six ASH-V modules and the shared asset record." },
+  { href: "/solutions", label: "Solutions by Role", body: "Solutions for security leadership, security operations, IT operations and GRC teams." },
+  { href: "/resources", label: "Resources", body: "Technical guides on exposure management and audit evidence." },
 ];
 
 // B10: a branded 404 with a way back to every main section.
@@ -14,16 +14,16 @@ export default function NotFound() {
     <section className="page-x py-16 sm:py-24">
       <p className="caption-3 font-mono text-slate">Error 404</p>
       <div className="mt-4">
-        <HeroIntro tone="light" lines={["This page is not", "in the inventory."]}>
+        <HeroIntro tone="light" lines={["Page Not Found"]}>
           <p className="body-7 mt-6 text-graphite">
-            The link may be out of date, or the page may have moved. These are the places most people are looking for.
+            The requested page does not exist or has been moved. The following sections are available.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link href="/" className="btn btn-dark">
-              Go to the home page
+              Return to Home Page
             </Link>
             <Link href="/walkthrough" className="btn btn-outline">
-              Book a walkthrough
+              Request a Walkthrough
             </Link>
           </div>
         </HeroIntro>
@@ -35,7 +35,7 @@ export default function NotFound() {
               <span className="heading-6">{p.label}</span>
               <span className="body-6 mt-2 text-graphite">{p.body}</span>
               <span className="link-arrow body-4 mt-auto pt-4">
-                Go there
+                Open Section
                 <ArrowRight weight="bold" className="size-4" aria-hidden="true" />
               </span>
             </Link>

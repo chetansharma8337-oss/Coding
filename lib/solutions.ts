@@ -20,55 +20,55 @@ export type Solution = {
   image: { src: string; position: string };
 };
 
-// Copy describes how each team uses the six modules. Product team: confirm against shipped scope.
+// How each team uses the six modules, within the scope in lib/modules.ts. Product to confirm.
 export const solutions: Solution[] = [
   {
     slug: "ciso",
-    role: "CISOs and security leaders",
-    line: "One view of exposure and assurance you can take to the board.",
-    headline: "Answer the board with one set of numbers.",
+    role: "CISOs and Security Leaders",
+    line: "Consolidated exposure and assurance reporting for executive and board stakeholders.",
+    headline: "Exposure and Assurance Reporting for Security Leadership",
     intro:
-      "Security leaders are asked two questions every quarter: what is exposed, and can we prove it is under control. ASH-V answers both from the same asset record, so the risk report and the audit pack never disagree.",
+      "Security leaders report on two questions: current exposure, and evidence that controls are effective. ASH-V answers both from the same asset record, so risk reports and audit evidence remain consistent.",
     problems: [
       {
-        title: "Every tool counts the estate differently",
-        body: "The scanner, the CMDB and the cloud console each report a different number of assets, so every metric starts with an argument about the denominator.",
+        title: "Inconsistent Asset Counts",
+        body: "Scanners, the CMDB and cloud consoles each report a different number of assets, so every metric starts with a dispute over scope.",
       },
       {
-        title: "Risk reports are assembled by hand",
-        body: "Someone exports from five consoles into a spreadsheet the week before the board meets, and the numbers are out of date by the time they are presented.",
+        title: "Manual Risk Reporting",
+        body: "Board reports are compiled by hand from several consoles and are out of date by the time they are presented.",
       },
       {
-        title: "Exposure and compliance tell separate stories",
-        body: "The security team reports open criticals while the audit team reports passing controls, and nobody can say how the two relate.",
+        title: "Disconnected Exposure and Compliance Reporting",
+        body: "Security teams report open critical findings while audit teams report effective controls, with no shared basis to reconcile the two.",
       },
     ],
     outcomes: [
       {
-        title: "One denominator",
-        body: "Every metric is counted against the same inventory from Asset Intelligence, with an owner on every record.",
+        title: "A Single Asset Baseline",
+        body: "Every metric is calculated against the same asset inventory from Asset Intelligence, with an asset owner on every asset record.",
       },
       {
-        title: "Exposure ranked by business impact",
-        body: "Threat Exposure Management weights each finding by the criticality of the asset it sits on, so the top of the queue is what matters to the business.",
+        title: "Business-Weighted Prioritization",
+        body: "Threat Exposure Management weights each finding by asset criticality, so the top of the Exposure Queue reflects business impact.",
       },
       {
-        title: "Assurance that collects itself",
-        body: "Patch records, test results and vendor reviews attach to controls in GRC as they happen, so the audit view is current on any given day.",
+        title: "Continuous Assurance",
+        body: "Verified closures, test results and vendor assessments attach to controls in GRC as evidence records when they are produced.",
       },
     ],
     questions: [
       {
-        q: "Which internet facing systems carry exploited vulnerabilities right now?",
-        a: "Filter the exposure queue to reachable from the internet and listed in the CISA KEV catalog.",
+        q: "Which internet-facing systems have known exploited vulnerabilities?",
+        a: "The Exposure Queue, filtered to internet-facing assets and findings listed in the CISA Known Exploited Vulnerabilities (KEV) catalog.",
       },
       {
-        q: "Are we fixing the important things faster than last quarter?",
-        a: "Remediation times by asset criticality, measured from verified closure rather than ticket status.",
+        q: "Is remediation time improving for high-criticality assets?",
+        a: "Remediation time by asset criticality, measured to verified closure rather than to remediation task status.",
       },
       {
-        q: "Which vendors can reach customer data, and are their reviews current?",
-        a: "The vendor register in Third-Party Risk Management, tiered by the assets each vendor can reach.",
+        q: "Which vendors can access customer data, and is their evidence current?",
+        a: "The vendor register in Third-Party Risk Management, filtered by vendor tier and vendor evidence status.",
       },
     ],
     modules: ["asset-intelligence", "threat-exposure-management", "grc"],
@@ -76,51 +76,51 @@ export const solutions: Solution[] = [
   },
   {
     slug: "security-operations",
-    role: "Security operations and vulnerability teams",
-    line: "A ranked queue of exposures that are reachable, exploited and owned.",
-    headline: "Work a queue, not a scanner export.",
+    role: "Security Operations and Vulnerability Teams",
+    line: "A single Exposure Queue prioritized by reachability, known exploitation and asset ownership.",
+    headline: "Risk-Based Prioritization for Vulnerability Operations",
     intro:
-      "Vulnerability teams drown in findings that are technically critical and practically irrelevant. ASH-V ranks each exposure by whether it is reachable, whether it is exploited in the wild and whether a test has proven it, then sends it to the team that owns the asset.",
+      "CVSS alone rates most findings as critical. ASH-V ranks each finding by reachability, known exploitation and validated attack paths, and assigns it to the asset owner.",
     problems: [
       {
-        title: "Thousands of criticals, no order",
-        body: "CVSS alone rates most findings as urgent, so the team either chases everything or picks by instinct.",
+        title: "Unprioritized Critical Findings",
+        body: "Severity scores rate most findings as urgent, so teams either address everything or prioritize without a consistent basis.",
       },
       {
-        title: "Findings without owners",
-        body: "Hours go into working out who runs a host before anyone can ask them to patch it.",
+        title: "Findings Without Asset Owners",
+        body: "Significant time is spent identifying who owns a host before remediation can be requested.",
       },
       {
-        title: "Pentest results arrive as a PDF",
-        body: "The annual report lists attack paths that nobody can track, and by the next test the estate has changed.",
+        title: "Point-in-Time Penetration Test Reports",
+        body: "Attack paths documented in an annual report are not tracked, and the environment changes before the next test.",
       },
     ],
     outcomes: [
       {
-        title: "Exploitation context on every finding",
-        body: "Threat Exposure Management flags entries in the CISA KEV catalog and the threat intelligence you connect.",
+        title: "Exploitation Context on Every Finding",
+        body: "Threat Exposure Management flags entries in the CISA KEV catalog and in connected threat intelligence feeds.",
       },
       {
-        title: "Proof before priority",
-        body: "Automated Penetration Testing validates which exposures chain into a working attack path, and those move to the top.",
+        title: "Validation Before Prioritization",
+        body: "Automated Penetration Testing identifies findings that form a validated attack path, and those findings move to the top of the Exposure Queue.",
       },
       {
-        title: "Routed to the right team",
-        body: "Every finding carries the owner from Asset Intelligence, so remediation starts with an assignment instead of a search.",
+        title: "Owner-Assigned Remediation",
+        body: "Every finding carries the asset owner from Asset Intelligence, so remediation begins with an assignment.",
       },
     ],
     questions: [
       {
-        q: "What should we fix first this week?",
-        a: "The top of the exposure queue: reachable, exploited and on a critical asset, with validated paths ranked first.",
+        q: "Which findings require remediation first?",
+        a: "The top of the Exposure Queue: reachable, known exploited findings on high-criticality assets, with validated attack paths ranked first.",
       },
       {
-        q: "Is this path still open after the fix?",
+        q: "Is a remediated attack path closed?",
         a: "A retest runs when a step on the path is remediated, and the result is recorded on the finding.",
       },
       {
-        q: "Which assets does no scanner cover?",
-        a: "The coverage gaps view in Asset Intelligence lists assets no scanner, agent or control currently sees.",
+        q: "Which assets have no scanner or agent coverage?",
+        a: "The coverage gap view in Asset Intelligence lists assets that no scanner, agent or control currently covers.",
       },
     ],
     modules: ["threat-exposure-management", "automated-penetration-testing", "asset-intelligence"],
@@ -128,51 +128,51 @@ export const solutions: Solution[] = [
   },
   {
     slug: "it-operations",
-    role: "IT and infrastructure operations",
-    line: "Owned remediation work with staged rollouts and verified fixes.",
-    headline: "Patch what matters, in rings, with proof.",
+    role: "IT and Infrastructure Operations",
+    line: "Owner-assigned remediation tasks with ring-based deployment and verified closure.",
+    headline: "Prioritized Remediation with Ring-Based Deployment",
     intro:
-      "IT teams receive security requests with no context and no priority, then get asked again because nobody checked whether the fix landed. ASH-V sends each team only the work on assets they own, stages patches in rings and closes a finding when a rescan confirms it.",
+      "Infrastructure teams receive remediation requests without priority or context, and closure is rarely confirmed. ASH-V assigns each team only the findings on assets it owns, deploys patches in rings and closes a finding after a verification scan.",
     problems: [
       {
-        title: "Requests without context",
-        body: "A spreadsheet of CVEs arrives with no indication of which ones are exploited or which systems matter most.",
+        title: "Remediation Requests Without Context",
+        body: "Lists of CVEs arrive without exploitation status or asset criticality.",
       },
       {
-        title: "Big bang patching breaks things",
-        body: "Rolling a patch to every server at once turns a security fix into an outage.",
+        title: "Uncontrolled Patch Deployment",
+        body: "Deploying a patch to every server at once turns a security update into a service outage.",
       },
       {
-        title: "Done is never done",
-        body: "Tickets close when someone marks them complete, and the same finding reappears on the next scan.",
+        title: "Unverified Closure",
+        body: "Remediation tasks are closed when marked complete, and the same finding reappears on the next scan.",
       },
     ],
     outcomes: [
       {
-        title: "Only your assets, already ranked",
-        body: "Vulnerability & Patch Management routes findings to the owning team with due dates set by your remediation policy.",
+        title: "Assigned and Prioritized Findings",
+        body: "Vulnerability & Patch Management assigns findings to the asset owner, with due dates set by the remediation policy.",
       },
       {
-        title: "Ring based rollouts",
-        body: "Deploy to a pilot group first, widen in stages, and pause a ring when something breaks.",
+        title: "Ring-Based Deployment",
+        body: "Patches deploy to a pilot ring first and progress in stages, and a ring is paused when a health check fails.",
       },
       {
-        title: "Closure you can trust",
-        body: "A finding closes when a rescan or agent check confirms the fix, not when a ticket changes state.",
+        title: "Verified Closure",
+        body: "A finding is closed when a verification scan or agent check confirms the fix, not when a remediation task changes status.",
       },
     ],
     questions: [
       {
-        q: "Why is this patch urgent?",
-        a: "Each finding shows its exploitation status, reachability and the criticality of the asset it sits on.",
+        q: "Why is this patch a priority?",
+        a: "Each finding shows its exploitation status, reachability and the asset criticality of the affected asset.",
       },
       {
-        q: "Can we defer this one?",
-        a: "Raise an exception with a named approver and an end date, and it returns for review when it expires.",
+        q: "Can a patch be deferred?",
+        a: "Through a risk exception with a named approver and an expiry date. The finding is reopened for review when the exception expires.",
       },
       {
-        q: "Did the rollout actually fix it?",
-        a: "The rescan result is recorded on the finding, with the date and the source that confirmed it.",
+        q: "Did the deployment remediate the vulnerability?",
+        a: "The verification scan result is recorded on the finding, with the date and the data source that confirmed it.",
       },
     ],
     modules: ["vulnerability-patch-management", "asset-intelligence", "threat-exposure-management"],
@@ -180,51 +180,51 @@ export const solutions: Solution[] = [
   },
   {
     slug: "governance-risk-compliance",
-    role: "Governance, risk and compliance teams",
-    line: "Controls mapped once, with evidence supplied by the rest of the platform.",
-    headline: "Stop building the audit in a spreadsheet.",
+    role: "Governance, Risk and Compliance Teams",
+    line: "Cross-framework control mapping with evidence records produced by remediation, testing and vendor assessments.",
+    headline: "Continuous Control Evidence for Audit Readiness",
     intro:
-      "Compliance teams spend audit season chasing screenshots from engineers who have moved on to other work. ASH-V maps each control once to every framework you report against and attaches evidence from remediation, testing and vendor reviews as it happens.",
+      "Audit preparation often depends on screenshots requested from engineering teams. ASH-V maps each control once to every framework you report against and attaches evidence records from remediation, testing and vendor assessments as they are produced.",
     problems: [
       {
-        title: "Evidence is collected by hand",
-        body: "Every audit means asking engineers for exports and screenshots that prove a control operated.",
+        title: "Manual Evidence Collection",
+        body: "Each audit requires exports and screenshots from engineering teams to demonstrate that controls operated.",
       },
       {
-        title: "The same control, mapped five times",
-        body: "ISO/IEC 27001, NIST CSF and customer questionnaires each ask about patching in their own words.",
+        title: "Duplicate Control Mapping",
+        body: "ISO/IEC 27001, NIST CSF and customer security questionnaires each address the same control in different terms.",
       },
       {
-        title: "Vendor evidence goes stale",
-        body: "Supplier certificates expire between annual reviews and nobody notices until a customer asks.",
+        title: "Expired Vendor Evidence",
+        body: "Vendor certificates and reports expire between annual reviews without notice.",
       },
     ],
     outcomes: [
       {
-        title: "One control, many frameworks",
-        body: "GRC maps a control once and reuses its evidence across every framework it satisfies.",
+        title: "Cross-Framework Control Mapping",
+        body: "GRC maps each control once and applies its evidence records to every framework requirement it satisfies.",
       },
       {
-        title: "Evidence from operations",
-        body: "Patch records, test results and exceptions attach to controls automatically from the modules that produce them.",
+        title: "Operational Evidence",
+        body: "Verified closures, test results and risk exceptions attach to controls from the modules that produce them.",
       },
       {
-        title: "Vendor reviews that stay current",
-        body: "Third-Party Risk Management tracks expiry dates and tiers reviews by what each vendor can reach.",
+        title: "Current Vendor Evidence",
+        body: "Third-Party Risk Management tracks vendor evidence expiry dates and sets assessment depth by vendor tier.",
       },
     ],
     questions: [
       {
-        q: "Show me evidence that critical vulnerabilities are remediated on time.",
-        a: "The vulnerability management control, with verified closure records attached from patching.",
+        q: "Is there evidence that known exploited vulnerabilities are remediated within policy?",
+        a: "The vulnerability management control, with verified closure records attached from Vulnerability & Patch Management.",
       },
       {
         q: "When was this control last tested, and by whom?",
-        a: "Each control shows its owner, its latest evidence and the date it was last tested.",
+        a: "Each control shows its control owner, its latest evidence records and its last control test date.",
       },
       {
-        q: "Which suppliers have certificates expiring this quarter?",
-        a: "The expiry view in Third-Party Risk Management, filtered by tier.",
+        q: "Which vendor certificates expire this quarter?",
+        a: "The vendor evidence expiry view in Third-Party Risk Management, filtered by vendor tier.",
       },
     ],
     modules: ["grc", "third-party-risk-management", "vulnerability-patch-management"],
@@ -233,6 +233,3 @@ export const solutions: Solution[] = [
 ];
 
 export const solutionBySlug = (slug: string) => solutions.find((s) => s.slug === slug);
-
-/** "CISOs and security leaders" stays as is; "Security operations teams" becomes "security operations teams". */
-export const roleInSentence = (role: string) => (/^[A-Z]{2}/.test(role) ? role : role.charAt(0).toLowerCase() + role.slice(1));

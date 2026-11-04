@@ -16,44 +16,44 @@ import { ModuleRelations } from "../ModuleRelations";
 const mod = moduleBySlug("grc")!;
 
 const folder = [
-  { icon: FileImage, name: "patching_proof_FINAL_v3.png", meta: "Taken by ?, on ?" },
-  { icon: FileXls, name: "Q3 vuln export (copy).xlsx", meta: "Edited 4 times since export" },
-  { icon: Camera, name: "Screenshot 2026-09-14 at 16.02.png", meta: "Which server is this?" },
-  { icon: FileImage, name: "pentest_report_2025.pdf", meta: "Fourteen months old" },
+  { icon: FileImage, name: "patching_proof_FINAL_v3.png", meta: "Author and date unknown" },
+  { icon: FileXls, name: "Q3 vuln export (copy).xlsx", meta: "Modified 4 times after export" },
+  { icon: Camera, name: "Screenshot 2026-09-14 at 16.02.png", meta: "Asset not identified" },
+  { icon: FileImage, name: "pentest_report_2025.pdf", meta: "Created 14 months ago" },
 ];
 
 const provenance = [
-  { icon: Cube, k: "Produced by", v: "Vulnerability & Patch Management" },
-  { icon: Clock, k: "When", v: "4 Nov 2026, 02:41" },
-  { icon: Gear, k: "How", v: "Rescan of 62 devices after ring rollout" },
-  { icon: LinkSimple, k: "Linked to", v: "fin-db-02, billing-api-04 and 60 more" },
-  { icon: User, k: "Control owner", v: "Head of Infrastructure" },
+  { icon: Cube, k: "Source Module", v: "Vulnerability & Patch Management" },
+  { icon: Clock, k: "Timestamp", v: "4 Nov 2026, 02:41" },
+  { icon: Gear, k: "Method", v: "Verification scan of 62 devices after ring deployment" },
+  { icon: LinkSimple, k: "Linked Assets", v: "fin-db-02, billing-api-04 and 60 others" },
+  { icon: User, k: "Control Owner", v: "Head of Infrastructure" },
 ];
 
 const faq = [
   {
-    q: "Which frameworks can we map to?",
-    a: "ISO/IEC 27001, NIST CSF, the CIS Controls and the other frameworks you report against. A control is mapped once and its evidence counts for every framework it satisfies.",
+    q: "Which frameworks are supported for control mapping?",
+    a: "ISO/IEC 27001, NIST CSF, the CIS Controls and the other frameworks you report against. Each control is mapped once, and its evidence records apply to every mapped requirement.",
   },
   {
-    q: "Does ASH-V replace our auditor?",
-    a: "No. Certification still needs an accredited auditor. ASH-V gives them each control with its owner, its evidence, where that evidence came from and when the control was last tested.",
+    q: "Does ASH-V replace the external auditor?",
+    a: "No. Certification requires an accredited auditor. ASH-V provides the auditor with each control, its control owner, its evidence records with their source, and the last control test date.",
   },
   {
-    q: "Where does the evidence come from?",
-    a: "Mostly from the work itself: verified closures and exceptions from patching, retests from penetration testing, reviews from vendor risk and the asset inventory. Evidence from outside ASH-V, such as a signed policy, is added to the control by its owner.",
+    q: "How are evidence records collected?",
+    a: "Verified closures and risk exceptions from Vulnerability & Patch Management, retest results from Automated Penetration Testing, vendor assessments from Third-Party Risk Management and asset scope from Asset Intelligence are attached automatically. Evidence produced outside ASH-V, such as an approved policy, is added by the control owner.",
   },
   {
-    q: "Can an auditor see where a piece of evidence came from?",
-    a: "Yes. Each item records the module that produced it, when, how, and the assets and control it relates to.",
+    q: "Is the source of each evidence record recorded?",
+    a: "Yes. Each evidence record identifies the source module, timestamp, method and the linked assets and control.",
   },
   {
-    q: "How does the risk register fit in?",
-    a: "Risks are recorded with the assets and controls involved and the treatment decided. Because they link to the same controls, you can see which risks a control with stale evidence affects.",
+    q: "How does the risk register relate to controls?",
+    a: "Each risk is linked to its affected assets and mitigating controls. A control with an overdue test identifies the risks it affects.",
   },
   {
-    q: "Do we have to rebuild our control set?",
-    a: "No. Bring the controls you already operate and map them to the frameworks you report against; the walkthrough starts from your current set.",
+    q: "Can an existing control set be used?",
+    a: "Yes. Existing controls are mapped to the frameworks you report against. The platform walkthrough starts from your current control set.",
   },
 ];
 
@@ -63,18 +63,18 @@ export function GrcPage() {
       <ModuleHero
         mod={mod}
         layout="stacked"
-        lines={["Evidence that", "collects itself."]}
-        intro="Map each control once to every framework you report against. The evidence arrives from the work your teams already do, with where it came from and when, so the audit view is current on any given day."
+        lines={["Control Mapping and", "Evidence Collection"]}
+        intro="GRC maps each control once to every framework you report against. Evidence records are produced by the modules that perform remediation, testing and vendor assessment, each with its source and timestamp."
         visual={<AuditView />}
-        secondary={{ href: "#fanout", label: "Watch evidence arrive" }}
+        secondary={{ href: "#fanout", label: "View Evidence Collection" }}
       />
 
       <section className="py-20 sm:py-24">
         <div className="page-x">
-          <SectionIntro muted="The problem." heading="An audit built from screenshots proves very little" />
+          <SectionIntro eyebrow="Challenge" heading="Limitations of Screenshot-Based Evidence" />
           <div className="mt-12 grid grid-cols-1 gap-4 lg:grid-cols-2">
             <RiseOnView className="rounded-3xl border border-dashed border-slate p-6 sm:p-8">
-              <p className="caption-3 text-slate">The evidence folder, two weeks before the audit</p>
+              <p className="caption-3 text-slate">Manually Collected Evidence</p>
               <ul className="mt-6 space-y-2">
                 {folder.map((f, i) => (
                   <RiseOnView as="li" key={f.name} delay={0.1 + i * 0.08} className="flex items-center gap-3 rounded-2xl bg-mist p-3">
@@ -86,10 +86,10 @@ export function GrcPage() {
                   </RiseOnView>
                 ))}
               </ul>
-              <p className="body-6 mt-6 text-graphite">No author, no timestamp you can trust, no link to the asset or the control.</p>
+              <p className="body-6 mt-6 text-graphite">No verifiable author, timestamp, asset or control reference.</p>
             </RiseOnView>
             <RiseOnView delay={0.1} navTone="dark" className="on-dark rounded-3xl bg-ink p-6 text-bone sm:p-8">
-              <p className="caption-3 text-ash-grey">One evidence record in ASH-V</p>
+              <p className="caption-3 text-ash-grey">ASH-V Evidence Record</p>
               <p className="heading-6 mt-4">61 verified closures for CVE-2021-44228</p>
               <dl className="mt-6 space-y-2">
                 {provenance.map((p, i) => (
@@ -100,7 +100,7 @@ export function GrcPage() {
                   </RiseOnView>
                 ))}
               </dl>
-              <p className="caption-5 mt-6 text-ash-grey">Illustrative, sample data</p>
+              <p className="caption-5 mt-6 text-ash-grey">Sample data</p>
             </RiseOnView>
           </div>
         </div>
@@ -108,10 +108,10 @@ export function GrcPage() {
 
       <section id="fanout" data-nav-tone="dark" className="on-dark bg-ink py-20 text-bone sm:py-24">
         <div className="page-x">
-          <WordReveal parts={[{ text: "One control.", className: "text-ash-grey" }, { text: "Evidence from the work, counted everywhere." }]} className="heading-4 sm:heading-3 lg:heading-2 max-w-[24ch]" />
+          <WordReveal parts="Evidence Collection and Requirement Mapping" className="heading-4 sm:heading-3 lg:heading-2 max-w-[24ch]" />
           <p className="body-7 mt-6 max-w-[60ch] text-ash-grey">
-            Watch four pieces of evidence travel from the modules that produced them into control VM-01, and every mapped
-            framework reuse them.
+            Evidence records from three modules are attached to control VM-01 and applied to each mapped framework
+            requirement.
           </p>
           <div className="mt-12">
             <ControlFanout />
@@ -122,9 +122,9 @@ export function GrcPage() {
       <section className="py-20 sm:py-24">
         <div className="page-x">
           <SectionIntro
-            muted="Crosswalk."
-            heading="Mapped by requirement, and open to inspection"
-            lead="Every mapping names the exact requirement it satisfies, so anyone can check it. Three common controls as an example:"
+            eyebrow="Control Mapping"
+            heading="Cross-Framework Control Mapping"
+            lead="Each control mapping references the specific framework requirement it satisfies. Three example controls are shown below."
           />
           <RiseOnView className="mt-12 overflow-x-auto rounded-3xl border border-ash-grey">
             <table className="w-full min-w-[720px] border-collapse text-left">
@@ -135,7 +135,7 @@ export function GrcPage() {
                   <th scope="col" className="p-4 font-semibold">ISO/IEC 27001:2022</th>
                   <th scope="col" className="p-4 font-semibold">NIST CSF 2.0</th>
                   <th scope="col" className="p-4 font-semibold">CIS v8.1</th>
-                  <th scope="col" className="p-4 font-semibold sm:px-6">Evidence from</th>
+                  <th scope="col" className="p-4 font-semibold sm:px-6">Evidence Source</th>
                 </tr>
               </thead>
               <tbody>
@@ -152,9 +152,9 @@ export function GrcPage() {
             </table>
           </RiseOnView>
           <p className="body-6 mt-6 text-graphite">
-            More on each framework on the{" "}
+            Framework details are available on the{" "}
             <Link href="/frameworks" className="font-semibold text-ink underline underline-offset-4">
-              frameworks page
+              Frameworks page
             </Link>
             .
           </p>
@@ -165,21 +165,21 @@ export function GrcPage() {
         <div className="page-x grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <SectionIntro
-              muted="Risk register."
-              heading="Risks tied to the controls that treat them"
-              lead="Record each risk with the assets and controls involved and the treatment you chose. When a control's evidence goes stale, you can see which risks it leaves exposed."
+              eyebrow="Risk Register"
+              heading="Risk Register with Linked Controls"
+              lead="Each risk is recorded with its affected assets, mitigating controls and treatment decision. Controls with an overdue test identify the risks they affect."
             />
           </div>
           <RiseOnView delay={0.1} className="lg:col-span-7">
             <div className="rounded-3xl bg-bone p-6 shadow-[0_24px_48px_-32px_rgb(0_0_0/0.35)] sm:p-8">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <p className="caption-6 font-mono">R-07</p>
-                <p className="caption-6 rounded-full border border-ink px-3 py-1">Treatment: reduce</p>
+                <p className="caption-6 rounded-full border border-ink px-3 py-1">Treatment: Mitigate</p>
               </div>
-              <p className="heading-5 mt-3">Ransomware through an internet facing VPN</p>
+              <p className="heading-5 mt-3">Ransomware via Internet-Facing VPN</p>
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 <div>
-                  <p className="caption-3 text-slate">Assets</p>
+                  <p className="caption-3 text-slate">Affected Assets</p>
                   <ul className="mt-2 flex flex-wrap gap-2">
                     {["edge-fw-02", "vpn-gw-01"].map((a) => (
                       <li key={a} className="caption-6 rounded-full bg-mist px-3 py-1 font-mono">
@@ -189,32 +189,32 @@ export function GrcPage() {
                   </ul>
                 </div>
                 <div>
-                  <p className="caption-3 text-slate">Controls</p>
+                  <p className="caption-3 text-slate">Mitigating Controls</p>
                   <ul className="mt-2 space-y-1">
                     <li className="caption-6 flex items-center justify-between gap-2 rounded-xl bg-mist px-3 py-2">
                       <span className="font-mono">VM-01</span>
-                      <span>Passing, today</span>
+                      <span>Effective · 4 Nov 2026</span>
                     </li>
                     <li className="caption-6 flex items-center justify-between gap-2 rounded-xl border border-dashed border-ink px-3 py-2">
                       <span className="font-mono">BK-01</span>
-                      <span>Evidence stale, 12 Sep</span>
+                      <span>Test Overdue · 12 Sep 2026</span>
                     </li>
                   </ul>
                 </div>
               </div>
-              <p className="caption-5 mt-6 text-slate">Illustrative, sample data</p>
+              <p className="caption-5 mt-6 text-slate">Sample data</p>
             </div>
           </RiseOnView>
         </div>
       </section>
 
-      <section aria-label="The principle" className="page-x py-24">
-        <InkParagraph as="h2" className="heading-3 sm:heading-2 lg:heading-1" text="The best audit evidence is a record the work wrote, not a screenshot someone took." />
+      <section aria-label="Module summary" className="page-x py-24">
+        <InkParagraph as="h2" className="heading-3 sm:heading-2 lg:heading-1" text="Evidence records are produced by the systems that perform the work, each with a verifiable source, timestamp and linked control." />
       </section>
 
       <ModuleRelations mod={mod} />
-      <Faq items={faq} heading="Questions about GRC" />
-      <CtaBand heading="Walk into the next audit ready." href="/walkthrough?interest=grc" secondary={{ href: "/platform", label: "Back to the platform" }} />
+      <Faq items={faq} />
+      <CtaBand href="/walkthrough?interest=grc" secondary={{ href: "/platform", label: "View Platform Overview" }} />
     </>
   );
 }

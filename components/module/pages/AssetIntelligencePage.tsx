@@ -17,110 +17,110 @@ const mod = moduleBySlug("asset-intelligence")!;
 
 const reasons = [
   {
-    title: "Each tool counts something different",
-    body: "The scanner counts IP addresses it reached. The directory counts computer objects, including ones nobody has logged into for a year. The cloud console counts instances. Agents only count the devices they are installed on.",
+    title: "Different Counting Methods",
+    body: "Scanners count reachable IP addresses, the directory counts computer objects including inactive ones, cloud consoles count instances, and endpoint agents count only managed devices.",
   },
   {
-    title: "The same asset goes by three names",
-    body: "FIN-DB-02, fin-db-02 and fin-db-02.corp.local are one server. Without matching on stable identifiers, each spelling becomes its own row.",
+    title: "Inconsistent Asset Naming",
+    body: "FIN-DB-02, fin-db-02 and fin-db-02.corp.local refer to one server. Without matching on stable identifiers, each name becomes a separate record.",
   },
   {
-    title: "Nobody owns the gaps",
-    body: "A device that only a network scan has seen has no agent, no owner and no criticality. It is exactly the asset an attacker finds first.",
+    title: "Unmanaged Assets Without Owners",
+    body: "An asset detected only by network discovery has no endpoint agent, asset owner or asset criticality, and is frequently the first asset an attacker identifies.",
   },
 ];
 
 const keys = ["Cloud instance ID", "Endpoint agent ID", "MAC address", "Serial number", "IP address within a time window", "Normalized hostname"];
 
 const precedence = [
-  { field: "Hostname", first: "Endpoint agent", then: "CMDB, then scanner", why: "The agent reads the name from the machine itself." },
-  { field: "Operating system", first: "Endpoint agent", then: "Scanner", why: "Agents report the exact build; scanners infer the version." },
-  { field: "Owner", first: "CMDB", then: "Cloud tag, then directory OU", why: "Ownership is a business decision, recorded where the business records it." },
-  { field: "Criticality", first: "Manual override", then: "CMDB", why: "A person who knows the service can always overrule the default." },
-  { field: "IP address", first: "Cloud account", then: "Scanner, then agent", why: "The cloud API is authoritative for cloud network interfaces." },
+  { field: "Hostname", first: "Endpoint agent", then: "CMDB, scanner", why: "The endpoint agent reports the hostname from the operating system." },
+  { field: "Operating System", first: "Endpoint agent", then: "Scanner", why: "Endpoint agents report the exact build; scanners infer the version." },
+  { field: "Asset Owner", first: "CMDB", then: "Cloud tag, directory OU", why: "Ownership is assigned in the CMDB as the system of record." },
+  { field: "Asset Criticality", first: "Manual override", then: "CMDB", why: "An override by an authorized user takes precedence over imported values." },
+  { field: "IP Address", first: "Cloud account", then: "Scanner, endpoint agent", why: "The cloud API is authoritative for cloud network interfaces." },
 ];
 
 const sources = [
-  { icon: MagnifyingGlass, name: "Vulnerability scanners", gives: "Hosts reached, open ports, detected software" },
-  { icon: Cloud, name: "Cloud accounts", gives: "Instances, containers, tags, network interfaces" },
-  { icon: Desktop, name: "Endpoint agents", gives: "Exact OS build, installed software, last check in" },
-  { icon: FolderUser, name: "Directory and identity", gives: "Computer objects, organizational units, users" },
-  { icon: Table, name: "CMDB and ITSM", gives: "Service names, owners, criticality, environments" },
-  { icon: IdentificationBadge, name: "SaaS applications", gives: "Business apps in use and who administers them" },
-  { icon: WifiHigh, name: "Network discovery", gives: "Devices nothing else knows about" },
+  { icon: MagnifyingGlass, name: "Vulnerability Scanners", gives: "Reachable hosts, open ports and detected software" },
+  { icon: Cloud, name: "Cloud Accounts", gives: "Instances, containers, tags and network interfaces" },
+  { icon: Desktop, name: "Endpoint Agents", gives: "Exact operating system build, installed software and last check-in" },
+  { icon: FolderUser, name: "Directory and Identity", gives: "Computer objects, organizational units and users" },
+  { icon: Table, name: "CMDB and ITSM", gives: "Business services, asset owners, asset criticality and environments" },
+  { icon: IdentificationBadge, name: "SaaS Applications", gives: "Business applications in use and their administrators" },
+  { icon: WifiHigh, name: "Network Discovery", gives: "Devices not reported by any other data source" },
 ];
 
 const tabs = [
   {
     icon: <UserCircle weight="light" />,
-    title: "Ownership",
-    summary: "A named team on every record.",
+    title: "Asset Ownership",
+    summary: "An accountable asset owner on every asset record.",
     points: [
-      "Owners come from the CMDB, cloud tags or directory, in the order you choose.",
-      "Assets without an owner land in a triage queue instead of disappearing.",
-      "Every finding downstream inherits the owner, so remediation starts with an assignment.",
+      "Asset owners are imported from the CMDB, cloud tags or the directory, in a configurable order of precedence.",
+      "Assets without an asset owner are routed to a triage queue.",
+      "Every finding inherits the asset owner, so remediation begins with an assignment.",
     ],
   },
   {
     icon: <Gauge weight="light" />,
-    title: "Business context",
-    summary: "Criticality and environment that drive ranking.",
+    title: "Asset Criticality",
+    summary: "Business context used for prioritization.",
     points: [
-      "Record criticality, environment and the service an asset supports.",
-      "Threat Exposure Management weights every exposure by this criticality.",
-      "Override any value by hand; the override is recorded with who made it.",
+      "Asset criticality, environment and the supported business service are recorded on each asset record.",
+      "Threat Exposure Management weights every finding by asset criticality.",
+      "Manual overrides are recorded with the user and timestamp.",
     ],
   },
   {
     icon: <Question weight="light" />,
-    title: "Unknown assets",
-    summary: "Devices only a network scan has seen.",
+    title: "Unmanaged Assets",
+    summary: "Assets reported only by network discovery.",
     points: [
-      "Assets seen by discovery but by no agent, CMDB or cloud account are flagged.",
-      "Each one is shown with the sources that did and did not see it.",
-      "Assign an owner, or mark it retired, so the list goes down rather than up.",
+      "Assets reported by network discovery but not by an endpoint agent, the CMDB or a cloud account are flagged as unmanaged.",
+      "Each unmanaged asset lists the data sources that did and did not report it.",
+      "Each unmanaged asset is assigned an asset owner or marked as retired.",
     ],
   },
   {
     icon: <ClockCounterClockwise weight="light" />,
-    title: "Record history",
-    summary: "Which sources saw an asset, and when.",
+    title: "Record History",
+    summary: "Data sources and last-seen dates for each asset.",
     points: [
-      "Every field shows the source it came from.",
-      "See when each source last saw the asset, so stale records are obvious.",
-      "Changes to owner and criticality are kept with a timestamp.",
+      "Every field identifies the data source that provided it.",
+      "The last-seen date from each data source identifies outdated records.",
+      "Changes to asset owner and asset criticality are retained with a timestamp.",
     ],
   },
 ];
 
 const faq = [
   {
-    q: "Does Asset Intelligence replace our CMDB?",
-    a: "No. It reads from your CMDB alongside your other sources, and shows where the CMDB disagrees with what scanners, agents and cloud accounts actually see. Many teams keep the CMDB as the place ownership is decided.",
+    q: "Does Asset Intelligence replace the CMDB?",
+    a: "No. The CMDB is one of the data sources consolidated into the asset inventory. Discrepancies between the CMDB and other data sources are identified on each asset record.",
   },
   {
-    q: "Do we need to deploy new agents or scanners?",
-    a: "No. Asset Intelligence reads from the scanners, cloud accounts, endpoint agents, directory and CMDB you already run.",
+    q: "Are additional agents or scanners required?",
+    a: "No. Asset Intelligence uses the scanners, cloud accounts, endpoint agents, directory and CMDB already in use.",
   },
   {
-    q: "How does it decide two records are the same asset?",
-    a: "Sightings are matched on stable identifiers such as cloud instance ID, agent ID, MAC address and serial number, with normalized hostnames and IP addresses as supporting evidence. When sources disagree on a field, field precedence decides, and the record shows which source won.",
+    q: "How are records for the same asset matched?",
+    a: "Records are matched on stable identifiers such as cloud instance ID, endpoint agent ID, MAC address and serial number, with normalized hostnames and IP addresses as supporting attributes. Conflicting values are resolved by field precedence, and the asset record shows the data source of each value.",
   },
   {
-    q: "How are owner and criticality assigned, and can we change them?",
-    a: "They come from the sources you rank first for each field, usually the CMDB and cloud tags. Anyone with permission can override them by hand, and the override is kept with who made it and when.",
+    q: "How are asset owner and asset criticality assigned?",
+    a: "Both are imported from the data sources ranked first for each field, typically the CMDB and cloud tags. Authorized users can override either value, and each override is recorded with the user and timestamp.",
   },
   {
-    q: "Will it find assets no tool knows about?",
-    a: "Assets that only network discovery or a scanner has seen are flagged as unknown, with no owner and no agent. They are listed so someone can claim or retire them.",
+    q: "How are unmanaged assets identified?",
+    a: "Assets reported only by network discovery or a scanner, with no endpoint agent or asset owner, are flagged as unmanaged and routed for triage.",
   },
   {
-    q: "What happens after an asset is in the inventory?",
-    a: "Every other module reads the same record: exposures are ranked by its criticality, patches route to its owner, tests are scoped by it, vendors are linked to it and controls are tested against it.",
+    q: "How do other modules use the asset inventory?",
+    a: "Findings are prioritized by asset criticality, remediation tasks are assigned to the asset owner, test scope is defined against the inventory, vendors are linked to the assets they access, and controls are tested against the asset scope.",
   },
   {
-    q: "How long until we have a first inventory?",
-    a: "It depends on how many sources you connect. The walkthrough starts by mapping the sources you run today, so you know before a pilot what the first inventory will cover.",
+    q: "How long does the initial inventory take to build?",
+    a: "This depends on the number of data sources connected. The platform walkthrough identifies the data sources in use and the expected coverage of the initial inventory.",
   },
 ];
 
@@ -129,15 +129,15 @@ export function AssetIntelligencePage() {
     <>
       <ModuleHero
         mod={mod}
-        lines={["Every asset, once,", "with an owner."]}
-        intro="Five tools give you five different asset counts. Asset Intelligence merges what they see into one record per asset, names the source of every field, and puts an owner on each one."
+        lines={["Consolidated Asset Inventory", "with Ownership"]}
+        intro="Asset Intelligence consolidates scanners, cloud accounts, endpoint agents, the directory and the CMDB into one asset record per asset. Each record identifies the data source of every field and an accountable asset owner."
         visual={<AssetCounts />}
-        secondary={{ href: "#merge", label: "See how records merge" }}
+        secondary={{ href: "#merge", label: "View Record Consolidation" }}
       />
 
       <section className="py-20 sm:py-24">
         <div className="page-x grid grid-cols-1 gap-12 lg:grid-cols-12">
-          <SectionIntro className="lg:col-span-4" muted="The problem." heading="Why five tools give five answers" />
+          <SectionIntro className="lg:col-span-4" eyebrow="Challenge" heading="Inconsistent Asset Data Across Data Sources" />
           <ol className="lg:col-span-8">
             {reasons.map((r, i) => (
               <RiseOnView as="li" key={r.title} delay={i * 0.08} className="grid gap-4 border-t border-ash-grey py-8 sm:grid-cols-[96px_1fr]">
@@ -155,9 +155,9 @@ export function AssetIntelligencePage() {
       <section id="merge" className="border-t border-ash-grey bg-mist py-20 sm:py-24 lg:pb-0">
         <div className="page-x">
           <SectionIntro
-            muted="How it works."
-            heading="Five sightings become one record"
-            lead="Scroll to watch the same server, seen five different ways, collapse into a single record that every module can trust."
+            eyebrow="Record Consolidation"
+            heading="Asset Record Consolidation"
+            lead="Records for the same server from five data sources are matched on stable identifiers and consolidated into a single asset record used by every module."
           />
         </div>
         <div className="mt-12 lg:mt-0">
@@ -168,13 +168,13 @@ export function AssetIntelligencePage() {
       <section className="py-20 sm:py-24">
         <div className="page-x">
           <SectionIntro
-            muted="No black box."
-            heading="Merge rules you can read"
-            lead="Competing tools say they deduplicate. ASH-V shows how: the identifiers it matches on, and which source wins each field."
+            eyebrow="Matching and Precedence"
+            heading="Record Matching and Field Precedence"
+            lead="Records are matched on stable identifiers, and conflicting field values are resolved by a configurable precedence order for each field."
           />
           <div className="mt-12 grid gap-8 lg:grid-cols-12">
             <RiseOnView className="rounded-3xl border border-ash-grey p-6 sm:p-8 lg:col-span-4">
-              <h3 className="heading-6">Matched on</h3>
+              <h3 className="heading-6">Matching Identifiers</h3>
               <ul className="mt-6 flex flex-wrap gap-2">
                 {keys.map((k) => (
                   <li key={k} className="body-5 rounded-full bg-mist px-3 py-2">
@@ -182,17 +182,17 @@ export function AssetIntelligencePage() {
                   </li>
                 ))}
               </ul>
-              <p className="body-6 mt-6 text-graphite">Stable identifiers decide a match. Names and addresses support it, because both change.</p>
+              <p className="body-6 mt-6 text-graphite">Stable identifiers determine a match. Hostnames and IP addresses are supporting attributes because both can change.</p>
             </RiseOnView>
             <RiseOnView delay={0.1} className="overflow-x-auto rounded-3xl border border-ash-grey lg:col-span-8">
               <table className="w-full min-w-[620px] border-collapse text-left">
-                <caption className="sr-only">Example field precedence</caption>
+                <caption className="sr-only">Example field precedence configuration</caption>
                 <thead className="bg-mist">
                   <tr className="caption-3 text-slate">
                     <th scope="col" className="p-4 font-semibold sm:px-6">Field</th>
-                    <th scope="col" className="p-4 font-semibold">Preferred source</th>
-                    <th scope="col" className="p-4 font-semibold">Then</th>
-                    <th scope="col" className="p-4 font-semibold sm:px-6">Why</th>
+                    <th scope="col" className="p-4 font-semibold">Primary Data Source</th>
+                    <th scope="col" className="p-4 font-semibold">Fallback Order</th>
+                    <th scope="col" className="p-4 font-semibold sm:px-6">Rationale</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -206,7 +206,7 @@ export function AssetIntelligencePage() {
                   ))}
                 </tbody>
               </table>
-              <p className="caption-2 border-t border-ash-grey p-4 text-slate sm:px-6">Example rules. Precedence is configurable per field.</p>
+              <p className="caption-2 border-t border-ash-grey p-4 text-slate sm:px-6">Example configuration. Precedence is configurable for each field.</p>
             </RiseOnView>
           </div>
         </div>
@@ -214,7 +214,7 @@ export function AssetIntelligencePage() {
 
       <section className="border-t border-ash-grey py-20 sm:py-24">
         <div className="page-x">
-          <SectionIntro muted="Sources." heading="Built from the tools you already run" lead="No new agents. Each kind of source contributes what it knows best." />
+          <SectionIntro eyebrow="Data Sources" heading="Supported Data Source Types" lead="Asset Intelligence uses existing data sources. No additional agents are required." />
           <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {sources.map((s, i) => (
               <RiseOnView as="li" key={s.name} delay={(i % 4) * 0.06} className="lift group rounded-3xl border border-ash-grey p-6 hover:border-ink">
@@ -225,7 +225,7 @@ export function AssetIntelligencePage() {
             ))}
             <RiseOnView as="li" delay={0.18} navTone="dark" className="on-dark flex flex-col justify-between rounded-3xl bg-ink p-6 text-bone">
               <Database weight="light" className="size-8" aria-hidden="true" />
-              <p className="title-2 mt-6">One record per asset, with the source of every field.</p>
+              <p className="title-2 mt-6">One asset record per asset, with the data source of every field.</p>
             </RiseOnView>
           </ul>
         </div>
@@ -233,7 +233,7 @@ export function AssetIntelligencePage() {
 
       <section className="border-t border-ash-grey py-20 sm:py-24">
         <div className="page-x">
-          <SectionIntro muted="On every record." heading="Context that makes an inventory useful" />
+          <SectionIntro eyebrow="Asset Context" heading="Ownership, Criticality and Record History" />
           <div className="mt-12">
             <CapabilityTabs items={tabs} label="Asset Intelligence capabilities" />
           </div>
@@ -243,21 +243,21 @@ export function AssetIntelligencePage() {
       <section data-nav-tone="dark" className="on-dark bg-ink py-20 text-bone sm:py-24">
         <div className="page-x grid grid-cols-1 gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <WordReveal parts={[{ text: "Coverage gaps,", className: "text-ash-grey" }, { text: "drawn as gaps." }]} className="heading-4 sm:heading-3" />
+            <WordReveal parts="Coverage Gap Analysis" className="heading-4 sm:heading-3" />
             <p className="body-7 mt-6 text-ash-grey">
-              Set the controls each type of asset must have. Asset Intelligence shows every asset that is missing one, so a
-              server with no backup or a laptop no scanner reaches stands out instead of hiding in a list.
+              Required controls are defined for each asset type. Assets missing a required control are identified as coverage
+              gaps.
             </p>
             <ul className="mt-8 space-y-3">
               <li className="body-6 flex items-center gap-3">
                 <span className="flex size-6 items-center justify-center rounded-full bg-bone text-ink">
                   <ShieldCheck weight="bold" className="size-3.5" aria-hidden="true" />
                 </span>
-                Covered
+                Control Present
               </li>
               <li className="body-6 flex items-center gap-3">
                 <span className="size-6 rounded-full border border-dashed border-bone/70" aria-hidden="true" />
-                Missing
+                Coverage Gap
               </li>
             </ul>
           </div>
@@ -267,17 +267,17 @@ export function AssetIntelligencePage() {
         </div>
       </section>
 
-      <section aria-label="Why it matters" className="page-x py-24">
+      <section aria-label="Module summary" className="page-x py-24">
         <InkParagraph
           as="h2"
           className="heading-3 sm:heading-2 lg:heading-1"
-          text="An inventory is only useful when someone is accountable for every line of it."
+          text="Every asset record carries an accountable asset owner, an asset criticality and the data source of each field."
         />
       </section>
 
       <ModuleRelations mod={mod} />
-      <Faq items={faq} heading="Questions about Asset Intelligence" />
-      <CtaBand heading="Count your estate once." href="/walkthrough?interest=asset-intelligence" secondary={{ href: "/platform/threat-exposure-management", label: "Next: Threat Exposure Management" }} />
+      <Faq items={faq} />
+      <CtaBand href="/walkthrough?interest=asset-intelligence" secondary={{ href: "/platform/threat-exposure-management", label: "View Threat Exposure Management" }} />
     </>
   );
 }

@@ -10,67 +10,67 @@ import { pagePhotos } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Company",
-  description: "Why ASH-V exists, what we believe about exposure management, and how we work with customers.",
+  description: "ASH-V design principles, customer engagement model and content standards.",
   alternates: { canonical: "/company" },
 };
 
 const beliefs: { icon: Icon; title: string; body: string }[] = [
   {
     icon: Stack,
-    title: "One record beats six integrations",
-    body: "Connecting six tools still leaves six versions of the estate. We build every module on the same asset record instead.",
+    title: "A Single Asset Record",
+    body: "Integrating separate tools still leaves separate views of the environment. Every ASH-V module is built on the same asset record.",
   },
   {
     icon: Eye,
-    title: "Rank by what attackers use",
-    body: "A severity score says how bad a flaw could be. Exploitation, reachability and the asset it sits on say whether it matters to you.",
+    title: "Exploitation-Based Prioritization",
+    body: "Severity scores describe potential impact. Known exploitation, reachability and asset criticality determine actual priority.",
   },
   {
     icon: SealCheck,
-    title: "Done means verified",
-    body: "A finding is fixed when a rescan confirms it, not when a ticket changes colour.",
+    title: "Verified Remediation",
+    body: "A finding is closed when a verification scan confirms the fix, not when a remediation task changes status.",
   },
   {
     icon: ListChecks,
-    title: "Evidence is a by product of the work",
-    body: "If the system that did the remediation writes the record, nobody has to rebuild it for the audit.",
+    title: "Operational Evidence",
+    body: "When the system that performs remediation records it, audit evidence is available without separate collection.",
   },
 ];
 
 const steps = [
   {
-    title: "Walkthrough",
-    body: "A 30 minute working session built around the tools you run today. You leave with a written summary of what a pilot would cover.",
+    title: "Platform Walkthrough",
+    body: "A 30-minute session based on current security tooling, followed by a written pilot scope.",
   },
   {
     title: "Pilot",
-    body: "A scoped pilot on part of your estate, with the data sources and the outcomes to measure agreed in writing first.",
+    body: "A scoped pilot on part of the environment, with data sources and success criteria agreed in writing in advance.",
   },
   {
-    title: "Rollout",
-    body: "Add modules as you need them. Each one joins the same inventory, so there is no new reconciliation project.",
+    title: "Deployment",
+    body: "Modules are added as required. Each module uses the same asset inventory, with no additional reconciliation project.",
   },
 ];
 
 const honesty = [
-  "Product screens on this site use sample data, and say so.",
-  "Every statistic in our guides names its source.",
-  "We describe what each module does, not what it might do one day.",
+  "Product interfaces shown on this website use sample data and are labelled accordingly.",
+  "Statistics in published guides cite their primary sources.",
+  "Module descriptions reflect current capabilities only.",
 ];
 
 export default function CompanyPage() {
   return (
     <>
-      <PageHero src={pagePhotos.company.src} position={pagePhotos.company.position} lines={["Built to end", "the reconciliation."]}>
+      <PageHero src={pagePhotos.company.src} position={pagePhotos.company.position} lines={["About ASH-V"]}>
         <p className="body-7 sm:body-8 mt-6 text-bone/90">
-          Security, IT and audit teams lose too much of every week arguing about whose spreadsheet is right. ASH-V gives them
-          one record to work from, so the time goes into fixing things instead.
+          ASH-V provides security, IT and audit teams with a single asset record for exposure management, remediation and
+          compliance, replacing manual reconciliation between separate tools.
         </p>
       </PageHero>
 
       <section className="py-20 sm:py-24">
         <div className="page-x">
-          <SectionIntro muted="What we believe." heading="Four ideas behind every module" />
+          <SectionIntro eyebrow="Principles" heading="Platform Design Principles" />
           <ul className="mt-12 grid gap-4 sm:grid-cols-2">
             {beliefs.map((b, i) => (
               <RiseOnView as="li" key={b.title} delay={(i % 2) * 0.08}>
@@ -89,17 +89,17 @@ export default function CompanyPage() {
         </div>
       </section>
 
-      <section aria-label="Our aim" className="page-x border-t border-ash-grey py-24">
+      <section aria-label="Platform objective" className="page-x border-t border-ash-grey py-24">
         <InkParagraph
           as="h2"
           className="heading-3 sm:heading-2 lg:heading-1"
-          text="We want the answer to the board and the answer to the auditor to be the same answer."
+          text="Board reporting and audit evidence are produced from the same asset record and remain consistent."
         />
       </section>
 
       <section data-nav-tone="dark" className="on-dark bg-ink py-20 text-bone sm:py-24">
         <div className="page-x">
-          <h2 className="heading-4 sm:heading-3 lg:heading-2 max-w-[22ch]">How we work with customers</h2>
+          <h2 className="heading-4 sm:heading-3 lg:heading-2 max-w-[22ch]">Customer Engagement Model</h2>
           <ol className="mt-12 grid gap-4 md:grid-cols-3">
             {steps.map((s, i) => (
               <RiseOnView as="li" key={s.title} delay={i * 0.1} className="rounded-3xl bg-raised p-6 sm:p-8">
@@ -114,7 +114,7 @@ export default function CompanyPage() {
 
       <section className="py-20 sm:py-24">
         <div className="page-x grid grid-cols-1 gap-12 lg:grid-cols-12">
-          <SectionIntro className="lg:col-span-5" heading="How we write about ourselves" />
+          <SectionIntro className="lg:col-span-5" eyebrow="Standards" heading="Content Standards" />
           <ul className="space-y-4 lg:col-span-7">
             {honesty.map((h, i) => (
               <RiseOnView as="li" key={h} delay={i * 0.08} className="title-2 rounded-3xl bg-mist p-6">
@@ -125,7 +125,7 @@ export default function CompanyPage() {
         </div>
       </section>
 
-      <CtaBand heading="Talk to the team." body="The quickest way to reach us is to book a walkthrough. We reply to agree a time." />
+      <CtaBand heading="Contact ASH-V" body="Submit a walkthrough request to contact the ASH-V team. A team member will respond to schedule the session." />
     </>
   );
 }

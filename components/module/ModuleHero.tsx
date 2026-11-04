@@ -59,7 +59,7 @@ export function ModuleHero({
         <p className="body-7 sm:body-8 mt-6 text-bone/85">{intro}</p>
         <div className={`mt-8 flex flex-col gap-3 sm:flex-row ${layout === "stacked" ? "sm:justify-center" : ""}`}>
           <Link href={`/walkthrough?interest=${mod.slug}`} className="btn btn-light">
-            Book a walkthrough
+            Request a Walkthrough
             <ArrowRight weight="bold" className="size-4" aria-hidden="true" />
           </Link>
           {secondary ? (

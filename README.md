@@ -4,6 +4,14 @@ Marketing site for ASH-V, built with Next.js 15 (App Router), Tailwind CSS 4 and
 landing-page-design skill in `.claude/skills/landing-page-design` (from elayadesign/ai-design-skills, MIT), with the
 Apple design skill (`.claude/skills/apple-design`) informing materials and gestures.
 
+## UX writing
+
+All user-facing text follows the ASH-V Enterprise UX Writing Guidelines (`.claude/skills/ash-v-ux-writing/SKILL.md`,
+enforced through `CLAUDE.md`): a formal, precise enterprise tone; one glossary term per concept (Asset Record, Finding,
+Exposure Queue, Verified Closure, Risk Exception, Evidence Record, Vendor Tier and others); Title Case for headings, labels,
+buttons and statuses; sentence case for descriptions; a fixed status vocabulary; and official framework terminology.
+Review every new or modified component against the skill's checklist before merging.
+
 ## Run it
 
 ```bash
@@ -120,7 +128,7 @@ brightest pixel; to swap one, replace the file and keep the subject away from th
 | Motion | Base curve `cubic-bezier(0.22, 1, 0.36, 1)`: 500ms for position, 300ms for colour, 700ms for reveals (`lib/springs.ts`). Sections rise 32px and fade in once, triggered by IntersectionObserver. Only transform and opacity animate. The swipe carousel keeps a spring, because it has to carry the finger's speed. |
 | Navigation | A compact glass bar floating 12px below the top, centred and sized to its content. Its ink follows what is underneath (light glass over white, clear glass over photos). The phone menu is a full height frosted panel; the toggle's two lines turn into a cross; links rise 24px one after another, capped at 400ms. Current page is marked in every menu. |
 | Tagline reveal | `InkParagraph`: words start at 30% and light up one at a time in reading order as they cross a trigger line, each easing in on the base curve. On the home, solution, frameworks and company pages. |
-| No hyphens in copy | Rewritten throughout. Kept only in proper names and identifiers: ASH-V, Third-Party Risk Management (a module name), CVE, BOD and control IDs, which never break across lines (`NoBreak`). |
+| UX writing | All copy follows the ASH-V Enterprise UX Writing Guidelines in `.claude/skills/ash-v-ux-writing` (tone, glossary, Title Case headings and labels, sentence case descriptions, status vocabulary, action-oriented buttons). These supersede the landing-page-design copy rules on hyphens and heading case. Identifiers such as ASH-V, CVE, BOD and control IDs never break across lines (`NoBreak`). |
 | States | Hover lift, press scale 0.98, two ring focus indicator, skeleton while the form loads, inline field errors, specific failure messages. |
 | Ship list | Skip link, branded 404, privacy and terms in the footer, favicon, titles, descriptions, canonical URLs, og:image, sitemap, robots, FAQ and Article structured data, checked at 390px with no horizontal overflow. |
 | Reduced motion and transparency | Movement becomes opacity; pinned sections unpin; glass turns solid under `prefers-reduced-transparency` and `prefers-contrast: more`. |

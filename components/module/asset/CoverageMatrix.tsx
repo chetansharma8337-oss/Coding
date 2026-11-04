@@ -6,14 +6,14 @@ import { fade } from "@/lib/springs";
 
 // Coverage gaps as a picture: assets down the side, required controls across the top. Filled cells settle
 // in row by row; the gaps stay as hollow rings, which is the point of the chart.
-const cols = ["Owner", "Endpoint agent", "Vulnerability scan", "Backup", "Central logging"];
+const cols = ["Asset Owner", "Endpoint Agent", "Vulnerability Scanning", "Backup", "Centralized Logging"];
 const rows: { asset: string; note: string; has: boolean[] }[] = [
   { asset: "fin-db-02", note: "Database server", has: [true, true, true, false, true] },
   { asset: "billing-api-04", note: "Container workload", has: [true, true, true, true, true] },
   { asset: "mft-prod-01", note: "Virtual machine", has: [true, true, true, true, false] },
   { asset: "laptop-ops-118", note: "Endpoint", has: [true, true, false, true, true] },
-  { asset: "legacy-ftp-01", note: "Seen only by a network scan", has: [false, false, true, false, false] },
-  { asset: "kiosk-lobby-03", note: "Unknown device", has: [false, false, true, false, false] },
+  { asset: "legacy-ftp-01", note: "Network discovery only", has: [false, false, true, false, false] },
+  { asset: "kiosk-lobby-03", note: "Unmanaged asset", has: [false, false, true, false, false] },
 ];
 
 export function CoverageMatrix() {
@@ -22,7 +22,7 @@ export function CoverageMatrix() {
   return (
     <figure className="overflow-x-auto rounded-3xl bg-raised p-4 sm:p-6">
       <table className="w-full min-w-[640px] border-collapse text-left">
-        <caption className="sr-only">Coverage of required controls per asset. Sample data.</caption>
+        <caption className="sr-only">Required control coverage by asset. Sample data.</caption>
         <thead>
           <tr>
             <th scope="col" className="caption-3 pb-4 pr-4 font-semibold text-ash-grey">
@@ -52,7 +52,7 @@ export function CoverageMatrix() {
                     transition={reduce ? { scale: { duration: 0 }, opacity: fade } : { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: ri * 0.08 + ci * 0.03 }}
                   >
                     {ok ? <Check weight="bold" className="size-4" aria-hidden="true" /> : null}
-                    <span className="sr-only">{ok ? "Covered" : "Missing"}</span>
+                    <span className="sr-only">{ok ? "Control present" : "Coverage gap"}</span>
                   </motion.span>
                 </td>
               ))}
@@ -62,7 +62,7 @@ export function CoverageMatrix() {
         <tfoot>
           <tr className="border-t border-bone/30">
             <th scope="row" className="caption-1 pt-4 pr-4 text-left text-bone">
-              Missing
+              Coverage Gaps
             </th>
             {missing.map((m, i) => (
               <td key={i} className="caption-6 pt-4 text-center text-bone">
@@ -72,7 +72,7 @@ export function CoverageMatrix() {
           </tr>
         </tfoot>
       </table>
-      <figcaption className="caption-5 mt-4 text-ash-grey">Illustrative, sample data. Required controls are set per asset type.</figcaption>
+      <figcaption className="caption-5 mt-4 text-ash-grey">Sample data. Required controls are defined for each asset type.</figcaption>
     </figure>
   );
 }

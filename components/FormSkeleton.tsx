@@ -2,7 +2,7 @@
 export function FormSkeleton() {
   const bar = "animate-pulse rounded-xl bg-mist";
   return (
-    <div aria-busy="true" aria-label="Loading the request form" className="space-y-6">
+    <div aria-busy="true" aria-label="Loading walkthrough request form" className="space-y-6">
       <div className="grid gap-6 sm:grid-cols-2">
         {Array.from({ length: 4 }, (_, i) => (
           <div key={i}>

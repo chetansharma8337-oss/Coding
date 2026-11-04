@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { ImageResponse } from "next/og";
 
-export const alt = "ASH-V: one record of everything you defend";
+export const alt = "ASH-V: Unified Exposure Management and GRC";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -44,11 +44,11 @@ export default async function OpengraphImage() {
                 flexDirection: "column",
               }}
             >
-              <span>One record of</span>
-              <span>everything you defend.</span>
+              <span>Unified Exposure</span>
+              <span>Management and GRC</span>
             </div>
             <div style={{ marginTop: 24, fontSize: 28, color: "#c9c9cd" }}>
-              Asset intelligence, exposure, patching, testing, vendor risk and GRC
+              Asset Intelligence · Exposure Management · Remediation · Penetration Testing · GRC
             </div>
           </div>
         </div>

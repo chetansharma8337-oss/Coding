@@ -17,12 +17,12 @@ export type Article = {
 export const articles: Article[] = [
   {
     slug: "kev-catalog-patch-priority",
-    title: "Using the CISA KEV catalog to decide what to patch first",
+    title: "Prioritizing Remediation with the CISA KEV Catalog",
     description:
-      "What the Known Exploited Vulnerabilities catalog is, what changed with BOD 26-04, and how to combine it with reachability and asset criticality.",
+      "The scope of the CISA Known Exploited Vulnerabilities catalog, the transition from BOD 22-01 to BOD 26-04, and its use alongside reachability and asset criticality.",
     date: "2026-10-31",
     minutes: 6,
-    topic: "Exposure management",
+    topic: "Exposure Management",
     image: "/images/module-patching.jpg",
     sources: [
       { label: "CISA, Known Exploited Vulnerabilities catalog", href: "https://www.cisa.gov/known-exploited-vulnerabilities-catalog" },
@@ -46,84 +46,90 @@ export const articles: Article[] = [
     Body: () => (
       <>
         <p>
-          A vulnerability scanner will happily report thousands of critical findings. Most will never be used against you.
-          The CISA Known Exploited Vulnerabilities catalog, usually called KEV, is the most widely used public answer to a
-          narrower question: which of these are attackers actually using?
+          Vulnerability scanners routinely report thousands of critical findings, most of which are never exploited. The
+          CISA Known Exploited Vulnerabilities (KEV) catalog is the most widely used public reference for vulnerabilities
+          with evidence of active exploitation.
         </p>
-        <h2>What gets a CVE into the catalog</h2>
-        <p>CISA adds a vulnerability only when three conditions hold:</p>
+        <h2>Catalog Inclusion Criteria</h2>
+        <p>CISA adds a vulnerability to the catalog only when three criteria are met:</p>
         <ul>
-          <li>it has an assigned CVE ID,</li>
-          <li>there is reliable evidence that it is being actively exploited, and</li>
-          <li>there is clear remediation guidance, such as a vendor update.</li>
+          <li>an assigned CVE ID;</li>
+          <li>reliable evidence of active exploitation;</li>
+          <li>clear remediation guidance, such as a vendor update.</li>
         </ul>
         <p>
-          A public proof of concept is not enough on its own. That strictness is what makes the list useful: it held more
-          than 1,700 entries in October 2026, a small fraction of all published CVEs. Since October 2023 each entry also
-          says whether the vulnerability is known to be used in ransomware campaigns.
+          A public proof of concept alone does not qualify. These criteria keep the catalog focused: it contained more than
+          1,700 entries in October 2026, a small fraction of all published CVEs. Since October 2023, each entry has also
+          indicated whether the vulnerability is known to be used in ransomware campaigns.
         </p>
-        <h2>From <span className="whitespace-nowrap">BOD 22-01</span> to <span className="whitespace-nowrap">BOD 26-04</span></h2>
+        <h2>Transition from <span className="whitespace-nowrap">BOD 22-01</span> to <span className="whitespace-nowrap">BOD 26-04</span></h2>
         <p>
-          The catalog was created under Binding Operational Directive 22-01 in November 2021. For US federal civilian
-          agencies it set default deadlines of two weeks for CVEs assigned from 2021 onward and six months for older ones.
-        </p>
-        <p>
-          In June 2026 CISA revoked <span className="whitespace-nowrap">BOD 22-01</span> and issued <span className="whitespace-nowrap">BOD 26-04</span>, “Prioritizing Security Updates Based on Risk”. The
-          catalog and its inclusion criteria remain, but deadlines now depend on risk: a vulnerability that is publicly
-          exposed, automatable and gives an attacker total technical impact must be fixed within three days. If your
-          remediation policy quotes the old two week default, it is worth revisiting.
-        </p>
-        <h2>A worked example: <span className="whitespace-nowrap">CVE-2024-21762</span></h2>
-        <p>
-          <span className="whitespace-nowrap">CVE-2024-21762</span> is an out of bounds write in the SSL VPN component of Fortinet FortiOS that lets a remote,
-          unauthenticated attacker run code with crafted HTTP requests. NVD scores it 9.8. CISA added it to KEV on 9
-          February 2024 with a federal due date one week later.
+          The catalog was established under Binding Operational Directive 22-01 in November 2021. For US federal civilian
+          agencies, the directive set default remediation deadlines of two weeks for CVEs assigned from 2021 onward and six
+          months for earlier CVEs.
         </p>
         <p>
-          It is also typical of where exploitation has moved. Verizon&apos;s 2025 Data Breach Investigations Report found
-          vulnerability exploitation was the initial access vector in 20% of breaches, and that edge devices and VPNs made up
-          22% of exploitation targets, up from 3% the year before. Only about 54% of those edge vulnerabilities were fully
-          remediated, with a median of 32 days to do it.
+          In June 2026, CISA revoked <span className="whitespace-nowrap">BOD 22-01</span> and issued <span className="whitespace-nowrap">BOD 26-04</span>, “Prioritizing Security Updates Based on Risk”. The catalog and its
+          inclusion criteria remain in place, but deadlines are now risk-based: a vulnerability that is publicly exposed,
+          automatable and gives an attacker total technical impact must be remediated within three days. Remediation
+          policies that reference the previous two-week default should be reviewed.
         </p>
-        <h2>KEV is a floor, not a ranking</h2>
-        <p>KEV tells you a vulnerability is exploited somewhere. It does not tell you whether it matters here. Three more facts do:</p>
+        <h2>Example: <span className="whitespace-nowrap">CVE-2024-21762</span></h2>
+        <p>
+          <span className="whitespace-nowrap">CVE-2024-21762</span> is an out-of-bounds write in the SSL VPN component of Fortinet FortiOS that allows a remote, unauthenticated
+          attacker to execute code through crafted HTTP requests. NVD assigns it a CVSS score of 9.8. CISA added it to the
+          KEV catalog on 9 February 2024 with a federal due date one week later.
+        </p>
+        <p>
+          The vulnerability also reflects a broader shift in exploitation activity. The Verizon 2025 Data Breach
+          Investigations Report found that vulnerability exploitation was the initial access vector in 20% of breaches, and
+          that edge devices and VPNs accounted for 22% of exploitation targets, up from 3% the previous year. Approximately
+          54% of those edge device vulnerabilities were fully remediated, with a median remediation time of 32 days.
+        </p>
+        <h2>KEV as a Baseline, Not a Ranking</h2>
+        <p>
+          A KEV listing confirms that a vulnerability is exploited, but not whether it is significant in a specific
+          environment. Three additional factors determine priority:
+        </p>
         <ul>
           <li>
-            <strong>Reachability.</strong> A KEV entry on an internet facing VPN outranks the same entry on an isolated lab
-            host.
+            <strong>Reachability.</strong> A KEV-listed vulnerability on an internet-facing VPN takes priority over the same
+            vulnerability on an isolated test system.
           </li>
           <li>
-            <strong>Asset criticality.</strong> The payment database matters more than the test box, and only your inventory
-            knows which is which.
+            <strong>Asset criticality.</strong> A payment database warrants higher priority than a test system. Asset
+            criticality is recorded in the asset inventory.
           </li>
           <li>
-            <strong>Proof.</strong> If a test shows the exposure leads somewhere valuable, it goes to the top.
+            <strong>Validation.</strong> A finding confirmed by testing as part of an attack path to a high-criticality asset
+            takes the highest priority.
           </li>
         </ul>
         <p>
-          For vulnerabilities that are not on the list yet, FIRST&apos;s Exploit Prediction Scoring System estimates the
-          probability that a CVE will be exploited in the next 30 days, and is a useful second signal.
+          For vulnerabilities not yet in the catalog, the FIRST Exploit Prediction Scoring System (EPSS) estimates the
+          probability that a CVE will be exploited in the next 30 days and provides a useful secondary signal.
         </p>
-        <h2>How ASH-V uses it</h2>
+        <h2>Application in ASH-V</h2>
         <p>
-          <Link href="/platform/threat-exposure-management">Threat Exposure Management</Link> flags KEV entries and scores
-          each exposure against the asset it sits on, using reachability and the criticality recorded in{" "}
+          <Link href="/platform/threat-exposure-management">Threat Exposure Management</Link> flags KEV-listed findings and
+          ranks each finding using reachability and the asset criticality recorded in{" "}
           <Link href="/platform/asset-intelligence">Asset Intelligence</Link>.{" "}
-          <Link href="/platform/automated-penetration-testing">Automated Penetration Testing</Link> moves validated paths to
-          the top, and <Link href="/platform/vulnerability-patch-management">Vulnerability &amp; Patch Management</Link> closes
-          a finding only when a rescan confirms the fix.
+          <Link href="/platform/automated-penetration-testing">Automated Penetration Testing</Link> raises findings on
+          validated attack paths to the top of the Exposure Queue, and{" "}
+          <Link href="/platform/vulnerability-patch-management">Vulnerability &amp; Patch Management</Link> closes a finding
+          only after a verification scan confirms the fix.
         </p>
       </>
     ),
   },
   {
     slug: "continuous-threat-exposure-management",
-    title: "What continuous threat exposure management looks like in practice",
+    title: "Implementing Continuous Threat Exposure Management",
     description:
-      "The five stages of a CTEM program, what each one needs from your data, and why most programs stall at prioritization.",
+      "The five stages of a continuous threat exposure management program, the data each stage requires and common implementation challenges.",
     date: "2026-10-31",
     minutes: 5,
-    topic: "Exposure management",
+    topic: "Exposure Management",
     image: "/images/module-threat-exposure.jpg",
     sources: [
       {
@@ -139,45 +145,47 @@ export const articles: Article[] = [
     Body: () => (
       <>
         <p>
-          Continuous threat exposure management, or CTEM, is a term Gartner introduced in 2022 for a program rather than a
-          product: a repeating cycle that decides what to protect, finds what is exposed, and gets the important exposures
-          fixed. In October 2023 Gartner predicted that by 2026, organizations prioritizing their security investments based
-          on a CTEM program would realize a two thirds reduction in breaches.
+          Continuous threat exposure management (CTEM) is a term Gartner introduced in 2022 for a program rather than a
+          product: a repeating cycle that defines what to protect, identifies exposures and drives remediation of the most
+          significant ones. In October 2023, Gartner predicted that by 2026, organizations prioritizing their security
+          investments based on a CTEM program would realize a two-thirds reduction in breaches.
         </p>
         <p>The cycle is commonly described in five stages.</p>
         <h2>1. Scoping</h2>
         <p>
-          Decide which part of the business the cycle covers: external attack surface, a business unit, the SaaS estate.
-          Scoping needs an inventory with owners and business context, or every later stage argues about what counts.
+          Define the part of the business the cycle covers, such as the external attack surface, a business unit or the
+          SaaS estate. Scoping requires an asset inventory with asset owners and business context; without it, later stages
+          lack an agreed scope.
         </p>
         <h2>2. Discovery</h2>
         <p>
-          Find assets and their exposures within scope: vulnerabilities, misconfigurations, over privileged identities. The
-          hard part is not finding things, it is merging duplicate sightings from different tools into one record per asset.
+          Identify assets and their exposures within scope: vulnerabilities, misconfigurations and identities with
+          excessive privileges. The principal challenge is consolidating duplicate records from different data sources into
+          one asset record per asset.
         </p>
         <h2>3. Prioritization</h2>
         <p>
-          Rank exposures by what an attacker could actually do with them. This is where most programs stall, because severity
-          scores alone rate nearly everything as urgent. Useful inputs are known exploitation (such as the CISA KEV catalog),
-          reachability, compensating controls and the criticality of the asset.
+          Rank exposures by their potential for exploitation and impact. Many programs stall at this stage because severity
+          scores alone rate most findings as urgent. Relevant inputs include known exploitation (such as the CISA KEV
+          catalog), reachability, compensating controls and asset criticality.
         </p>
         <h2>4. Validation</h2>
         <p>
-          Confirm that a high ranked exposure is exploitable in your environment and see where it leads. Validation turns a
-          theoretical risk into an attack path with evidence, which is what persuades another team to act.
+          Confirm that a high-priority exposure is exploitable in your environment and identify the resulting attack path.
+          Validation provides evidence that supports remediation requests to other teams.
         </p>
         <h2>5. Mobilization</h2>
         <p>
-          Get the fix done: route the work to the owner, agree the deadline, and confirm the result. Mobilization fails when
-          findings arrive without owners or close without verification.
+          Complete remediation: assign the work to the asset owner, agree the due date and verify the result. Mobilization
+          fails when findings lack asset owners or are closed without verification.
         </p>
-        <h2>The common thread is the asset record</h2>
+        <h2>The Asset Record as a Common Foundation</h2>
         <p>
-          Every stage reads from or writes to the same facts about an asset: who owns it, how critical it is, what can reach
-          it, what is wrong with it and whether that has been fixed. When each stage runs in a different tool, a team spends
-          its time reconciling instead of reducing exposure.
+          Every stage reads from or writes to the same information about an asset: its owner, its criticality, its
+          reachability, its findings and their remediation status. When each stage runs in a separate tool, effort is spent
+          on reconciliation rather than exposure reduction.
         </p>
-        <p>In ASH-V the stages map onto modules that share one inventory:</p>
+        <p>In ASH-V, each stage corresponds to a module that uses the shared asset inventory:</p>
         <ul>
           <li>
             <strong>Scoping and discovery:</strong> <Link href="/platform/asset-intelligence">Asset Intelligence</Link>
@@ -191,7 +199,7 @@ export const articles: Article[] = [
           <li>
             <strong>Mobilization:</strong>{" "}
             <Link href="/platform/vulnerability-patch-management">Vulnerability &amp; Patch Management</Link>, with evidence
-            flowing to <Link href="/platform/grc">GRC</Link>
+            records provided to <Link href="/platform/grc">GRC</Link>
           </li>
         </ul>
       </>
@@ -199,12 +207,12 @@ export const articles: Article[] = [
   },
   {
     slug: "one-control-many-frameworks",
-    title: "One control, many frameworks: mapping vulnerability management",
+    title: "Cross-Framework Mapping for Vulnerability Management",
     description:
-      "How the same vulnerability management control appears in ISO/IEC 27001:2022, NIST CSF 2.0 and the CIS Controls, and what evidence satisfies all three.",
+      "How vulnerability management requirements in ISO/IEC 27001:2022, NIST CSF 2.0 and the CIS Controls align, and the evidence that satisfies each.",
     date: "2026-10-31",
     minutes: 5,
-    topic: "Governance and compliance",
+    topic: "Governance, Risk and Compliance",
     image: "/images/frameworks.jpg",
     sources: [
       { label: "ISO, ISO/IEC 27001:2022", href: "https://www.iso.org/standard/27001" },
@@ -218,53 +226,54 @@ export const articles: Article[] = [
     Body: () => (
       <>
         <p>
-          Ask three frameworks whether you manage vulnerabilities and you get three questions in three vocabularies. The
-          underlying expectation is the same: know what you have, find what is wrong with it, fix the important things on
-          time, and be able to show it.
+          ISO/IEC 27001, NIST CSF and the CIS Controls each address vulnerability management in their own terms. The
+          underlying expectation is consistent: maintain an asset inventory, identify vulnerabilities, remediate significant
+          vulnerabilities within defined timelines and retain evidence of each step.
         </p>
-        <h2>The same requirement, three ways</h2>
+        <h2>Equivalent Requirements Across Frameworks</h2>
         <ul>
           <li>
-            <strong>ISO/IEC 27001:2022</strong> has 93 Annex A controls across four themes. Control <span className="whitespace-nowrap">A.8.8</span>, management of
+            <strong>ISO/IEC 27001:2022</strong> contains 93 Annex A controls across four themes. Control <span className="whitespace-nowrap">A.8.8</span>, Management of
             technical vulnerabilities, covers obtaining information about vulnerabilities, evaluating exposure and taking
             appropriate measures.
           </li>
           <li>
-            <strong>NIST CSF 2.0</strong>, released in February 2024, organizes outcomes under six functions. <span className="whitespace-nowrap">ID.RA-01</span> asks
-            that vulnerabilities in assets are identified, validated and recorded.
+            <strong>NIST CSF 2.0</strong>, released in February 2024, organizes outcomes under six functions. <span className="whitespace-nowrap">ID.RA-01</span> states:
+            “Vulnerabilities in assets are identified, validated, and recorded.”
           </li>
           <li>
-            <strong>CIS Controls v8.1</strong> has 18 Controls and 153 Safeguards. Control 7 is continuous vulnerability
-            management, and Safeguard 7.7 is to remediate detected vulnerabilities.
+            <strong>CIS Controls v8.1</strong> contains 18 Controls and 153 Safeguards. Control 7 is Continuous Vulnerability
+            Management, and Safeguard 7.7 is Remediate Detected Vulnerabilities.
           </li>
         </ul>
         <p>
-          All three also depend on an asset inventory: ISO <span className="whitespace-nowrap">A.5.9</span>, CSF <span className="whitespace-nowrap">ID.AM-01</span> and CIS Safeguard 1.1. You cannot evidence
-          remediation on assets you have not counted.
+          All three frameworks also require an asset inventory: ISO <span className="whitespace-nowrap">A.5.9</span>, CSF <span className="whitespace-nowrap">ID.AM-01</span> and CIS Safeguard 1.1. Remediation cannot be
+          evidenced for assets that are not inventoried.
         </p>
-        <h2>What evidence satisfies all three</h2>
-        <p>An auditor for any of these frameworks is looking for the same artefacts:</p>
+        <h2>Evidence Requirements</h2>
+        <p>Auditors for each of these frameworks typically request the same evidence:</p>
         <ul>
-          <li>a current inventory, with owners;</li>
-          <li>a documented way of ranking what to fix first;</li>
-          <li>remediation records with dates, showing the fix was confirmed rather than assumed;</li>
-          <li>approved, time limited exceptions for anything not fixed.</li>
+          <li>a current asset inventory with asset owners;</li>
+          <li>a documented prioritization method;</li>
+          <li>dated remediation records showing verified closure;</li>
+          <li>approved, time-limited risk exceptions for unremediated findings.</li>
         </ul>
         <p>
-          NIST <span className="whitespace-nowrap">SP 800-40</span> Rev. 4, published in April 2022, is a useful companion here. It frames patching as preventive
-          maintenance and recommends planning it around maintenance groups and phased rollouts, which also produces exactly
-          the dated, staged records auditors ask for.
+          NIST <span className="whitespace-nowrap">SP 800-40</span> Rev. 4, published in April 2022, is a relevant reference. It describes patching as preventive maintenance
+          and recommends planning around maintenance groups and phased rollouts, which produces the dated, staged records
+          auditors request.
         </p>
-        <h2>Map once, collect continuously</h2>
+        <h2>Single Mapping, Continuous Evidence Collection</h2>
         <p>
-          The expensive part of compliance is not the mapping, it is gathering the evidence each time. If the remediation
-          record is written by the system that did the remediation, the evidence exists the moment the work is done.
+          The principal cost of compliance is not the mapping but repeated evidence collection. When the system that
+          performs remediation also records it, the evidence exists as soon as the work is complete.
         </p>
         <p>
-          In ASH-V, <Link href="/platform/grc">GRC</Link> maps a control once to each framework. Verified closures from{" "}
-          <Link href="/platform/vulnerability-patch-management">Vulnerability &amp; Patch Management</Link>, test results from{" "}
-          <Link href="/platform/automated-penetration-testing">Automated Penetration Testing</Link> and exceptions with expiry
-          dates attach to it as they happen. See the example mapping on the <Link href="/frameworks">frameworks page</Link>.
+          In ASH-V, <Link href="/platform/grc">GRC</Link> maps each control once to every applicable framework requirement.
+          Verified closures from <Link href="/platform/vulnerability-patch-management">Vulnerability &amp; Patch Management</Link>,
+          test results from <Link href="/platform/automated-penetration-testing">Automated Penetration Testing</Link> and risk
+          exceptions with expiry dates are attached as evidence records when they are produced. An example mapping is
+          available on the <Link href="/frameworks">Frameworks page</Link>.
         </p>
       </>
     ),

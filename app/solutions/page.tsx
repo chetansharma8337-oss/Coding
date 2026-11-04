@@ -5,18 +5,18 @@ import { SolutionCards } from "@/components/sections/SolutionCards";
 import { photos } from "@/lib/images";
 
 export const metadata: Metadata = {
-  title: "Solutions by team",
-  description: "How CISOs, security operations, IT operations and GRC teams use ASH-V from the same asset record.",
+  title: "Solutions by Role",
+  description: "Role-specific ASH-V solutions for security leadership, security operations, IT operations and GRC teams.",
   alternates: { canonical: "/solutions" },
 };
 
 export default function SolutionsPage() {
   return (
     <>
-      <PageHero src={photos.teamScreen} lines={["One record,", "four ways of working."]}>
+      <PageHero src={photos.teamScreen} lines={["Solutions by Role"]}>
         <p className="body-7 sm:body-8 mt-6 text-bone/90">
-          Leaders see risk by business impact. Analysts see a ranked queue. IT sees only the assets it owns. Audit sees
-          evidence. Pick your team to see what changes.
+          ASH-V provides role-specific views for security leadership, security operations, IT operations and GRC teams, all
+          based on the same asset record.
         </p>
       </PageHero>
       <section className="py-20 sm:py-24">

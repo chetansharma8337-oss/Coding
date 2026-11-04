@@ -10,15 +10,15 @@ import { fade, spring } from "@/lib/springs";
 // the review goes. Chips fly from an unsorted tray into their cells as shared layout animations (transforms), and
 // a scenario shows a tier changing the moment access changes. Vendor names are invented.
 
-const reach = ["No access", "SaaS user", "API or integration", "Privileged or network"];
-const data = ["Regulated or customer data", "Internal data", "Public data"]; // top row is most sensitive
+const reach = ["No Access", "SaaS User Access", "API or Integration Access", "Privileged or Network Access"];
+const data = ["Regulated or Customer Data", "Internal Data", "Public Data"]; // top row is most sensitive
 type Vendor = { id: string; name: string; what: string; r: number; d: number };
 
 const vendors: Vendor[] = [
   { id: "payfield", name: "Payfield", what: "Payroll", r: 1, d: 0 },
   { id: "ironbridge", name: "Ironbridge", what: "Managed IT", r: 3, d: 1 },
   { id: "brindle", name: "Brindle", what: "CRM", r: 2, d: 0 },
-  { id: "quillmark", name: "Quillmark", what: "E signature", r: 1, d: 1 },
+  { id: "quillmark", name: "Quillmark", what: "E-Signature", r: 1, d: 1 },
   { id: "sorrel", name: "Sorrel", what: "Analytics", r: 2, d: 1 },
   { id: "kestrel", name: "Kestrel", what: "Facilities", r: 0, d: 2 },
   { id: "pressline", name: "Pressline", what: "Print", r: 0, d: 1 },
@@ -75,8 +75,8 @@ export function AccessMatrix() {
     <div ref={ref}>
       <LayoutGroup>
         <div className="flex min-h-12 flex-wrap items-center gap-2 rounded-2xl border border-dashed border-bone/25 p-2">
-          <span className="caption-3 px-2 text-ash-grey">Unsorted</span>
-          {!placed ? vendors.map((v) => <Chip key={v.id} v={v} />) : <span className="caption-5 text-ash-grey">Every vendor placed by its access</span>}
+          <span className="caption-3 px-2 text-ash-grey">Unclassified Vendors</span>
+          {!placed ? vendors.map((v) => <Chip key={v.id} v={v} />) : <span className="caption-5 text-ash-grey">All vendors classified</span>}
         </div>
 
         <div className="mt-4 overflow-x-auto">
@@ -126,22 +126,22 @@ export function AccessMatrix() {
                 <>
                   <p className="title-4 flex items-center gap-2">
                     <Key weight="bold" className="size-4" aria-hidden="true" />
-                    Payfield was given an API key to hr-app-01
+                    API Key Issued: Payfield to hr-app-01
                   </p>
                   <p className="caption-2 mt-1 text-ash-grey">
-                    Its tier moved from 2 to {payTier}. Review requested: full security questionnaire and a current SOC 2 Type II report.
+                    Vendor tier changed from Tier 2 to Tier {payTier}. Assessment requested: full security questionnaire and current SOC 2 Type II report.
                   </p>
                 </>
               ) : (
                 <>
-                  <p className="title-4">Payfield signs in to its own payroll app</p>
-                  <p className="caption-2 mt-1 text-ash-grey">Employee bank details, but no access to your systems: Tier 2, standard review.</p>
+                  <p className="title-4">Payfield: SaaS User Access</p>
+                  <p className="caption-2 mt-1 text-ash-grey">Processes regulated employee data without access to internal systems. Tier 2, standard assessment.</p>
                 </>
               )}
             </motion.div>
           </AnimatePresence>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             type="button"
             onClick={() => {
@@ -153,7 +153,7 @@ export function AccessMatrix() {
             className="btn btn-sm btn-light"
           >
             <Key weight="bold" className="size-3.5" aria-hidden="true" />
-            {apiKey ? "Revoke the API key" : "Give Payfield an API key"}
+            {apiKey ? "Revoke API Key" : "Issue API Key to Payfield"}
           </button>
           <button
             type="button"
@@ -166,11 +166,11 @@ export function AccessMatrix() {
             className="btn btn-sm btn-ghost"
           >
             <ArrowCounterClockwise weight="bold" className="size-3.5" aria-hidden="true" />
-            Replay
+            Replay Simulation
           </button>
         </div>
       </div>
-      <p className="caption-5 mt-4 text-ash-grey">Illustrative vendors and tiering rule. You set which cells map to which tier.</p>
+      <p className="caption-5 mt-4 text-ash-grey">Sample data. Tier assignments are configurable.</p>
     </div>
   );
 }

@@ -36,10 +36,10 @@ export function ModuleRelations({ mod }: { mod: PlatformModule }) {
   return (
     <section className="border-t border-ash-grey py-20 sm:py-24">
       <div className="page-x">
-        <SectionIntro muted="One record." heading="Where this module sits in ASH-V" />
+        <SectionIntro eyebrow="Platform Integration" heading="Module Inputs and Outputs" lead="Data this module receives from, and provides to, other ASH-V modules through the shared asset record." />
         <div className="mt-12 grid gap-10 md:grid-cols-2">
-          {gets.length ? <Col title="Receives" rows={gets} Arrow={ArrowDownRight} /> : null}
-          <Col title="Hands on" rows={gives} Arrow={ArrowUpRight} />
+          {gets.length ? <Col title="Inputs" rows={gets} Arrow={ArrowDownRight} /> : null}
+          <Col title="Outputs" rows={gives} Arrow={ArrowUpRight} />
         </div>
       </div>
     </section>

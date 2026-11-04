@@ -16,9 +16,9 @@ import { VendorRecord } from "../vendor/VendorRecord";
 const mod = moduleBySlug("third-party-risk-management")!;
 
 const depth = [
-  { tier: "Tier 1", who: "Privileged access, or access to regulated data", asks: ["Full security questionnaire", "SOC 2 Type II report or ISO/IEC 27001 certificate", "Annual review with the internal owner", "Findings tracked to resolution"] },
-  { tier: "Tier 2", who: "SaaS or API access to internal data", asks: ["Standard security questionnaire", "A current certificate or report, if one exists", "Review every two years"] },
-  { tier: "Tier 3", who: "No access to your systems or data", asks: ["Short attestation at onboarding", "Review when the contract renews"] },
+  { tier: "Tier 1", who: "Privileged access or access to regulated data", asks: ["Full security questionnaire", "SOC 2 Type II report or ISO/IEC 27001 certificate", "Annual review with the relationship owner", "Vendor findings tracked to closure"] },
+  { tier: "Tier 2", who: "SaaS or API access to internal data", asks: ["Standard security questionnaire", "Current certificate or report, where available", "Biennial review"] },
+  { tier: "Tier 3", who: "No access to systems or data", asks: ["Security attestation at onboarding", "Review at contract renewal"] },
 ];
 
 const regs = [
@@ -38,32 +38,32 @@ const regs = [
 
 const faq = [
   {
-    q: "How is a vendor's tier decided?",
-    a: "By what the vendor can reach in your estate, linked to the assets in your inventory, and the sensitivity of the data behind it. You decide which combinations map to which tier.",
+    q: "How is a vendor tier determined?",
+    a: "By the systems the vendor can access, linked to assets in the asset inventory, and the classification of the data involved. The mapping from access and data classification to vendor tier is configurable.",
   },
   {
     q: "What happens when a vendor's access changes?",
-    a: "Its tier is worked out again from the new access, and if it moves up, a deeper review is requested. A vendor given an API key does not stay in the tier it had at onboarding.",
+    a: "The vendor tier is recalculated from the new access. When the tier increases, an assessment appropriate to the new tier is requested.",
   },
   {
-    q: "Do we still send questionnaires?",
-    a: "Yes, but the depth follows the tier. Vendors with privileged access or regulated data get the full set; vendors with no access get a short attestation.",
+    q: "Are security questionnaires still required?",
+    a: "Yes. Questionnaire depth follows the vendor tier: vendors with privileged access or regulated data receive a full questionnaire, and vendors with no access complete an attestation.",
   },
   {
-    q: "Can a vendor send an existing SOC 2 report or certificate instead?",
-    a: "Yes. Reports and certificates are collected as evidence on the vendor record, with their expiry dates tracked.",
+    q: "Can vendors provide an existing SOC 2 report or certificate?",
+    a: "Yes. Reports and certificates are recorded as vendor evidence on the vendor record, with expiry dates tracked.",
   },
   {
     q: "Does this replace a security ratings service?",
-    a: "No. Ratings score a vendor from the outside. ASH-V tiers a vendor by what it can reach on the inside. Many teams use both.",
+    a: "No. Security ratings assess a vendor from an external perspective. ASH-V assigns vendor tiers based on internal system and data access. The two approaches are complementary.",
   },
   {
-    q: "Who deals with a vendor's findings?",
-    a: "Each finding is assigned to an internal owner, usually whoever owns the relationship, and tracked to resolution like any other finding.",
+    q: "How are vendor findings managed?",
+    a: "Each vendor finding is assigned to the relationship owner and tracked to closure in the same way as any other finding.",
   },
   {
-    q: "Where do vendor managed assets show up?",
-    a: "In the asset inventory, marked with the vendor that manages them, so exposures on those assets are ranked and routed like any other.",
+    q: "How are vendor-managed assets handled?",
+    a: "Vendor-managed assets are recorded in the asset inventory with the responsible vendor, and their findings are prioritized and assigned with all other findings.",
   },
 ];
 
@@ -72,10 +72,10 @@ export function ThirdPartyPage() {
     <>
       <ModuleHero
         mod={mod}
-        lines={["Know what your", "vendors can reach."]}
-        intro="Third-Party Risk Management tiers each vendor by the systems and data it can actually reach in your estate, sets the depth of review by that tier, and keeps the evidence current."
+        lines={["Access-Based", "Vendor Risk Tiering"]}
+        intro="Third-Party Risk Management assigns each vendor a tier based on the systems and data it can access, sets assessment depth by vendor tier, and tracks vendor evidence to its expiry date."
         visual={<VendorRecord />}
-        secondary={{ href: "#matrix", label: "See tiering by access" }}
+        secondary={{ href: "#matrix", label: "View Vendor Tiering Model" }}
       />
 
       <section className="py-20 sm:py-24">
@@ -84,7 +84,7 @@ export function ThirdPartyPage() {
             <p className="numeral-1">
               <CountUp value={30} suffix="%" />
             </p>
-            <p className="body-8 mt-6 max-w-[34ch]">of breaches involved a third party in 2025, double the share a year earlier.</p>
+            <p className="body-8 mt-6 max-w-[34ch]">of breaches involved a third party, double the share reported the previous year.</p>
             <a
               href="https://www.verizon.com/about/news/2025-data-breach-investigations-report"
               target="_blank"
@@ -98,9 +98,9 @@ export function ThirdPartyPage() {
           </RiseOnView>
           <div className="lg:col-span-6">
             <SectionIntro
-              muted="The problem."
-              heading="Tiers set from guesses go stale"
-              lead="Most programs tier vendors from an intake form or an outside score. Neither says what the vendor can reach today, and nobody revisits the tier when a vendor is quietly given more access."
+              eyebrow="Challenge"
+              heading="Static Vendor Tiering"
+              lead="Vendor tiers are typically set from intake questionnaires or external security ratings. Neither reflects current system and data access, and tiers are rarely reassessed when access changes."
             />
           </div>
         </div>
@@ -108,10 +108,10 @@ export function ThirdPartyPage() {
 
       <section id="matrix" data-nav-tone="dark" className="on-dark bg-ink py-20 text-bone sm:py-24">
         <div className="page-x">
-          <WordReveal parts={[{ text: "Tier by access,", className: "text-ash-grey" }, { text: "not by questionnaire." }]} className="heading-4 sm:heading-3 lg:heading-2 max-w-[22ch]" />
+          <WordReveal parts="Vendor Tiering Model" className="heading-4 sm:heading-3 lg:heading-2 max-w-[22ch]" />
           <p className="body-7 mt-6 max-w-[60ch] text-ash-grey">
-            Each vendor sits where its real access and the sensitivity of its data meet. Watch what happens when one of them
-            is given an API key.
+            Each vendor is placed by its level of system access and the sensitivity of the data it can reach. The example
+            shows the tier change when a vendor is issued an API key.
           </p>
           <div className="mt-12">
             <AccessMatrix />
@@ -122,9 +122,9 @@ export function ThirdPartyPage() {
       <section className="py-20 sm:py-24">
         <div className="page-x">
           <SectionIntro
-            muted="Review depth."
-            heading="Ask for what the tier needs, not everything from everyone"
-            lead="Vendors with little access stop receiving three hundred question questionnaires, and the ones that matter get a proper review."
+            eyebrow="Assessment Depth"
+            heading="Tier-Based Assessment Requirements"
+            lead="Assessment requirements scale with vendor tier: low-access vendors receive a proportionate assessment and high-access vendors receive a full review."
           />
           <ul className="mt-12 grid gap-4 md:grid-cols-3">
             {depth.map((d, i) => (
@@ -148,7 +148,7 @@ export function ThirdPartyPage() {
               </RiseOnView>
             ))}
           </ul>
-          <p className="caption-2 mt-4 text-slate">Illustrative review requirements. You set what each tier asks for.</p>
+          <p className="caption-2 mt-4 text-slate">Example requirements. Assessment requirements are configurable for each vendor tier.</p>
         </div>
       </section>
 
@@ -156,9 +156,9 @@ export function ThirdPartyPage() {
         <div className="page-x grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <SectionIntro
-              muted="Evidence."
-              heading="Know before a certificate lapses"
-              lead="Reports, certificates and questionnaires are kept on the vendor record with their expiry dates. Renewals are requested ahead of time, not discovered when a customer asks."
+              eyebrow="Vendor Evidence"
+              heading="Vendor Evidence Expiry Tracking"
+              lead="Reports, certificates and questionnaires are recorded on the vendor record with expiry dates, and renewals are requested before expiry."
             />
           </div>
           <div className="lg:col-span-7">
@@ -170,9 +170,9 @@ export function ThirdPartyPage() {
       <section className="border-t border-ash-grey bg-mist py-20 sm:py-24">
         <div className="page-x grid grid-cols-1 gap-4 md:grid-cols-3">
           {[
-            { icon: UserCircle, t: "Findings with an internal owner", b: "A vendor issue is assigned to whoever owns the relationship and tracked to resolution, not left in a spreadsheet tab." },
-            { icon: Buildings, t: "Vendor managed assets in the inventory", b: "Servers and services a vendor runs for you appear in the asset inventory, so their exposures are ranked like any other." },
-            { icon: ClipboardText, t: "Evidence for supplier controls", b: "Reviews, reports and findings attach to your supplier controls in GRC as they are collected." },
+            { icon: UserCircle, t: "Vendor Findings with Assigned Owners", b: "Each vendor finding is assigned to the relationship owner and tracked to closure." },
+            { icon: Buildings, t: "Vendor-Managed Assets", b: "Systems and services operated by a vendor are recorded in the asset inventory, and their findings are prioritized with all other findings." },
+            { icon: ClipboardText, t: "Supplier Control Evidence", b: "Vendor assessments, reports and findings are attached to supplier controls in GRC as evidence records." },
           ].map((x, i) => (
             <RiseOnView key={x.t} delay={i * 0.08} className="lift rounded-3xl bg-bone p-6 sm:p-8">
               <x.icon weight="light" className="size-8" aria-hidden="true" />
@@ -186,9 +186,9 @@ export function ThirdPartyPage() {
       <section className="py-20 sm:py-24">
         <div className="page-x">
           <SectionIntro
-            muted="Regulation."
-            heading="What European regulators now ask for"
-            lead="Both laws expect you to know your suppliers and what they can reach. A register that starts from access holds exactly that information."
+            eyebrow="Regulatory Requirements"
+            heading="DORA and NIS2 Third-Party Requirements"
+            lead="Both regulations require information on ICT third-party service providers and supply chain security. An access-based vendor register records the relationships and access these requirements reference."
           />
           <ul className="mt-12 grid gap-4 md:grid-cols-2">
             {regs.map((r, i) => (
@@ -198,7 +198,7 @@ export function ThirdPartyPage() {
                 <p className="caption-1 mt-1 text-slate">{r.full}</p>
                 <p className="body-3 mt-4 text-graphite">{r.body}</p>
                 <a href={r.href} target="_blank" rel="noreferrer" className="link-arrow body-4 mt-auto pt-6">
-                  Read the text on EUR-Lex
+                  View Regulation on EUR-Lex
                   <ArrowUpRight weight="bold" className="size-4" aria-hidden="true" />
                   <span className="sr-only">(opens in a new tab)</span>
                 </a>
@@ -208,13 +208,13 @@ export function ThirdPartyPage() {
         </div>
       </section>
 
-      <section aria-label="The principle" className="page-x border-t border-ash-grey py-24">
-        <InkParagraph as="h2" className="heading-3 sm:heading-2 lg:heading-1" text="A vendor's risk is what it can reach, so start the review there." />
+      <section aria-label="Module summary" className="page-x border-t border-ash-grey py-24">
+        <InkParagraph as="h2" className="heading-3 sm:heading-2 lg:heading-1" text="Vendor tiers reflect current system and data access, and are reassessed whenever that access changes." />
       </section>
 
       <ModuleRelations mod={mod} />
-      <Faq items={faq} heading="Questions about Third-Party Risk Management" />
-      <CtaBand heading="Tier your vendors by what they can reach." href="/walkthrough?interest=third-party-risk-management" secondary={{ href: "/platform/grc", label: "Next: GRC" }} />
+      <Faq items={faq} />
+      <CtaBand href="/walkthrough?interest=third-party-risk-management" secondary={{ href: "/platform/grc", label: "View Governance, Risk & Compliance" }} />
     </>
   );
 }

@@ -13,20 +13,20 @@ import { fade, spring } from "@/lib/springs";
 type State = "pending" | "installed" | "failed" | "verified" | "vulnerable";
 
 const rings = [
-  { name: "Ring 0", who: "IT pilot", n: 6 },
-  { name: "Ring 1", who: "Early adopters", n: 12 },
-  { name: "Ring 2", who: "Broad workstations", n: 30 },
+  { name: "Ring 0", who: "IT Pilot", n: 6 },
+  { name: "Ring 1", who: "Early Adopters", n: 12 },
+  { name: "Ring 2", who: "Workstations", n: 30 },
   { name: "Ring 3", who: "Servers", n: 14 },
 ];
 const total = rings.reduce((s, r) => s + r.n, 0);
 
 const stages = [
-  { icon: Stack, title: "Staged", body: "The patch for CVE-2021-44228 is routed to Payments, due in 14 days because it is on the KEV list.", due: 14 },
-  { icon: Play, title: "Pilot installs", body: "Ring 0 installs during the 22:00 maintenance window.", due: 13 },
-  { icon: Pause, title: "Paused", body: "Two Ring 1 hosts fail their health check. Ring 2 holds automatically; the due date keeps counting.", due: 11 },
-  { icon: ArrowsClockwise, title: "Resumed", body: "The fixed package ships. Ring 1 completes and Rings 2 and 3 roll out.", due: 9 },
-  { icon: Scan, title: "Verified", body: "A rescan checks every device. One installed the patch but is still vulnerable: it waits for a reboot, so it is re-queued.", due: 8 },
-  { icon: Seal, title: "Evidenced", body: "Verified closures attach to control VM-01 in GRC, with dates and the scan that confirmed them.", due: 8 },
+  { icon: Stack, title: "Scheduled", body: "The patch for CVE-2021-44228 is assigned to Payments with a due date of 14 days, based on its CISA KEV listing.", due: 14 },
+  { icon: Play, title: "Ring 0 Deployment", body: "Ring 0 deploys during the 22:00 maintenance window.", due: 13 },
+  { icon: Pause, title: "Deployment Paused", body: "Two Ring 1 devices fail the health check. Ring 2 is paused automatically, and the due date continues to count down.", due: 11 },
+  { icon: ArrowsClockwise, title: "Deployment Resumed", body: "A corrected package is released. Ring 1 completes and Rings 2 and 3 deploy.", due: 9 },
+  { icon: Scan, title: "Verification Scan", body: "A verification scan checks every device. One device remains vulnerable pending a restart and is reopened.", due: 8 },
+  { icon: Seal, title: "Evidence Recorded", body: "Verified closures attach to control VM-01 in GRC as evidence records, with dates and the confirming scan.", due: 8 },
 ];
 
 // The one device that installs but stays vulnerable, and the two that fail in Ring 1.
@@ -94,7 +94,7 @@ export function RingTrack() {
     <div ref={ref} className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
       {/* Phones: a compact stepper above the track, so the animation stays in view. */}
       <div className="lg:hidden">
-        <ol className="flex gap-2" aria-label="Rollout stages">
+        <ol className="flex gap-2" aria-label="Deployment stages">
           {stages.map((st, i) => (
             <li key={st.title}>
               <button
@@ -117,7 +117,7 @@ export function RingTrack() {
         <p className="body-6 mt-1 text-ash-grey">{s.body}</p>
       </div>
 
-      <ol className="hidden space-y-2 lg:col-span-4 lg:block" aria-label="Rollout stages">
+      <ol className="hidden space-y-2 lg:col-span-4 lg:block" aria-label="Deployment stages">
         {stages.map((st, i) => {
           const on = i === stage;
           const done = i < stage;
@@ -150,7 +150,7 @@ export function RingTrack() {
 
       <div className="relative overflow-hidden rounded-3xl bg-raised p-4 sm:p-6 lg:col-span-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="caption-6 rounded-full bg-bone/10 px-3 py-1 font-mono">CVE-2021-44228 · owner Payments</p>
+          <p className="caption-6 rounded-full bg-bone/10 px-3 py-1"><span className="font-mono">CVE-2021-44228</span> · Asset Owner: Payments</p>
           <AnimatePresence mode="wait" initial={false}>
             <motion.p
               key={s.due}
@@ -160,7 +160,7 @@ export function RingTrack() {
               exit={{ opacity: 0, y: reduce ? 0 : 8 }}
               transition={reduce ? fade : spring.ui}
             >
-              Due in {s.due} days
+              Due in {s.due} Days
             </motion.p>
           </AnimatePresence>
         </div>
@@ -179,7 +179,7 @@ export function RingTrack() {
                     aria-hidden={stage === 2}
                   >
                     <CheckCircle weight="regular" className="size-4" aria-hidden="true" />
-                    <span className="caption-5">Health gate: checks passing before each ring</span>
+                    <span className="caption-5">Health Check: Passed</span>
                   </motion.div>
                   <motion.div
                     className="absolute inset-0 flex items-center gap-2 rounded-xl border border-dashed border-bone bg-bone/10 px-3"
@@ -189,7 +189,7 @@ export function RingTrack() {
                     aria-hidden={stage !== 2}
                   >
                     <Pause weight="fill" className="size-4" aria-hidden="true" />
-                    <span className="caption-6">Ring 2 held: health check failed on 2 hosts</span>
+                    <span className="caption-6">Ring 2 Paused: Health Check Failed on 2 Devices</span>
                   </motion.div>
                 </div>
               ) : null}
@@ -226,10 +226,10 @@ export function RingTrack() {
 
         <div className="mt-6 grid grid-cols-2 gap-2 border-t border-bone/10 pt-4 sm:grid-cols-4" aria-live="polite">
           {[
-            ["Verified fixed", counts.verified],
-            ["Installed, not yet verified", counts.installed + counts.vulnerable * (stage >= 4 ? 0 : 1)],
-            ["Waiting", counts.pending + counts.failed],
-            ["Still vulnerable, re-queued", counts.vulnerable],
+            ["Verified", counts.verified],
+            ["Installed", counts.installed + counts.vulnerable * (stage >= 4 ? 0 : 1)],
+            ["Pending", counts.pending + counts.failed],
+            ["Reopened", counts.vulnerable],
           ].map(([label, n]) => (
             <div key={label as string}>
               <p className="heading-5 tabular-nums">
@@ -255,11 +255,11 @@ export function RingTrack() {
               <span className="flex items-center gap-3">
                 <Seal weight="fill" className="size-6" aria-hidden="true" />
                 <span>
-                  <span className="title-4 block">Evidence for control VM-01</span>
-                  <span className="caption-5 block text-graphite">61 verified closures, 1 re-queued, rescan of 4 Nov 2026</span>
+                  <span className="title-4 block">Evidence Record: Control VM-01</span>
+                  <span className="caption-5 block text-graphite">61 verified closures, 1 reopened. Verification scan: 4 Nov 2026.</span>
                 </span>
               </span>
-              <span className="caption-6 rounded-full bg-ink px-3 py-1 text-bone">Sent to GRC</span>
+              <span className="caption-6 rounded-full bg-ink px-3 py-1 text-bone">Recorded in GRC</span>
             </motion.div>
           ) : null}
         </AnimatePresence>
@@ -267,11 +267,11 @@ export function RingTrack() {
         <ul className="caption-5 mt-6 flex flex-wrap gap-x-4 gap-y-2 text-ash-grey">
           {(
             [
-              ["pending", "Waiting"],
+              ["pending", "Pending"],
               ["installed", "Installed"],
-              ["failed", "Health check failed"],
-              ["verified", "Verified fixed"],
-              ["vulnerable", "Installed, still vulnerable"],
+              ["failed", "Failed"],
+              ["verified", "Verified"],
+              ["vulnerable", "Reopened"],
             ] as [State, string][]
           ).map(([st, label]) => (
             <li key={st} className="flex items-center gap-2">
@@ -280,7 +280,7 @@ export function RingTrack() {
             </li>
           ))}
         </ul>
-        <p className="caption-5 mt-2 text-ash-grey">Illustrative, sample data</p>
+        <p className="caption-5 mt-2 text-ash-grey">Sample data</p>
       </div>
     </div>
   );

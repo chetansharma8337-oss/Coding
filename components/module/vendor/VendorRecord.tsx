@@ -5,12 +5,12 @@ import { fade } from "@/lib/springs";
 
 // Hero visual: a vendor record that starts from access, not from a questionnaire.
 const rows = [
-  { k: "Can reach", v: "hr-app-01 (API key), payroll export bucket", mono: false },
-  { k: "Data", v: "Employee bank details, regulated" },
-  { k: "Tier", v: "1, set by access and data" },
-  { k: "Evidence", v: "SOC 2 Type II, expires in 41 days" },
-  { k: "Internal owner", v: "Head of People Operations" },
-  { k: "Open findings", v: "1, MFA not enforced for admin users" },
+  { k: "System Access", v: "hr-app-01 (API key), payroll export bucket" },
+  { k: "Data Classification", v: "Regulated: employee bank details" },
+  { k: "Vendor Tier", v: "Tier 1, based on system access and data classification" },
+  { k: "Vendor Evidence", v: "SOC 2 Type II: Expiring in 41 days" },
+  { k: "Relationship Owner", v: "Head of People Operations" },
+  { k: "Open Findings", v: "1: MFA not enforced for administrator accounts" },
 ];
 
 export function VendorRecord() {
@@ -19,9 +19,9 @@ export function VendorRecord() {
     <figure data-nav-tone="light" className="on-light rounded-3xl bg-bone p-6 text-ink shadow-[0_60px_120px_-40px_rgb(0_0_0/0.7)] sm:p-8">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="caption-3 text-slate">Vendor record</p>
+          <p className="caption-3 text-slate">Vendor Record</p>
           <p className="heading-5 mt-2">Payfield</p>
-          <p className="body-6 text-graphite">Payroll provider</p>
+          <p className="body-6 text-graphite">Payroll Provider</p>
         </div>
         <span className="caption-6 rounded-full bg-ink px-3 py-1 text-bone">Tier 1</span>
       </div>
@@ -39,7 +39,7 @@ export function VendorRecord() {
           </motion.div>
         ))}
       </dl>
-      <figcaption className="caption-5 mt-4 text-slate">Illustrative vendor, sample data</figcaption>
+      <figcaption className="caption-5 mt-4 text-slate">Sample data</figcaption>
     </figure>
   );
 }

@@ -30,24 +30,24 @@ const findings: Finding[] = [
   { id: "CVE-2024-21762", title: "FortiOS SSL VPN", asset: "edge-fw-02", cvss: 9.8, severity: "Critical", crit: "High", reach: "Internet", kev: true, path: true },
   { id: "CVE-2022-22965", title: "Spring Framework", asset: "intranet-wiki-02", cvss: 9.8, severity: "Critical", crit: "Low", reach: "Internal", kev: true, path: false },
   { id: "CVE-2023-34362", title: "MOVEit Transfer", asset: "mft-prod-01", cvss: 9.8, severity: "Critical", crit: "Medium", reach: "Internal", kev: true, path: false },
-  { id: "MISCONFIG-114", title: "Local admin password reused", asset: "jump-host-03", cvss: null, severity: "Medium", crit: "High", reach: "Internal", kev: false, path: true },
+  { id: "MISCONFIG-114", title: "Local administrator password reused", asset: "jump-host-03", cvss: null, severity: "Medium", crit: "High", reach: "Internal", kev: false, path: true },
   { id: "MISCONFIG-207", title: "SMB signing not required", asset: "print-srv-01", cvss: null, severity: "Medium", crit: "Low", reach: "Internal", kev: false, path: false },
 ];
 
 const signals: { key: Signal; label: string; hint: string }[] = [
-  { key: "criticality", label: "Asset criticality", hint: "From Asset Intelligence" },
-  { key: "reach", label: "Reachability", hint: "Internet, internal or not reachable" },
-  { key: "kev", label: "Known exploitation", hint: "CISA KEV and your threat intel" },
-  { key: "path", label: "Validated attack path", hint: "From Automated Penetration Testing" },
+  { key: "criticality", label: "Asset Criticality", hint: "Source: Asset Intelligence" },
+  { key: "reach", label: "Reachability", hint: "Internet-facing, internal or not reachable" },
+  { key: "kev", label: "Known Exploitation", hint: "CISA KEV catalog and threat intelligence" },
+  { key: "path", label: "Validated Attack Path", hint: "Source: Automated Penetration Testing" },
 ];
 
 const base = (f: Finding) => (f.cvss ?? (f.severity === "Medium" ? 5 : 4)) * 4;
 const parts = (f: Finding, on: Set<Signal>) => {
-  const list: { label: string; pts: number }[] = [{ label: f.cvss ? `CVSS ${f.cvss.toFixed(1)}` : `Severity ${f.severity}`, pts: base(f) }];
-  if (on.has("criticality")) list.push({ label: `${f.crit} criticality asset`, pts: f.crit === "High" ? 20 : f.crit === "Medium" ? 10 : 0 });
-  if (on.has("reach")) list.push({ label: f.reach === "Not reachable" ? "Not reachable" : `${f.reach} reachable`, pts: f.reach === "Internet" ? 20 : f.reach === "Internal" ? 8 : -20 });
-  if (on.has("kev")) list.push({ label: f.kev ? "Listed in CISA KEV" : "No known exploitation", pts: f.kev ? 15 : 0 });
-  if (on.has("path")) list.push({ label: f.path ? "On a validated path" : "No validated path", pts: f.path ? 25 : 0 });
+  const list: { label: string; pts: number }[] = [{ label: f.cvss ? `CVSS ${f.cvss.toFixed(1)}` : `Severity: ${f.severity}`, pts: base(f) }];
+  if (on.has("criticality")) list.push({ label: `Asset criticality: ${f.crit}`, pts: f.crit === "High" ? 20 : f.crit === "Medium" ? 10 : 0 });
+  if (on.has("reach")) list.push({ label: `Reachability: ${f.reach === "Internet" ? "Internet-facing" : f.reach === "Internal" ? "Internal" : "Not reachable"}`, pts: f.reach === "Internet" ? 20 : f.reach === "Internal" ? 8 : -20 });
+  if (on.has("kev")) list.push({ label: f.kev ? "Listed in CISA KEV catalog" : "No known exploitation", pts: f.kev ? 15 : 0 });
+  if (on.has("path")) list.push({ label: f.path ? "Validated attack path" : "No validated attack path", pts: f.path ? 25 : 0 });
   return list;
 };
 const total = (f: Finding, on: Set<Signal>) => parts(f, on).reduce((s, p) => s + p.pts, 0);
@@ -55,10 +55,10 @@ const MAX = 120;
 
 function tags(f: Finding, on: Set<Signal>) {
   const t: string[] = [];
-  if (on.has("path") && f.path) t.push("Path validated");
-  if (on.has("kev") && f.kev) t.push("On KEV");
-  if (on.has("reach")) t.push(f.reach === "Internet" ? "Internet facing" : f.reach === "Not reachable" ? "Not reachable" : "Internal");
-  if (on.has("criticality") && f.crit === "High") t.push("Critical asset");
+  if (on.has("path") && f.path) t.push("Validated Path");
+  if (on.has("kev") && f.kev) t.push("CISA KEV");
+  if (on.has("reach")) t.push(f.reach === "Internet" ? "Internet-Facing" : f.reach === "Not reachable" ? "Not Reachable" : "Internal");
+  if (on.has("criticality") && f.crit === "High") t.push("High Criticality");
   return t;
 }
 
@@ -108,7 +108,7 @@ export function ReRank() {
     <div ref={ref} className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
       <div className="lg:col-span-4">
         <fieldset>
-          <legend className="caption-3 text-ash-grey">Signals</legend>
+          <legend className="caption-3 text-ash-grey">Prioritization Signals</legend>
           <ul className="mt-4 space-y-2">
             {signals.map((s, i) => {
               const active = on.has(s.key);
@@ -146,16 +146,16 @@ export function ReRank() {
         <div className="mt-4 flex gap-2">
           <button type="button" onClick={all} className="btn btn-sm btn-light">
             <Play weight="fill" className="size-3.5" aria-hidden="true" />
-            All signals
+            Apply All Signals
           </button>
           <button type="button" onClick={reset} className="btn btn-sm btn-ghost">
             <ArrowCounterClockwise weight="bold" className="size-3.5" aria-hidden="true" />
-            CVSS only
+            Reset to CVSS
           </button>
         </div>
 
         <div className="mt-6 rounded-2xl bg-raised p-4" aria-live="polite">
-          <p className="caption-3 text-ash-grey">Why #{ranked.findIndex((f) => f.id === sel.id) + 1}</p>
+          <p className="caption-3 text-ash-grey">Score Breakdown: Rank {ranked.findIndex((f) => f.id === sel.id) + 1}</p>
           <p className="title-4 mt-2">
             <span className="font-mono">{sel.id}</span> on <span className="font-mono">{sel.asset}</span>
           </p>
@@ -177,7 +177,7 @@ export function ReRank() {
             </AnimatePresence>
           </ul>
           <p className="caption-6 mt-3 flex justify-between border-t border-bone/15 pt-3">
-            <span>Score</span>
+            <span>Priority Score</span>
             <span className="font-mono tabular-nums">{total(sel, on).toFixed(0)}</span>
           </p>
         </div>
@@ -185,8 +185,8 @@ export function ReRank() {
 
       <div className="lg:col-span-8">
         <div className="flex items-center justify-between gap-4">
-          <p className="caption-3 text-ash-grey">{on.size ? `Ranked with ${on.size} of 4 signals` : "Sorted by CVSS, like a scanner export"}</p>
-          <p className="caption-5 text-ash-grey">Illustrative weights and assets</p>
+          <p className="caption-3 text-ash-grey">{on.size ? `Exposure Queue: ${on.size} of 4 Signals Applied` : "Sorted by CVSS Score"}</p>
+          <p className="caption-5 text-ash-grey">Sample data. Weights are illustrative.</p>
         </div>
         <ol className="mt-4 space-y-2">
           {ranked.map((f, i) => {
@@ -216,7 +216,7 @@ export function ReRank() {
                         <motion.span
                           key={t}
                           className={`caption-6 rounded-full px-2 py-0.5 ${
-                            t === "Not reachable"
+                            t === "Not Reachable"
                               ? "border border-dashed border-current"
                               : isSel
                                 ? "bg-ink text-bone"

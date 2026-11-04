@@ -8,9 +8,9 @@ import { fade } from "@/lib/springs";
 const months = ["Nov", "Dec", "Jan", "Feb", "Mar", "Apr"];
 const items = [
   { vendor: "Payfield", doc: "SOC 2 Type II", at: 1.3, requested: true },
-  { vendor: "Brindle", doc: "ISO/IEC 27001 certificate", at: 1.9, requested: true },
-  { vendor: "Ironbridge", doc: "Security questionnaire", at: 3.1, requested: false },
-  { vendor: "Sorrel", doc: "Penetration test summary", at: 4.4, requested: false },
+  { vendor: "Brindle", doc: "ISO/IEC 27001 Certificate", at: 1.9, requested: true },
+  { vendor: "Ironbridge", doc: "Security Questionnaire", at: 3.1, requested: false },
+  { vendor: "Sorrel", doc: "Penetration Test Summary", at: 4.4, requested: false },
   { vendor: "Quillmark", doc: "SOC 2 Type II", at: 5.2, requested: false },
 ];
 
@@ -27,7 +27,7 @@ export function ExpiryTimeline() {
           ))}
         </div>
         <div className="pointer-events-none absolute -bottom-2 left-0 top-0 w-[33.3%] rounded-lg bg-cobalt/[0.06]" aria-hidden="true" />
-        <span className="caption-5 absolute -top-6 left-0 text-cobalt">Next 60 days</span>
+        <span className="caption-5 absolute -top-6 left-0 text-cobalt">Renewal Window: 60 Days</span>
       </div>
       <ul className="relative mt-6 space-y-3">
         {items.map((it, i) => (
@@ -53,14 +53,14 @@ export function ExpiryTimeline() {
                 </span>
                 <span className="caption-5 block text-graphite">
                   {it.doc}
-                  {it.requested ? ", renewal requested" : ""}
+                  {it.requested ? " · Renewal Requested" : ""}
                 </span>
               </span>
             </span>
           </motion.li>
         ))}
       </ul>
-      <figcaption className="caption-5 mt-6 text-slate">Illustrative vendors, sample data. Filled markers: renewal already requested.</figcaption>
+      <figcaption className="caption-5 mt-6 text-slate">Sample data. Filled markers indicate an issued renewal request.</figcaption>
     </figure>
   );
 }

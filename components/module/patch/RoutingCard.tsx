@@ -6,11 +6,11 @@ import { fade } from "@/lib/springs";
 
 // Hero visual: one finding picking up everything it needs to get fixed, one line at a time.
 const lines = [
-  { k: "Finding", v: "CVE-2021-44228 on billing-api-04", from: "From Threat Exposure Management, rank 3" },
-  { k: "Owner", v: "Payments", from: "From the asset record" },
-  { k: "Due", v: "14 days", from: "Policy: on KEV, high criticality asset" },
-  { k: "Rollout", v: "Ring 0, 1, 2, 3", from: "In the Payments maintenance window, 22:00" },
-  { k: "Closes when", v: "A rescan confirms it", from: "Not when the ticket is marked done" },
+  { k: "Finding", v: "CVE-2021-44228 on billing-api-04", from: "Source: Threat Exposure Management, priority rank 3" },
+  { k: "Asset Owner", v: "Payments", from: "Source: Asset record" },
+  { k: "Due Date", v: "14 days", from: "Remediation policy: CISA KEV, high-criticality asset" },
+  { k: "Deployment", v: "Rings 0 to 3", from: "Maintenance window: Payments, 22:00" },
+  { k: "Closure Condition", v: "Verification scan passed", from: "A status change alone does not close the task" },
 ];
 
 export function RoutingCard() {
@@ -18,8 +18,8 @@ export function RoutingCard() {
   return (
     <figure data-nav-tone="light" className="on-light rounded-3xl bg-bone p-6 text-ink shadow-[0_60px_120px_-40px_rgb(0_0_0/0.7)] sm:p-8">
       <div className="flex items-center justify-between gap-4">
-        <span className="caption-3 text-slate">Remediation ticket</span>
-        <figcaption className="caption-5 text-slate">Illustrative, sample data</figcaption>
+        <span className="caption-3 text-slate">Remediation Task</span>
+        <figcaption className="caption-5 text-slate">Sample data</figcaption>
       </div>
       <ol className="mt-6">
         {lines.map((l, i) => (

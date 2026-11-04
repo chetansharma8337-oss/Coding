@@ -6,23 +6,23 @@ import { SectionIntro } from "./SectionIntro";
 const benefits: { icon: Icon; title: string; body: string }[] = [
   {
     icon: Database,
-    title: "One asset count everyone agrees on",
-    body: "Scanners, cloud accounts, agents and the directory merge into one record per asset, each with an owner.",
+    title: "Consolidated Asset Inventory",
+    body: "Scanners, cloud accounts, endpoint agents and the directory are consolidated into one asset record per asset, each with an asset owner.",
   },
   {
     icon: ListNumbers,
-    title: "A queue ranked by real risk",
-    body: "Exposures are ordered by reachability, known exploitation and the criticality of the asset they sit on.",
+    title: "Risk-Based Prioritization",
+    body: "Findings are ranked by reachability, known exploitation and the criticality of the affected asset.",
   },
   {
     icon: CheckCircle,
-    title: "Fixes that are proven, not promised",
-    body: "A finding closes when a rescan confirms it, and a validated attack path is retested once a step is fixed.",
+    title: "Verified Remediation",
+    body: "A finding is closed only after a verification scan confirms the fix. Validated attack paths are retested after remediation.",
   },
   {
     icon: ClipboardText,
-    title: "Audit evidence without the spreadsheet",
-    body: "Patch records, test results and vendor reviews attach to controls as they happen.",
+    title: "Continuous Evidence Collection",
+    body: "Remediation records, test results and vendor assessments are attached to controls as evidence records when they are produced.",
   },
 ];
 
@@ -31,7 +31,7 @@ export function Benefits() {
   return (
     <section className="py-20 sm:py-24">
       <div className="page-x">
-        <SectionIntro muted="What changes." heading="Security, IT and audit stop reconciling and start fixing." />
+        <SectionIntro eyebrow="Platform Outcomes" heading="Core Platform Capabilities" lead="Every module reads from and writes to the same asset record, removing manual reconciliation between teams." />
         <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
           {benefits.map((b, i) => (
             <RiseOnView as="li" key={b.title} delay={i * 0.08}>

@@ -24,23 +24,23 @@ import { homeFaq } from "@/lib/faq";
 import { photos } from "@/lib/images";
 import { callAgenda } from "@/lib/walkthrough";
 
-const proof = ["Ranks against the CISA KEV catalog", "Maps controls to ISO/IEC 27001, NIST CSF and CIS Controls"];
+const proof = ["Prioritization against the CISA KEV catalog", "Control mapping to ISO/IEC 27001, NIST CSF and CIS Controls"];
 
 export default function Home() {
   return (
     <>
       <PinnedHero
         src={photos.heroEarth}
-        caption="Every exposure, ranked against the asset it sits on and the team that owns it."
+        caption="Findings ranked by asset criticality and assigned to the asset owner."
         intro={
-          <HeroIntro lines={["One record of", "everything you defend."]}>
+          <HeroIntro lines={["Unified Exposure", "Management and GRC"]}>
             <p className="body-7 sm:body-8 mt-6 text-bone/90">
-              ASH-V brings asset intelligence, exposure management, patching, penetration testing, vendor risk and GRC into
-              one platform, so every finding points to the same asset, owner and control.
+              ASH-V unifies asset intelligence, exposure management, remediation, penetration testing, third-party risk and GRC
+              on a single asset record. Every finding is linked to the same asset, asset owner and control.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
               <Link href="/walkthrough" className="btn btn-light">
-                Book a 30 minute walkthrough
+                Request a Walkthrough
                 <ArrowRight weight="bold" className="size-4" aria-hidden="true" />
               </Link>
             </div>
@@ -55,7 +55,7 @@ export default function Home() {
           </HeroIntro>
         }
         frame={
-          <ProductFrame label="Exposure queue" flat elevated>
+          <ProductFrame label="Exposure Queue" flat elevated>
             <ExposurePreview compact />
           </ProductFrame>
         }
@@ -64,22 +64,20 @@ export default function Home() {
       <section id="approach" className="page-x py-20 sm:py-24">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <WordReveal
-              parts={[{ text: "Six tools.", className: "text-slate" }, { text: "Six versions of your estate." }]}
-              className="heading-4 sm:heading-3 lg:heading-2 max-w-[18ch]"
-            />
+            <p className="caption-3 mb-4 text-slate">Challenge</p>
+            <WordReveal parts="Fragmented Asset and Risk Data" className="heading-4 sm:heading-3 lg:heading-2 max-w-[18ch]" />
             <RiseOnView delay={0.1}>
               <p className="body-7 mt-6 max-w-[56ch] text-graphite">
-                The scanner, the CMDB, the pentest report, the vendor register and the audit spreadsheet each count assets
-                differently. Before anyone can fix anything, someone has to reconcile them.
+                Vulnerability scanners, the CMDB, penetration test reports, vendor registers and audit spreadsheets each maintain
+                a separate view of the environment, and each requires manual reconciliation before remediation can begin.
               </p>
             </RiseOnView>
           </div>
           <RiseOnView className="self-end lg:col-span-5" delay={0.2}>
-            <p className="heading-4 sm:heading-3">ASH-V keeps one.</p>
+            <p className="heading-4 sm:heading-3">A Single Asset Record</p>
             <p className="body-3 mt-4 text-graphite">
-              Every module reads from and writes to the same asset record. When an exposure is ranked, tested, patched or
-              shown to an auditor, it is the same object with the same history.
+              Every ASH-V module reads from and writes to the same asset record. A finding retains the same identity and history
+              from prioritization through testing, remediation and audit.
             </p>
           </RiseOnView>
         </div>
@@ -87,18 +85,19 @@ export default function Home() {
 
       <Benefits />
 
-      <PhotoBand src={photos.opsServerRoom} line="Security, IT and audit work from the same record." />
+      <PhotoBand src={photos.opsServerRoom} line="Shared Data for Security, IT and Audit" />
 
       <section id="platform" className="pt-20 sm:pt-24">
         <div className="page-x">
           <SectionIntro
-            muted="Six modules."
-            heading="Use the ones you need. They share one inventory."
+            eyebrow="Modules"
+            heading="Six Integrated Modules"
             lead={
               <>
-                Scroll through each module and its working surface, or{" "}
+                Each module can be deployed independently and shares the same asset inventory. Integration details are
+                available in the{" "}
                 <Link href="/platform" className="font-semibold text-ink underline underline-offset-4">
-                  read the platform overview
+                  Platform Overview
                 </Link>
                 .
               </>
@@ -113,29 +112,29 @@ export default function Home() {
       <div id="flow" className="border-t border-ash-grey">
         <FindingRail />
         <section className="page-x py-20 lg:hidden">
-          <WordReveal parts="How one finding moves through ASH-V" className="heading-4 sm:heading-3" />
+          <WordReveal parts="Finding Lifecycle Across Modules" className="heading-4 sm:heading-3" />
           <p className="body-3 mb-10 mt-6 text-graphite">
-            Follow CVE-2024-21762, a FortiOS SSL VPN flaw on the CISA KEV list, from the moment it appears on a firewall to
-            the moment an auditor sees it closed. Swipe through the steps.
+            CVE-2024-21762, a FortiOS SSL VPN vulnerability listed in the CISA KEV catalog, from discovery on a firewall to
+            verified closure and audit evidence.
           </p>
           <FlowCarousel />
         </section>
       </div>
 
-      <section aria-label="What ASH-V is for" className="page-x py-24">
+      <section aria-label="Platform summary" className="page-x py-24">
         <InkParagraph
           as="h2"
           className="heading-3 sm:heading-2 lg:heading-1"
-          text="Know what is exposed, fix what matters first, and prove it to anyone who asks, from one record."
+          text="Current exposure, prioritized remediation and audit evidence, reported from a single asset record."
         />
       </section>
 
       <section id="teams" className="border-t border-ash-grey py-20 sm:py-24">
         <div className="page-x">
           <SectionIntro
-            muted="Built for every team."
-            heading="The same record, seen the way each team works."
-            lead="Leaders see risk by business impact. Analysts see a ranked queue. IT sees only the assets it owns. Audit sees evidence."
+            eyebrow="Solutions"
+            heading="Solutions by Role"
+            lead="Security leadership, security operations, IT operations and GRC teams work from the same asset record, each with the views relevant to their responsibilities."
           />
           <div className="mt-12">
             <SolutionCards />
@@ -145,8 +144,8 @@ export default function Home() {
 
       <SkyStatement
         src={photos.statementServers}
-        line="The CISO asks what is exposed. The auditor asks what is proven."
-        sub="ASH-V answers both from the same data."
+        line="Exposure Reporting and Audit Assurance from One Data Set"
+        sub="Security leadership and auditors receive consistent information from the same asset record."
       />
 
       <Faq items={homeFaq} />
@@ -154,9 +153,9 @@ export default function Home() {
       <section id="walkthrough" data-nav-tone="dark" className="on-dark bg-ink py-20 text-bone sm:py-24">
         <div className="page-x grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
-            <WordReveal parts="Book a 30 minute walkthrough" className="heading-4 sm:heading-3 lg:heading-2" />
+            <WordReveal parts="Request a Platform Walkthrough" className="heading-4 sm:heading-3 lg:heading-2" />
             <p className="body-7 mt-6 max-w-[44ch] text-ash-grey">
-              A working session built around your environment rather than a slide deck. No cost and no commitment.
+              A 30-minute session based on your environment and current security tooling, provided at no cost and with no commitment.
             </p>
             <ol className="mt-10 space-y-6">
               {callAgenda.map((item, i) => (

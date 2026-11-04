@@ -11,7 +11,7 @@ import { photos } from "@/lib/images";
 import { moduleBySlug, modules } from "@/lib/modules";
 
 export const metadata: Metadata = {
-  title: "Platform overview",
+  title: "Platform Overview",
   description:
     "Six modules on one asset record: asset intelligence, threat exposure management, vulnerability and patch management, automated penetration testing, vendor risk and GRC.",
   alternates: { canonical: "/platform" },
@@ -22,14 +22,14 @@ export default function PlatformPage() {
 
   return (
     <>
-      <PageHero src={photos.flowCircuit} lines={["Six modules.", "One asset record."]}>
+      <PageHero src={photos.flowCircuit} lines={["Platform Overview"]}>
         <p className="body-7 sm:body-8 mt-6 text-bone/90">
-          Each module does one job well, and all six read from and write to the same inventory. Start with the module you
-          need and add the rest without another integration project.
+          All six modules read from and write to the same asset inventory. Modules can be deployed individually and extended
+          without additional integration projects.
         </p>
         <div className="mt-8">
           <Link href="/walkthrough" className="btn btn-light">
-            Book a walkthrough
+            Request a Walkthrough
             <ArrowRight weight="bold" className="size-4" aria-hidden="true" />
           </Link>
         </div>
@@ -38,9 +38,9 @@ export default function PlatformPage() {
       <section className="py-20 sm:py-24">
         <div className="page-x">
           <SectionIntro
-            muted="How it fits together."
-            heading="Every module reads the record and writes back to it."
-            lead="That is why a finding can be ranked, tested, fixed and shown to an auditor without anyone copying it between tools."
+            eyebrow="Platform Architecture"
+            heading="Shared Asset Record Architecture"
+            lead="Each module reads from and writes to the asset record, so a finding is prioritized, tested, remediated and evidenced without data transfer between tools."
           />
           <div className="mt-12 sm:mt-16">
             <OneRecord />
@@ -50,7 +50,7 @@ export default function PlatformPage() {
 
       <section className="border-t border-ash-grey py-20 sm:py-24">
         <div className="page-x">
-          <SectionIntro heading="The six modules" />
+          <SectionIntro eyebrow="Modules" heading="Platform Modules" />
           <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {modules.map((m, i) => (
               <RiseOnView as="li" key={m.slug} delay={(i % 3) * 0.08}>
@@ -65,7 +65,7 @@ export default function PlatformPage() {
                   <span className="heading-5 mt-2 block">{m.name}</span>
                   <span className="body-6 mt-3 block text-graphite">{m.line}</span>
                   <span className="link-arrow body-4 mt-auto pt-6">
-                    Explore {m.short}
+                    View Module
                     <ArrowRight weight="bold" className="size-4" aria-hidden="true" />
                   </span>
                 </Link>
@@ -79,22 +79,23 @@ export default function PlatformPage() {
         <div className="page-x grid grid-cols-1 gap-12 lg:grid-cols-12">
           <SectionIntro
             className="lg:col-span-4"
-            heading="What each module hands on"
-            lead="Work moves between modules as data on the record, not as exports."
+            eyebrow="Data Flow"
+            heading="Inter-Module Data Flow"
+            lead="Data moves between modules through the shared asset record rather than through exports."
           />
           <RiseOnView className="lg:col-span-8">
             <table className="w-full border-collapse text-left">
-              <caption className="sr-only">Handoffs between ASH-V modules</caption>
+              <caption className="sr-only">Data provided between ASH-V modules</caption>
               <thead>
                 <tr className="caption-3 border-b border-ink text-slate">
                   <th scope="col" className="py-3 pr-4 font-semibold">
-                    From
+                    Source Module
                   </th>
                   <th scope="col" className="py-3 pr-4 font-semibold">
-                    To
+                    Target Module
                   </th>
                   <th scope="col" className="hidden py-3 font-semibold sm:table-cell">
-                    What moves
+                    Data Provided
                   </th>
                 </tr>
               </thead>
@@ -115,7 +116,7 @@ export default function PlatformPage() {
         </div>
       </section>
 
-      <CtaBand secondary={{ href: "/solutions", label: "See it by team" }} />
+      <CtaBand secondary={{ href: "/solutions", label: "View Solutions by Role" }} />
     </>
   );
 }

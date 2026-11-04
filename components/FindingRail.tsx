@@ -46,11 +46,11 @@ export function FindingRail() {
         <motion.div ref={track} className="flex w-max items-stretch gap-6 pl-[max(24px,calc((100vw-1200px)/2))] pr-[10vw]" style={{ x }}>
           <div className="flex w-[440px] shrink-0 flex-col justify-center pr-6">
             <h2 id="flow-heading" className="heading-4 sm:heading-3 lg:heading-2">
-              How one finding moves through <span className="whitespace-nowrap">ASH-V</span>
+              Finding Lifecycle Across Modules
             </h2>
             <p className="mt-6 max-w-[40ch] body-3 text-graphite">
-              Follow CVE-2024-21762, a FortiOS SSL VPN flaw on the CISA KEV list, from the moment it appears on a firewall
-              to the moment an auditor sees it closed. Keep scrolling.
+              CVE-2024-21762, a FortiOS SSL VPN vulnerability listed in the CISA KEV catalog, from discovery on a firewall to
+              verified closure and audit evidence.
             </p>
           </div>
 
@@ -85,9 +85,9 @@ export function FindingRail() {
             <Image src={photos.flowCircuit} alt="" fill sizes="440px" className="object-cover" />
             <div className="absolute inset-0 bg-pure-black/70" aria-hidden="true" />
             <div className="relative">
-              <p className="heading-4 lg:heading-3">One finding. Five modules. One record.</p>
+              <p className="heading-4 lg:heading-3">Five Modules, One Asset Record</p>
               <Link href="/walkthrough" className="btn btn-light mt-6">
-                Walk through it with us
+                Request a Walkthrough
               </Link>
             </div>
           </article>

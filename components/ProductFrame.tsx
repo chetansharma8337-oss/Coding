@@ -24,7 +24,7 @@ export function ProductFrame({
       <div className="flex items-center justify-between gap-4 border-b border-ash-grey px-4 py-3 sm:px-6">
         <span className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full bg-mist px-3 py-1 caption-6">{label}</span>
         <figcaption className="text-right caption-5  text-slate">
-          Illustrative<span className="hidden sm:inline"> interface</span>, sample data
+          Sample data
         </figcaption>
       </div>
       <div className="px-4 py-4 sm:px-6 sm:py-6">{children}</div>
