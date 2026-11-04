@@ -21,7 +21,7 @@ use the real domain.
 | --- | --- |
 | `/` | Hero with proof line, problem and solution, benefits, module tour, how one finding moves, tagline reveal, teams, FAQ, walkthrough form |
 | `/platform` | Overview: the one record diagram, the six modules, and what each module hands to the next |
-| `/platform/<module>` | One page per module (six) |
+| `/platform/<module>` | Six module pages, each with its own layout and signature visual (see below) |
 | `/solutions` | The four teams |
 | `/solutions/<team>` | CISOs, security operations, IT operations, GRC: problems, outcomes, questions answered, modules used |
 | `/frameworks` | ISO/IEC 27001:2022, NIST CSF 2.0, CIS Controls v8.1 and the CISA KEV catalog, with an example control mapping |
@@ -33,12 +33,46 @@ use the real domain.
 | `/api/walkthrough` | Validates form submissions server side |
 | `/sitemap.xml`, `/robots.txt`, `/opengraph-image` | Generated |
 
+## Module pages
+
+Each module page was planned from a review of how competing vendors present the same product (November 2026; their
+sites were blocked from this environment, so the review used search excerpts, datasheets and press releases). Every
+page leads with what those pages leave out, and is built from shared blocks in `components/module` around one
+signature visual in its own folder. Visuals move only with transform and opacity, auto-play once in view or scrub with
+scroll, and fall back to a still, fully readable version on phones and under reduced motion.
+
+| Module | Compared with | What competitors leave out | Signature visual |
+| --- | --- | --- | --- |
+| Asset Intelligence | Qualys CSAM, Axonius, runZero, Armis, CrowdStrike | How duplicates merge and which source wins | Pinned scroll: five tools' views of `fin-db-02` match on shared identifiers and collapse into one record with the source of every field |
+| Threat Exposure Management | Tenable One, Qualys TruRisk, CrowdStrike, Rapid7, XM Cyber, Check Point | Why a finding ranks where it does, and what drops off | Interactive re-rank: eight real CVEs and misconfigurations reorder as four signals switch on, each with its arithmetic |
+| Vulnerability & Patch Management | Qualys VMDR, CrowdStrike, Tanium, Ivanti, Automox | The difference between installed and fixed | Ring track: rollout across 62 devices, a health gate pause, a rescan that re-queues one device, evidence to GRC |
+| Automated Penetration Testing | Pentera, Horizon3.ai, Picus, Cymulate | What happens after the path is found | Pinned scroll: a path from the internet to `fin-db-02` builds step by step, re-ranks the queue, breaks at a fix and is retested |
+| Third-Party Risk Management | SecurityScorecard, Bitsight, UpGuard, OneTrust, Prevalent | Tiering by what a vendor can actually reach | Access matrix: vendors fly into cells by reach and data sensitivity; one is given an API key and moves to Tier 1 |
+| GRC | Vanta, Drata, Hyperproof, AuditBoard, ServiceNow | Evidence produced by the work, with its origin | Control fan-out: evidence travels from modules into control VM-01 and is reused by ISO/IEC 27001, NIST CSF and CIS mappings |
+
+Public figures on these pages (Verizon DBIR 2025, NIST SP 800-40 Rev. 4, DORA, NIS2, framework control IDs, MITRE
+ATT&CK technique IDs, CVE IDs and CVSS scores) link to their sources. Everything else in the visuals is sample data
+and says so.
+
 ## Before launch
 
 - **Form delivery:** `app/api/walkthrough/route.ts` only logs requests. Connect it to the sales inbox or CRM (see the `TODO`).
 - **Copy to confirm:** module scope in `lib/modules.ts`, team pages in `lib/solutions.ts`, and FAQ answers in `lib/faq.ts`
   restate that scope. Two statements are new and need sign off: "the walkthrough costs nothing, with no commitment"
   (`lib/faq.ts`, walkthrough page, final call to action) and the walkthrough, pilot, rollout sequence on `/company`.
+- **Module page statements to confirm:** the module pages describe how each module works in more detail than the
+  original scope in `lib/modules.ts`. Product should confirm, or edit, these specifics:
+  - Asset Intelligence: the matching identifiers and the example field precedence, unknown asset triage, override history.
+  - Threat Exposure Management: the four signals and that compensating controls and exceptions lower a rank; the
+    weights in the re-rank are illustrative.
+  - Vulnerability & Patch Management: health gates that hold the next ring, maintenance windows per asset group,
+    automatic re-queue of devices still vulnerable after install, the example remediation policy.
+  - Automated Penetration Testing: MITRE ATT&CK technique labels on path steps, after-change triggers, what each step
+    records. Safety guardrails beyond scope, exclusions and windows are deliberately not claimed; add them if they exist.
+  - Third-Party Risk Management: tiering from access and data sensitivity, automatic re-tiering when access changes,
+    the review depth per tier, renewal requests ahead of expiry.
+  - GRC: the provenance recorded on each evidence item, owners adding evidence from outside ASH-V, risks linked to
+    controls.
 - **Proof:** the skill asks for testimonials, customer logos or numbers near the top. None were supplied and none were
   invented. The hero proof line states what the product does (KEV ranking, framework mapping). Add real customer proof
   when it is approved.

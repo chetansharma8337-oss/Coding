@@ -35,6 +35,11 @@ export function ScrollSteps({ steps }: { steps: Step[] }) {
   const ref = useRef<HTMLOListElement>(null);
   const reduce = useReducedMotion();
   const [active, setActive] = useState(0);
+  // Class names are not patched during hydration, so reduced motion lights every step after it, in an effect.
+  const [settled, setSettled] = useState(false);
+  useEffect(() => {
+    if (reduce) setSettled(true);
+  }, [reduce]);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 60%", "end 50%"] });
   const fill = useTransform(scrollYProgress, [0, 1], [0, 1]);
   return (
@@ -43,10 +48,10 @@ export function ScrollSteps({ steps }: { steps: Step[] }) {
       <motion.span
         aria-hidden="true"
         className="absolute bottom-6 left-5 top-6 w-px origin-top bg-ink sm:left-6"
-        style={{ scaleY: reduce ? 1 : fill }}
+        style={{ scaleY: settled ? 1 : fill }}
       />
       {steps.map((s, i) => (
-        <Row key={s.title} step={s} i={i} onActive={setActive} active={reduce || i <= active} />
+        <Row key={s.title} step={s} i={i} onActive={setActive} active={settled || i <= active} />
       ))}
     </ol>
   );
